@@ -237,3 +237,44 @@ class Board:
         return np.array([pawn_diff, king_diff, next_prom_rows_diff,
                          horizontal_edge_diff, base_diff, center_diff], dtype=np.int16)
 
+    def print_figure_on_pos(self, mask: BitBoard) -> str:
+        if self.white & mask != 0:
+            if self.pawns & mask != 0:
+                return 'P'
+            else:
+                return 'K'
+        if self.black & mask != 0:
+            if self.pawns & mask != 0:
+                return 'p'
+            else:
+                return 'k'
+        return '_'
+
+    def __str__(self):
+        string = str()
+        mask = BitBoard(0x80000000)
+        for i in range(32):
+            if i % 8 == 0:
+                string += 'x '
+            string += self.print_figure_on_pos(mask)
+            mask = mask >> 1
+            if i % 4 == 3:
+                if i % 8 == 7:
+                    string += ' x '
+                string += '\n'
+            else:
+                string += ' x '
+
+        if self.turn == Turn.WHITE:
+            string += 'Turn: White\n'
+        else:
+            string += 'Turn: Black\n'
+
+        return string
+
+    def __eq__(self, other):
+        return (self.white == other.white and self.black == other.black
+                and self.pawns == other.pawns and self.turn == other.turn)
+
+    def __hash__(self):
+        return hash((self.white, self.black, self.pawns, self.turn))
