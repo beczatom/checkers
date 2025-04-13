@@ -197,3 +197,27 @@ class Board:
         if move.move_type & PROMOTION or move.move_type & TAKE == 0 or len(self.attacking_moves_from_pos(move.to_mask)) == 0:
             self.turn = not self.turn
 
+    def undo_take(self, move : Move, oponent : BitBoard):
+        oponent |= move.took_mask
+        if move.move_type & Piece.PAWN:
+            self.pawns |= move.took_mask
+
+        return oponent
+
+    def undo_move(self, move : Move) -> None:
+        move_without_take = Move(move.to_mask, move.from_mask, move.move_type & ~TAKE)
+
+        # undo promotion
+        if move.move_type & PROMOTION:
+            self.pawns |= move.from_mask
+            move_without_take.move_type = ~PROMOTION
+
+        if move.to_mask & self.white:
+            self.white, self.black = self.make_move_changes(move_without_take, self.white, self.black)
+            self.black = self.undo_take(move, self.black)
+            self.turn = Turn.WHITE
+        else:
+            self.black, self.white = self.make_move_changes(move_without_take, self.black, self.white)
+            self.white = self.undo_take(move, self.white)
+            self.turn = Turn.BLACK
+
