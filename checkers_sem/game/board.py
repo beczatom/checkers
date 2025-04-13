@@ -221,3 +221,19 @@ class Board:
             self.white = self.undo_take(move, self.white)
             self.turn = Turn.BLACK
 
+    def stats(self) -> np.array:
+        pawn_diff = (self.pawns & self.white).bit_count() - (self.pawns & self.black).bit_count()
+        king_diff = (~self.pawns & self.white).bit_count() - (~self.pawns & self.black).bit_count()
+
+        next_prom_rows_diff = (self.white & self.pawns & TOP_NEXT_PROM_EDGE).bit_count() - \
+                              (self.black & self.pawns & BOTTOM_NEXT_PROM_EDGE).bit_count()
+
+        horizontal_edge_diff = (self.white & HORIZONTAL_EDGE).bit_count() - (self.black & HORIZONTAL_EDGE).bit_count()
+
+        base_diff = (self.white & BOTTOM_ROW).bit_count() - (self.black & TOP_ROW).bit_count()
+
+        center_diff = (self.white & CENTER).bit_count() - (self.black & CENTER).bit_count()
+
+        return np.array([pawn_diff, king_diff, next_prom_rows_diff,
+                         horizontal_edge_diff, base_diff, center_diff], dtype=np.int16)
+
