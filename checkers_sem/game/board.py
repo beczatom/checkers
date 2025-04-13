@@ -141,3 +141,59 @@ class Board:
 
         return moves
 
+
+    def make_gen(self, iterable, color, func):
+        for i in iterable:
+            if color & (1 << i) == 0 : continue
+
+            res = func(BitBoard(1 << i))
+            if len(res) > 0:
+                yield from res
+
+
+    def get_legal_moves(self):
+        my_color = self.white if self.turn == Turn.WHITE else self.black
+
+        attacking = (self.make_gen(range(32), my_color, self.attacking_moves_from_pos))
+
+        try:
+            first = next(attacking)
+            return itertools.chain([first], attacking)
+        except StopIteration:
+            return self.make_gen(range(32), my_color, self.not_attacking_moves_from_pos)
+
+    def make_move_changes(self, move : Move, my_color : BitBoard, oponent_color : BitBoard) -> tuple[BitBoard, BitBoard]:
+        # make changes in my color
+        my_color |= move.to_mask
+        my_color &= ~move.from_mask
+
+        if move.from_mask & self.pawns:
+            self.pawns &= ~move.from_mask
+            self.pawns |= move.to_mask
+
+        # if took, then delete the figure
+        # note that if no take was performed, the ~move.took_mask is full of 1,
+        # so the statement effectively does nothing
+        oponent_color &= ~move.took_mask
+
+        # if took pawn, then delete the took_pos from pawns
+        # note that if a king was taken, then the pawns mask is 0
+        self.pawns &= ~move.took_mask
+
+        # if promotion, then delete the to_pos from pawns
+        if move.move_type & PROMOTION:
+            self.pawns &= ~move.to_mask
+
+        return my_color, oponent_color
+
+
+    def make_move(self, move : Move) -> None:
+        if self.turn == Turn.WHITE:
+            self.white, self.black = self.make_move_changes(move, self.white, self.black)
+        else:
+            self.black, self.white = self.make_move_changes(move, self.black, self.white)
+
+        # if can't attack or was promoted, the turn changes
+        if move.move_type & PROMOTION or move.move_type & TAKE == 0 or len(self.attacking_moves_from_pos(move.to_mask)) == 0:
+            self.turn = not self.turn
+
