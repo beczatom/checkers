@@ -35,6 +35,89 @@ class Board:
 
     def get_fig_type(self, mask : BitBoard):
         return Piece.PAWN if mask & self.pawns else Piece.KING
+
+    # Move = (from, to, move_type, took_mask)
+    def attacking(self, possible_move : Move, take_not_file : BitBoard, target_not_file : BitBoard, oponent : BitBoard):
+        if (self.is_oponent(possible_move.took_mask, oponent, take_not_file)
+                and self.is_free(possible_move.to_mask, target_not_file)):
+
+            possible_move.move_type = TAKE | self.get_fig_type(possible_move.took_mask)
+
+            if self.is_promotion(possible_move.from_mask, possible_move.to_mask):
+                possible_move.move_type |= PROMOTION
+            # possible_move is legal
+            return possible_move
+
+        # possible_move is illegal
+        return None
+
+
+    def attacking_moves_from_pos(self, mask: BitBoard):
+        moves = []
+
+        oponent_color = BitBoard(self.black) if self.white & mask else BitBoard(self.white)
+
+        # white pieces or black king
+        if self.white & mask or ((self.pawns & mask) == 0 and self.black & mask):
+            # even row
+            if mask & EVEN_ROW:
+                # right take
+                possible_move = self.attacking(Move(mask, BitBoard(mask << 7), MoveType(), BitBoard(mask << 4)), ALL_FILES, NOT_B_FILE, oponent_color)
+                if possible_move is not None:
+                    moves.append(possible_move)
+
+                # left take
+                possible_move = self.attacking(Move(mask, BitBoard(mask << 9), MoveType(), BitBoard(mask << 5)),
+                                               NOT_G_FILE, ALL_FILES, oponent_color)
+                if possible_move is not None:
+                    moves.append(possible_move)
+            else:
+                # left take
+                possible_move = self.attacking(Move(mask, BitBoard(mask << 9), MoveType(), BitBoard(mask << 4)),
+                                               ALL_FILES, NOT_G_FILE, oponent_color)
+                if possible_move is not None:
+                    moves.append(possible_move)
+
+                possible_move = self.attacking(Move(mask, BitBoard(mask << 7), MoveType(), BitBoard(mask << 3)),
+                                               NOT_B_FILE, ALL_FILES, oponent_color)
+
+                if possible_move is not None:
+                    moves.append(possible_move)
+
+        # black pieces or white king
+        if self.black & mask or ((self.pawns & mask) == 0 and self.white & mask):
+            # even row
+            if mask & EVEN_ROW:
+
+                # left take
+                possible_move = self.attacking(Move(mask, BitBoard(mask >> 9), MoveType(), BitBoard(mask >> 4)),
+                                               ALL_FILES, NOT_B_FILE, oponent_color)
+                if possible_move is not None:
+                    moves.append(possible_move)
+
+                possible_move = self.attacking(Move(mask, BitBoard(mask >> 7), MoveType(), BitBoard(mask >> 3)),
+                                               NOT_G_FILE, ALL_FILES, oponent_color)
+
+                if possible_move is not None:
+                    moves.append(possible_move)
+
+            else:
+
+                # right take
+                possible_move = self.attacking(Move(mask, BitBoard(mask >> 7), MoveType(), BitBoard(mask >> 4)),
+                                               ALL_FILES, NOT_G_FILE, oponent_color)
+                if possible_move is not None:
+                    moves.append(possible_move)
+
+                # left take
+                possible_move = self.attacking(Move(mask, BitBoard(mask >> 9), MoveType(), BitBoard(mask >> 5)),
+                                               NOT_B_FILE, ALL_FILES, oponent_color)
+                if possible_move is not None:
+                    moves.append(possible_move)
+
+        return moves
+
+
     def not_attacking_moves_from_pos(self, mask: BitBoard):
         moves = []
         # white pieces or black kings
