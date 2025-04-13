@@ -57,3 +57,11 @@ class Game:
             return 1 / 2, 1 / 2
         return None
 
+    def __str__(self):
+        return str(self.board) + 'Last Take: ' + str(self.last_take) + '\n'
+
+    def __eq__(self, other):
+        return self.board == other.board and self.last_take == other.last_take and self.moves_stack == other.moves_stack
+
+    def __hash__(self):
+        return hash((self.board, self.last_take, tuple(self.moves_stack)))
