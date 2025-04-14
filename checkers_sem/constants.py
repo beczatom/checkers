@@ -46,3 +46,13 @@ class PieceColor:
     WHITE = True
     BLACK = False
 
+#GENETIC################################################################################################################
+
+GENERATIONS = 5
+POPULATION_SIZE = 10
+MAX_TRAIN_DEPTH = 4
+MUTATION_PCT = 0.125
+CROSSOVER_PCT = 0.75
+
+STATS_SIZE = 6
+
