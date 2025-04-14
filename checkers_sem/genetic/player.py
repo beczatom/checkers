@@ -65,6 +65,10 @@ class Player:
 
         game.push(best[0])
 
+    def __str__(self):
+        return str(np.round(self.coefs, 3))
+
+
 def play(white : Player, black : Player, depth : int ) -> tuple[float, float]:
     if np.array_equal(white.coefs, black.coefs):
         return 1/2, 1/2
