@@ -51,3 +51,17 @@ class Player:
                     break
 
         return best_move
+
+    # returns true if lost for no possible moves or None if the game is currently undecided
+    def move(self, game : Game, depth : int):
+        best = self.alpha_beta(game, -np.inf, np.inf, depth)
+
+        # if player can not move, he loses
+        # the player 'knows' about this, since best[0] is None implies best[1] = np.inf or -np.inf respectively
+        # (there was no change in sons exploration)
+        # so he tries to avoid it as much as possible
+        if best[0] is None:
+            return True
+
+        game.push(best[0])
+
