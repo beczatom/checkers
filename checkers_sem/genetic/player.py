@@ -14,3 +14,40 @@ class Player:
 
         return np.dot(self.coefs, game.board.stats())
 
+    def alpha_beta(self, game : Game, alpha : float, beta : float, depth : int) -> tuple[Move, float]:
+        # FIXME duplicita get_result()
+        if depth == 0 or game.get_result() is not None:
+            return game.peek(), self.evaluate(game)
+
+        if game.board.turn == Turn.WHITE:
+            # pair of move and evaluation of that move
+            best_move = (None, -np.inf)
+
+            for move in game.board.get_legal_moves():
+                game.push(move)
+                possible_best = self.alpha_beta(game, alpha, beta, depth - 1)
+                game.pop()
+
+                if best_move[1] <= possible_best[1]:
+                    best_move = (move, possible_best[1])
+                    alpha = possible_best[1]
+
+                if alpha >= beta:
+                    break
+
+        else:
+            # pair of move and evaluation of that move
+            best_move = (None, np.inf)
+            for move in game.board.get_legal_moves():
+                game.push(move)
+                possible_best = self.alpha_beta(game, alpha, beta, depth - 1)
+                game.pop()
+
+                if best_move[1] >= possible_best[1]:
+                    best_move = (move, possible_best[1])
+                    beta = possible_best[1]
+
+                if alpha >= beta:
+                    break
+
+        return best_move
