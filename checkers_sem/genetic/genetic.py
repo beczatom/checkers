@@ -3,6 +3,24 @@ from checkers_sem.constants import *
 
 import multiprocessing as mp
 
+def crossover_ox(first : Player, second : Player) -> Player:
+    copy_from_first = np.random.randint(0, len(first.coefs) + 1, dtype=int)
+    copy_from_first = int(copy_from_first)
+    new_coefs = np.concatenate((first.coefs[:copy_from_first], second.coefs[copy_from_first:]))
+    return Player(new_coefs)
+
+def crossover_avg(first : Player, second : Player) -> Player:
+    return Player((first.coefs + second.coefs) / 2)
+
+def crossover_players(first : Player, second : Player) -> Player:
+    method = np.random.rand()
+    if method < 1/3:
+        return crossover_ox(first, second)
+    elif method < 2/3:
+        return crossover_avg(first, second)
+
+    return crossover_ox(second, first)
+
 def play_process(fighter1 : Player, fighter2 : Player, new_generation : mp.Queue, sem : mp.Semaphore):
     res = play(fighter1, fighter2, MAX_TRAIN_DEPTH)
     match res:
@@ -17,6 +35,20 @@ def play_process(fighter1 : Player, fighter2 : Player, new_generation : mp.Queue
             else:
                 winner = fighter2
     new_generation.put(winner)
+    sem.release()
+
+def tournament_process(fighter1 : tuple[int, Player], fighter2 : tuple[int, Player], results : mp.Queue, sem : mp.Semaphore):
+    res = play(fighter1[1], fighter2[1], MAX_TRAIN_DEPTH)
+    vector_res = np.zeros(POPULATION_SIZE)
+    match res:
+        case 1, 0:
+            vector_res[fighter1[0]] = 1
+        case 0, 1:
+            vector_res[fighter2[0]] = 1
+        case _:
+            vector_res[fighter1[0]] = 1/2
+            vector_res[fighter2[0]] = 1/2
+    results.put(vector_res)
     sem.release()
 
 class Genetic:
@@ -54,6 +86,21 @@ class Genetic:
         for process in processes:
             new_generation.append(new_generation_q.get())
             process.join()
+
+        self.population = new_generation
+
+
+    def crossover(self):
+        new_generation = []
+        for _ in range(POPULATION_SIZE):
+            will_be_crossed = np.random.rand()
+            if will_be_crossed < CROSSOVER_PCT:
+                parents_idx = np.random.choice(POPULATION_SIZE, size=2, replace=False)
+                child = crossover_players(self.population[parents_idx[0]], self.population[parents_idx[1]])
+                new_generation.append(child)
+                continue
+
+            new_generation.append(self.population[np.random.randint(len(self.population))])
 
         self.population = new_generation
 
