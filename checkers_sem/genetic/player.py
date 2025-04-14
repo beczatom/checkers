@@ -65,3 +65,18 @@ class Player:
 
         game.push(best[0])
 
+def play(white : Player, black : Player, depth : int ) -> tuple[float, float]:
+    if np.array_equal(white.coefs, black.coefs):
+        return 1/2, 1/2
+
+    game = Game()
+
+    while (res := game.get_result()) is None:
+        if game.board.turn == Turn.WHITE:
+            if white.move(game, depth):
+                return 0, 1
+        else:
+            if black.move(game, depth):
+                return 1, 0
+
+    return res
