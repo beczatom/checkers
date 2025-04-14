@@ -104,3 +104,11 @@ class Genetic:
 
         self.population = new_generation
 
+    def mutate(self):
+        for _ in range(POPULATION_SIZE):
+            will_be_mutated = np.random.rand()
+            if will_be_mutated < MUTATION_PCT:
+                mutant_idx = np.random.choice(POPULATION_SIZE)
+                rand_scaler_vector = np.random.rand(STATS_SIZE) * 2
+                self.population[mutant_idx].coefs = np.multiply(self.population[mutant_idx].coefs, rand_scaler_vector)
+
