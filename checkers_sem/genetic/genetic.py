@@ -112,3 +112,43 @@ class Genetic:
                 rand_scaler_vector = np.random.rand(STATS_SIZE) * 2
                 self.population[mutant_idx].coefs = np.multiply(self.population[mutant_idx].coefs, rand_scaler_vector)
 
+    def best(self) -> Player:
+        sem = mp.Semaphore(N_JOBS)
+        processes = []
+
+        results = np.zeros(POPULATION_SIZE)
+        results_queue = mp.Queue()
+
+        for i in range(POPULATION_SIZE):
+            for j in range(i + 1, POPULATION_SIZE):
+
+                white_idx, black_idx = i, j
+                if i % 2 == 0:
+                    white_idx, black_idx = j, i
+
+                sem.acquire()
+                processes.append(
+                    mp.Process(target=tournament_process,
+                               args=((white_idx, self.population[white_idx]),
+                                     (black_idx, self.population[black_idx]),
+                                     results_queue, sem)))
+                processes[-1].start()
+
+                for k, process in enumerate(processes):
+                    if process.exitcode is not None:
+                        results += results_queue.get()
+                        print(results)
+                        process.join()
+                        processes.remove(process)
+
+
+        for process in processes:
+            results += results_queue.get()
+            print(results)
+            process.join()
+
+        print(20*'-')
+        print(results_queue.qsize())
+
+        return self.population[np.argmax(results)]
+
