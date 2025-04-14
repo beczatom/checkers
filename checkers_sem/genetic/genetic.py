@@ -152,3 +152,25 @@ class Genetic:
 
         return self.population[np.argmax(results)]
 
+    def do(self):
+        for i in range(GENERATIONS):
+            print(f'Before {i} it.')
+            self.print()
+
+            self.select()
+            self.crossover()
+            self.mutate()
+
+    # FIXME test
+    def print(self):
+        for player in self.population:
+            print(player)
+
+if __name__ == "__main__":
+    gen = Genetic()
+    start = time.time()
+    gen.do()
+    print('GEN DONE:', time.time() - start)
+    print(gen.best())
+    print('DONE:', time.time() - start)
+
