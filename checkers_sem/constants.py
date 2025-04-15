@@ -58,3 +58,34 @@ N_JOBS = 8
 
 STATS_SIZE = 6
 
+#GUI####################################################################################################################
+
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 700
+
+class GameType:
+    HUMAN_VS_HUMAN = 1
+    HUMAN_VS_PC = 2
+    PC_VS_PC = 3
+
+MENU_TITLE = 'Checkers Menu'
+HUMAN_VS_HUMAN_TEXT = 'Human vs Human'
+HUMAN_VS_PC_TEXT = 'Human vs PC'
+PC_VS_PC_TEXT = 'PC vs PC'
+
+PIECE_TEXTS = {
+    (Piece.PAWN, PieceColor.WHITE) : 'P',
+    (Piece.PAWN, PieceColor.BLACK) : 'p',
+    (Piece.KING, PieceColor.WHITE) : 'K',
+    (Piece.KING, PieceColor.BLACK) : 'k',
+}
+
+class TileColor:
+    WHITE = True
+    BLACK = False
+
+TILE_BACKGROUND_COLORS = {
+    TileColor.BLACK:    (6, 7, 14),
+    TileColor.WHITE:    (148, 161, 135),
+}
+
