@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1000"
+   height="1000"
+   viewBox="0 0 1000 1000"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="black_king2.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.34876894"
+     inkscape:cx="-91.75129"
+     inkscape:cy="339.76649"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="497.97256,121.25191"
+       end_point="497.97256,980.11989"
+       center_point="497.97256,550.6859"
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path3"
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="159.36866,179.44558"
+       end_point="159.36866,220.03178"
+       center_point="159.36866,199.73868"
+       id="path-effect6"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path1"
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="159.52145,191.12444"
+       end_point="159.52145,204.09061"
+       center_point="159.52145,197.60753"
+       id="path-effect7"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path2"
+       style="fill:#000000;fill-opacity:1;stroke:#e0d3af;stroke-width:39.6385;stroke-dasharray:none;stroke-opacity:1"
+       d="M 490.5332 121.26562 C 421.8985 122.42834 404.75458 153.69773 429.57422 203.66016 C 395.13066 212.79515 351.10329 212.37812 351.20508 272.64453 C 353.32163 334.35328 411.67831 406.90144 374.10156 373.5 C 353.07426 354.80913 280.03203 327.68018 204.25781 332.32031 C 144.61965 335.97233 83.289319 359.30384 44.292969 421.91602 C -44.250641 564.08089 89.220352 661.057 164.82617 799.44336 C 169.50787 840.78983 69.350344 860.15748 80.402344 929.90039 C 91.424844 999.45616 255.86779 975.67913 494.99805 978.24414 C 494.99824 978.24914 494.99805 978.24891 494.99805 978.25391 C 495.3211 978.25002 495.62424 978.253 495.94531 978.25 C 496.26837 978.25369 496.57151 978.24991 496.89258 978.25391 C 496.89278 978.24891 496.89258 978.24914 496.89258 978.24414 C 496.9842 978.24317 497.06727 978.24441 497.15625 978.24414 C 497.70725 978.24244 498.22264 978.25017 498.78906 978.24414 C 498.87804 978.24441 498.96111 978.24317 499.05273 978.24414 C 499.05273 978.24914 499.05253 978.24891 499.05273 978.25391 C 499.3738 978.24991 499.67694 978.25369 500 978.25 C 500.32107 978.253 500.62422 978.25002 500.94727 978.25391 C 500.94727 978.24891 500.94708 978.24914 500.94727 978.24414 C 740.07753 975.67913 904.52047 999.45616 915.54297 929.90039 C 926.59497 860.15748 826.43744 840.78983 831.11914 799.44336 C 906.72496 661.057 1040.196 564.08089 951.65234 421.91602 C 912.65599 359.30384 851.32566 335.97233 791.6875 332.32031 C 715.91328 327.68018 642.87105 354.80913 621.84375 373.5 C 584.267 406.90144 642.62368 334.35328 644.74023 272.64453 C 644.84202 212.37812 600.81465 212.79515 566.37109 203.66016 C 592.0445 151.97908 572.64431 120.39981 497.97266 121.35352 C 495.4891 121.32179 492.89448 121.22562 490.5332 121.26562 z M 235.15039 422.02734 C 273.47245 421.09623 313.13227 431.04733 338.62891 443.61133 C 396.90675 472.32919 463.16845 562.23333 414.30078 629.21875 C 354.73053 656.90858 337.10562 588.83382 269.72461 569.16602 C 215.59395 609.02248 261.65342 667.9147 207.65039 665.10156 C 153.64716 662.28822 105.74991 594.50874 126.91406 497.16602 C 138.81888 442.41085 185.87901 423.22442 235.15039 422.02734 z M 760.79492 422.02734 C 810.0663 423.22442 857.12643 442.41085 869.03125 497.16602 C 890.1954 594.50874 842.29815 662.28822 788.29492 665.10156 C 734.29189 667.9147 780.35136 609.02248 726.2207 569.16602 C 658.83969 588.83382 641.21478 656.90858 581.64453 629.21875 C 532.77686 562.23333 599.03857 472.32919 657.31641 443.61133 C 682.81305 431.04733 722.47286 421.09623 760.79492 422.02734 z " />
+  </g>
+</svg>

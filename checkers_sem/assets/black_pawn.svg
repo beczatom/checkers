@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1000"
+   height="1000"
+   viewBox="0 0 1000 1000"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="black_pawn2.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="314.66252"
+     inkscape:cy="528.20876"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="554.47733,28.17353"
+       end_point="554.47733,979.22773"
+       center_point="554.47733,503.70063"
+       id="path-effect4"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path4"
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="554.47733,0"
+       end_point="554.47733,1000"
+       center_point="554.47733,500"
+       id="path-effect3"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path4"
+       mode="vertical"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="134.36002,20.461591"
+       end_point="134.3126,208.04465"
+       center_point="134.33631,114.25312"
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path2"
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="171.53838,208.09207"
+       end_point="171.53838,20.461581"
+       center_point="171.53838,114.27683"
+       id="path-effect1"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="X"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path3"
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#e0d3af;stroke-width:38.9555;stroke-dasharray:none;stroke-opacity:1"
+       d="M 554.47733 28.328125 C 464.70222 32.628755 361.40746 84.802799 361.57889 180.78516 C 364.07649 270.34185 433.79319 321.95021 424.4617 339.21289 C 417.3341 357.67645 346.34723 367.94844 346.74491 440.75781 C 347.21042 525.6923 437.61707 514.14756 359.38944 600.60938 C 326.2165 637.27407 235.63217 619.13189 229.29569 707.53906 C 221.4923 767.70719 295.91526 777.14183 283.21561 796.25195 C 273.31865 817.48489 139.83064 783.01522 145.08084 934.00977 C 145.44274 985.38487 237.71 977.14127 277.25077 977.55273 C 367.02895 978.76101 374.48842 979.96744 554.47733 979.07227 C 734.46624 979.96744 741.92571 978.76101 831.70389 977.55273 C 871.24466 977.14127 963.51191 985.38487 963.87381 934.00977 C 969.12401 783.01522 835.63601 817.48489 825.73905 796.25195 C 813.0394 777.14183 887.46236 767.70719 879.65897 707.53906 C 873.32249 619.13189 782.73816 637.27407 749.56522 600.60938 C 671.33759 514.14756 761.74424 525.6923 762.20975 440.75781 C 762.60743 367.94844 691.62055 357.67645 684.49295 339.21289 C 675.16146 321.95021 744.87817 270.34185 747.37577 180.78516 C 747.5472 84.802799 644.25244 32.628755 554.47733 28.328125 z "
+       transform="translate(-54.477328)" />
+    <path
+       style="fill:#000000"
+       d="M 500,28.328729 V 979.07254"
+       id="path1" />
+  </g>
+</svg>

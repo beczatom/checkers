@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1000"
+   height="1000"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="possible_tile.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.3915"
+     inkscape:cx="-3.8314176"
+     inkscape:cy="724.13793"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <line
+     id="svg_5"
+     y2="0"
+     x2="40"
+     y1="40"
+     x1="0"
+     stroke="#000"
+     style="stroke-width:30;" />
+  <line
+     id="svg_6"
+     y2="0"
+     x2="160"
+     y1="160"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_7"
+     y2="0"
+     x2="280"
+     y1="280"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_8"
+     y2="0"
+     x2="400"
+     y1="400"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_9"
+     y2="0"
+     x2="520"
+     y1="520"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_10"
+     y2="0"
+     x2="640"
+     y1="640"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_11"
+     y2="0"
+     x2="760"
+     y1="760"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_12"
+     y2="0"
+     x2="880"
+     y1="880"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="line1"
+     y2="0"
+     x2="1000"
+     y1="1000"
+     x1="0"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_13"
+     y2="120"
+     x2="1000"
+     y1="1000"
+     x1="120"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_14"
+     y2="240"
+     x2="1000"
+     y1="1000"
+     x1="240"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_15"
+     y2="360"
+     x2="1000"
+     y1="1000"
+     x1="360"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_16"
+     y2="480"
+     x2="1000"
+     y1="1000"
+     x1="480"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_17"
+     y2="600"
+     x2="1000"
+     y1="1000"
+     x1="600"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_18"
+     y2="720"
+     x2="1000"
+     y1="1000"
+     x1="720"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_19"
+     y2="840"
+     x2="1000"
+     y1="1000"
+     x1="840"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <line
+     id="svg_20"
+     y2="960"
+     x2="1000"
+     y1="1000"
+     x1="960"
+     stroke="#000"
+     fill="none"
+     style="stroke-width:30;" />
+  <path
+     style="fill:#e0d3af;stroke:#000000;stroke-width:0"
+     d="M 0,0 V 1000"
+     id="path1" />
+  <g
+     id="g5"
+     style="stroke-width:150;stroke-dasharray:none">
+    <path
+       style="fill:#e0d3af;stroke:#000000;stroke-width:150;stroke-dasharray:none"
+       d="M 1000,1000 V 0"
+       id="path2" />
+    <path
+       style="fill:#e0d3af;stroke:#000000;stroke-width:150;stroke-dasharray:none"
+       d="M 0,0 H 1000"
+       id="path3" />
+    <path
+       style="fill:#e0d3af;stroke:#000000;stroke-width:150;stroke-dasharray:none"
+       d="M 0,1000 H 1000"
+       id="path4" />
+    <path
+       style="fill:#e0d3af;stroke:#000000;stroke-width:150;stroke-dasharray:none"
+       d="M 0,0 V 1000"
+       id="path5" />
+  </g>
+</svg>
