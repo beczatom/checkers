@@ -1,18 +1,20 @@
-from checkers_sem.genetic.player import *
+from checkers_sem.genetic.genetic_player import *
 from checkers_sem.constants import *
+
+import time
 
 import multiprocessing as mp
 
-def crossover_ox(first : Player, second : Player) -> Player:
+def crossover_ox(first : GeneticPlayer, second : GeneticPlayer) -> GeneticPlayer:
     copy_from_first = np.random.randint(0, len(first.coefs) + 1, dtype=int)
     copy_from_first = int(copy_from_first)
     new_coefs = np.concatenate((first.coefs[:copy_from_first], second.coefs[copy_from_first:]))
-    return Player(new_coefs)
+    return GeneticPlayer(new_coefs)
 
-def crossover_avg(first : Player, second : Player) -> Player:
-    return Player((first.coefs + second.coefs) / 2)
+def crossover_avg(first : GeneticPlayer, second : GeneticPlayer) -> GeneticPlayer:
+    return GeneticPlayer((first.coefs + second.coefs) / 2)
 
-def crossover_players(first : Player, second : Player) -> Player:
+def crossover_players(first : GeneticPlayer, second : GeneticPlayer) -> GeneticPlayer:
     method = np.random.rand()
     if method < 1/3:
         return crossover_ox(first, second)
@@ -21,7 +23,7 @@ def crossover_players(first : Player, second : Player) -> Player:
 
     return crossover_ox(second, first)
 
-def play_process(fighter1 : Player, fighter2 : Player, new_generation : mp.Queue, sem : mp.Semaphore):
+def play_process(fighter1 : GeneticPlayer, fighter2 : GeneticPlayer, new_generation : mp.Queue, sem : mp.Semaphore):
     res = play(fighter1, fighter2, MAX_TRAIN_DEPTH)
     match res:
         case 1, 0:
@@ -37,7 +39,7 @@ def play_process(fighter1 : Player, fighter2 : Player, new_generation : mp.Queue
     new_generation.put(winner)
     sem.release()
 
-def tournament_process(fighter1 : tuple[int, Player], fighter2 : tuple[int, Player], results : mp.Queue, sem : mp.Semaphore):
+def tournament_process(fighter1 : tuple[int, GeneticPlayer], fighter2 : tuple[int, GeneticPlayer], results : mp.Queue, sem : mp.Semaphore):
     res = play(fighter1[1], fighter2[1], MAX_TRAIN_DEPTH)
     vector_res = np.zeros(POPULATION_SIZE)
     match res:
@@ -59,7 +61,7 @@ class Genetic:
     def init_population(self):
         for _ in range(POPULATION_SIZE):
             random_coefs = np.random.randint(1, 10, size=STATS_SIZE)
-            self.population.append(Player(random_coefs))
+            self.population.append(GeneticPlayer(random_coefs))
 
     def select(self):
         new_generation_q = mp.Queue()
@@ -112,7 +114,7 @@ class Genetic:
                 rand_scaler_vector = np.random.rand(STATS_SIZE) * 2
                 self.population[mutant_idx].coefs = np.multiply(self.population[mutant_idx].coefs, rand_scaler_vector)
 
-    def best(self) -> Player:
+    def best(self) -> GeneticPlayer:
         sem = mp.Semaphore(N_JOBS)
         processes = []
 
