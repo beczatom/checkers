@@ -1,10 +1,10 @@
 from checkers_sem.game.game import *
 
-class Player:
-    def __init__(self, coefs : np.array):
+class GeneticPlayer:
+    def __init__(self, coefs: np.array):
         self.coefs = np.array(coefs, dtype=np.float64)
 
-    def evaluate(self, game : Game) -> float:
+    def evaluate(self, game: Game) -> float:
         possible_res = game.get_result()
 
         if possible_res is not None:
@@ -14,8 +14,7 @@ class Player:
 
         return np.dot(self.coefs, game.board.stats())
 
-    def alpha_beta(self, game : Game, alpha : float, beta : float, depth : int) -> tuple[Move, float]:
-        # FIXME duplicita get_result()
+    def alpha_beta(self, game: Game, alpha: float, beta: float, depth: int) -> tuple[Move, float]:
         if depth == 0 or game.get_result() is not None:
             return game.peek(), self.evaluate(game)
 
@@ -53,7 +52,7 @@ class Player:
         return best_move
 
     # returns true if lost for no possible moves or None if the game is currently undecided
-    def move(self, game : Game, depth : int):
+    def move(self, game : Game, depth: int = MAX_TRAIN_DEPTH):
         best = self.alpha_beta(game, -np.inf, np.inf, depth)
 
         # if player can not move, he loses
@@ -69,9 +68,9 @@ class Player:
         return str(np.round(self.coefs, 3))
 
 
-def play(white : Player, black : Player, depth : int ) -> tuple[float, float]:
+def play(white: GeneticPlayer, black: GeneticPlayer, depth: int) -> tuple[float, float]:
     if np.array_equal(white.coefs, black.coefs):
-        return 1/2, 1/2
+        return 1 / 2, 1 / 2
 
     game = Game()
 
