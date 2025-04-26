@@ -46,6 +46,25 @@ class Game:
             return self.board.get_legal_moves()
         return []
 
+    def get_moves_from_mask(self):
+        from_masks = []
+        for move in self.board.get_legal_moves():
+            from_masks.append(move.from_mask)
+        return from_masks
+
+    def get_moves_to_mask(self, from_mask : BitBoard):
+        to_masks = []
+        for move in self.board.get_legal_moves():
+            if move.from_mask == from_mask:
+                to_masks.append(move.to_mask)
+        return to_masks
+
+    def get_move_from_to(self, from_mask : BitBoard, to_mask : BitBoard):
+        for move in self.board.get_legal_moves():
+            if move.from_mask == from_mask and move.to_mask == to_mask:
+                return move
+        return None
+
     def get_result(self) -> tuple | None:
         if self.board.black.bit_count() == 0:
             return 1, 0
