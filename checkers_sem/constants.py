@@ -29,6 +29,38 @@ TOP_ROW =               BitBoard(0xf0000000)
 BOTTOM_ROW =            BitBoard(0x0000000f)
 
 CENTER =                BitBoard(0x00666600)
+
+# FILE_MASKS = np.array(
+#     [
+#         BitBoard(0x08080808), # A
+#         BitBoard(0x80808080), # B
+#         BitBoard(0x04040404), # C
+#         BitBoard(0x40404040), # D
+#         BitBoard(0x02020202), # E
+#         BitBoard(0x20202020), # F
+#         BitBoard(0x01010101), # G
+#         BitBoard(0x10101010), # H
+#     ]
+# )
+#
+# ROW_MASKS = np.array(
+#     [
+#         BitBoard(0xf0000000), # 1
+#         BitBoard(0x0f000000), # 2
+#         BitBoard(0x00f00000), # 3
+#         BitBoard(0x000f0000), # 4
+#         BitBoard(0x0000f000), # 5
+#         BitBoard(0x00000f00), # 6
+#         BitBoard(0x000000f0), # 7
+#         BitBoard(0x0000000f), # 8
+#     ]
+# )
+
+
+#   0000 0001   promotion
+#   0000 0010   take
+#   0000 1100   took_type
+
 MoveType = np.uint8
 PROMOTION = MoveType(0x01)
 TAKE =      MoveType(0x02)
@@ -69,23 +101,42 @@ class GameType:
     PC_VS_PC = 3
 
 MENU_TITLE = 'Checkers Menu'
-HUMAN_VS_HUMAN_TEXT = 'Human vs Human'
-HUMAN_VS_PC_TEXT = 'Human vs PC'
-PC_VS_PC_TEXT = 'PC vs PC'
+HUMAN_VS_HUMAN_TEXT = 'Hráč proti hráčovi'
+HUMAN_VS_PC_TEXT = 'Hráč proti počítaču'
+PC_VS_PC_TEXT = 'Počítač proti počítaču'
 
-PIECE_TEXTS = {
-    (Piece.PAWN, PieceColor.WHITE) : 'P',
-    (Piece.PAWN, PieceColor.BLACK) : 'p',
-    (Piece.KING, PieceColor.WHITE) : 'K',
-    (Piece.KING, PieceColor.BLACK) : 'k',
+PIECE_IMAGES = {
+    (Piece.PAWN, PieceColor.WHITE) : 'assets/white_pawn.svg',
+    (Piece.PAWN, PieceColor.BLACK) : 'assets/black_pawn.svg',
+    (Piece.KING, PieceColor.WHITE) : 'assets/white_king.svg',
+    (Piece.KING, PieceColor.BLACK) : 'assets/black_king.svg',
 }
+
+POSSIBLE_MOVE_IMG = 'assets/possible_tile.svg'
+
+AI_COEFS = [3.6, 10.6, 4.4, 2.7, 5.2, 3.2]
 
 class TileColor:
     WHITE = True
     BLACK = False
 
-TILE_BACKGROUND_COLORS = {
-    TileColor.BLACK:    (6, 7, 14),
-    TileColor.WHITE:    (148, 161, 135),
+BACKGROUND_COLOR =  (224, 211, 175)
+TEXT_COLOR = (0, 0, 0)
+
+HOVER_BACKGROUND_COLOR =  (0, 0, 0)
+HOVER_TEXT_COLOR = (255, 255, 255)
+
+BORDER_COLOR = (0, 0, 0)
+
+FIRST_BORDER_WIDTH = 4
+SECOND_BORDER_WIDTH = 2
+BORDER_GAP = 3
+
+DEFAULT_FONT_SIZE = 20
+
+TILE_BACKGROUND = {
+    TileColor.BLACK:    'assets/black_tile.svg',
+    TileColor.WHITE:    BACKGROUND_COLOR,
 }
 
+CHESSBOARD_LEFT_PADDING = 50
