@@ -41,11 +41,34 @@ class Button:
 
         self.rect = available_rect
 
-    def draw(self):
-        pygame.draw.rect(self.screen, self.color, self.rect, border_radius=self.border_radius)
-        text = pygame.font.SysFont(None, 24).render(self.text, True, (255,255,255))
-        text_rect = text.get_rect(center = self.rect.center)
+
+    def draw(self, mouse_pos):
+        background_color = HOVER_BACKGROUND_COLOR if self.rect.collidepoint(mouse_pos) else self.background_color
+        text_color = HOVER_TEXT_COLOR if self.rect.collidepoint(mouse_pos) else TEXT_COLOR
+
+        pygame.draw.rect(self.screen, background_color, self.rect)
+        text = self.font.render(self.text, True, text_color)
+        text_rect = text.get_rect(center=self.rect.center)
         self.screen.blit(text, text_rect)
+
+
+    def clicked(self, mouse_pos : tuple[int, int]) -> bool:
+        return self.rect.collidepoint(mouse_pos)
+
+
+class ImageButton:
+    def __init__(self, surface : pygame.Surface, rect : pygame.Rect, background_image):
+        self.surface = surface
+        self.rect = rect
+        self.background_image = background_image
+        self.background_image = pygame.image.load(self.background_image).convert_alpha()
+        self.background_image = pygame.transform.scale(self.background_image, self.surface.get_rect().size)
+
+
+    def draw(self, mouse_pos : tuple[int, int] = (0, 0)):
+        # pygame.draw.rect(self.screen, BACKGROUND_COLOR, self.rect)
+        self.surface.fill(BACKGROUND_COLOR)
+        self.surface.blit(self.background_image, self.surface.get_rect().topleft)
 
     def clicked(self, mouse_pos : tuple[int, int]) -> bool:
         return self.rect.collidepoint(mouse_pos)
