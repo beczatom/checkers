@@ -1,7 +1,6 @@
 
-import pygame
-
 from checkers_sem.game.game import Game
+from checkers_sem.gui.utils.widget import *
 from checkers_sem.gui.utils.tile import Tile
 from checkers_sem.constants import *
 
@@ -30,30 +29,13 @@ def bitboard_to_coords(bitboard : BitBoard) -> tuple[int, int]:
 
     return row, col
 
-class ChessBoard:
-    def __init__(self, surface : pygame.surface, top_left : tuple[int, int],  game : Game):
-        self.surface = surface
-        self.rect = pygame.Rect(top_left, surface.get_size())
-        self.draw_borders()
+class ChessBoard(Widget):
+    def __init__(self, surface : pygame.surface, left_top : tuple[int, int],  game : Game):
+        super().__init__(surface, left_top)
+        self.draw_border()
         self.tiles = self.tiles_init()
         self.possible_moves = []
         self.game = game
-
-
-    def draw_border(self, rect: pygame.Rect, border_width: int, border_gap: int):
-        pygame.draw.rect(self.surface, BORDER_COLOR, rect)
-        rect = pygame.Rect(rect.left + border_width, rect.top + border_width,
-                           rect.width - 2 * border_width, rect.height - 2 * border_width)
-        pygame.draw.rect(self.surface, BACKGROUND_COLOR, rect)
-        return pygame.Rect(rect.left + border_gap, rect.top + border_gap,
-                           rect.width - 2 * border_gap, rect.height - 2 * border_gap)
-
-    def draw_borders(self):
-        available_rect = self.surface.get_rect()
-        available_rect = self.draw_border(available_rect, FIRST_BORDER_WIDTH, BORDER_GAP)
-        available_rect = self.draw_border(available_rect, SECOND_BORDER_WIDTH, 0)
-
-        self.surface = self.surface.subsurface(available_rect)
 
     def tiles_init(self) -> list[list[Tile]]:
         square_size = self.surface.get_width() // 8
@@ -65,11 +47,10 @@ class ChessBoard:
             for j in range(8):
                 rect_y = i * square_size
                 rect_x = j * square_size
-                tile_rect = pygame.Rect(rect_x, rect_y, square_size, square_size)
 
-                screen_rect = pygame.Rect(self.rect.x + rect_x, self.rect.y + rect_y, square_size, square_size)
-                tiles[-1].append(Tile(self.surface.subsurface(tile_rect), screen_rect,
-                                                               coords_to_bitboard_mask((i, j)), tile_color))
+                rect = pygame.Rect(rect_x, rect_y, square_size, square_size)
+                screen_left_top = tuple_sum(self.left_top, (rect_x, rect_y))
+                tiles[-1].append(Tile(self.surface.subsurface(rect), screen_left_top, coords_to_bitboard_mask((i, j)), tile_color))
                 tiles[-1][-1].draw(pygame.mouse.get_pos())
                 tile_color = not tile_color
         return tiles
