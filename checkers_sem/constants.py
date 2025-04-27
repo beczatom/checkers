@@ -95,15 +95,30 @@ STATS_SIZE = 6
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
 
-class GameType:
+class MenuOption:
     HUMAN_VS_HUMAN = 1
     HUMAN_VS_PC = 2
     PC_VS_PC = 3
+    GENETIC = 4
 
 MENU_TITLE = 'Checkers Menu'
 HUMAN_VS_HUMAN_TEXT = 'Hráč proti hráčovi'
 HUMAN_VS_PC_TEXT = 'Hráč proti počítaču'
 PC_VS_PC_TEXT = 'Počítač proti počítaču'
+GENETIC_TEXT = 'Genetické trénovanie'
+
+SLIDER_PROPERTIES = [
+    ('Veľkosť populácie', 2, 50, 10),
+    ('Počet generácií', 1, 50, 10),
+    ('Hĺbka trénovania', 1, 10, 4),
+    ('Percento kríženia', 0, 100, 85),
+    ('Percento mutácie', 0, 100, 25),
+]
+
+SLIDER_CIRCLE = 'assets/slider_circle.svg'
+
+DEFAULT_FONT = 'assets/SpecialElite-Regular.ttf'
+DEFAULT_TEXT_COLOR = (0,0,0)
 
 PIECE_IMAGES = {
     (Piece.PAWN, PieceColor.WHITE) : 'assets/white_pawn.svg',
@@ -140,3 +155,6 @@ TILE_BACKGROUND = {
 }
 
 CHESSBOARD_LEFT_PADDING = 50
+
+AWAITED_TIME_TRAIN_TEXT = 'Očakávaná doba trénovania:'
+START_TRAIN_BUTTON_TEXT = 'Štart'
