@@ -1,0 +1,74 @@
+from collections.abc import Callable
+
+from checkers_sem.gui.utils.widget import *
+
+class Slider(Widget):
+    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],
+                 min : float = 0, max : float = 100, initial : float = 50):
+        super().__init__(surface, left_top)
+
+        self.min = min
+        self.max = max
+        self.value = initial
+
+        self.circle_rect = self.__get_circle_rect()
+
+        self.mouse_drag = False
+
+    def handle_event(self, event : pygame.event.Event):
+        if event.type == pygame.QUIT:
+            raise Exception('End')
+
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            left_top = tuple_sum(self.left_top, (self.circle_rect.x, self.circle_rect.y))
+            circle_screen_rect = pygame.Rect(*left_top, *self.circle_rect.size)
+            if circle_screen_rect.collidepoint(event.pos):
+                self.mouse_drag = True
+
+        if event.type == pygame.MOUSEMOTION and self.mouse_drag:
+            pos_x = event.pos[0]
+            pos_on_line = pos_x - self.left_top[0] - self.circle_rect.size[0] // 2
+            if pos_on_line < 0:
+                pos_on_line = self.min
+
+            if pos_on_line > self.surface.get_width() - self.circle_rect.size[0]:
+                pos_on_line = self.surface.get_width() - self.circle_rect.size[0]
+
+            self.value = int((pos_on_line / (self.surface.get_width() - self.circle_rect.size[0])) * (self.max - self.min) + self.min)
+            self.draw()
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            self.mouse_drag = False
+
+    def __get_circle_rect(self) -> pygame.Rect:
+        line_width = self.get_height() // 8
+        top = self.get_height() // 2 - line_width // 2
+        circle_size = 3 * self.get_height() // 5
+        circle_left = circle_size // 2 + (self.value - self.min) / (self.max - self.min) * (self.screen_rect.width - 2 * circle_size)
+        circle_top = top - circle_size // 2
+
+        return pygame.Rect(circle_left, circle_top, circle_size, circle_size)
+
+    def draw(self):
+        self.surface.fill(BACKGROUND_COLOR)
+        # Line
+        line_width = self.get_height() // 8
+        top = self.get_height() // 2 - line_width // 2
+
+        circle_size = 3 * self.get_height() // 5
+
+        line_rect = pygame.Rect(circle_size // 2, top, self.surface.get_width() - circle_size, line_width)
+        pygame.draw.rect(self.surface, BORDER_COLOR, line_rect)
+
+        self.circle_rect = self.__get_circle_rect()
+
+        circle = SLIDER_CIRCLE
+        circle = pygame.image.load(circle).convert_alpha()
+        circle = pygame.transform.scale(circle, self.circle_rect.size)
+        self.surface.blit(circle, self.circle_rect)
+
+        # self.surface.fill(BORDER_COLOR)
+
+
+    def get_value(self):
+        return self.value
