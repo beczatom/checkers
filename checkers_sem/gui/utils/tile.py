@@ -1,11 +1,12 @@
 import pygame
 from checkers_sem.gui.utils.button import ImageButton
 from checkers_sem.constants import *
+from checkers_sem.gui.utils.widget import Widget
 
-class Tile:
-    def __init__(self, surface : pygame.Surface, rect : pygame.Rect, pos_mask : BitBoard, color_bool : TileColor):
-        self.surface = surface
-        self.rect = rect
+
+class Tile(Widget):
+    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], pos_mask : BitBoard, color_bool : TileColor):
+        super().__init__(surface, left_top)
         self.background = TILE_BACKGROUND[color_bool]
         self.color_bool = color_bool
         self.pos_mask = pos_mask
@@ -13,7 +14,7 @@ class Tile:
         self.possible_move = False
 
         if color_bool == TileColor.BLACK:
-            self.button = ImageButton(surface, self.rect, TILE_BACKGROUND[color_bool])
+            self.button = ImageButton(surface, self.left_top, TILE_BACKGROUND[color_bool])
 
 
     def put_piece_img(self, piece : Piece, piece_color : PieceColor):
