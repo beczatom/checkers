@@ -1,26 +1,35 @@
+from collections.abc import Callable
+
 import pygame
 
 from checkers_sem.gui.utils.window import Window
+from checkers_sem.gui.genetic_window import GeneticWindow
 from checkers_sem.gui.utils.slider import Slider
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.constants import *
 
-# TODO make more real
+from checkers_sem.state import *
+
 def get_awaited_train_time(population : int, generations : int, depth : int) -> int:
-    evolving_time = population * generations * depth
-    choosing_best = int((population - 1) * (population - 2) / 2 * depth)
+    evolving_time = int(population * generations * 0.004 * 3.1 ** depth)
+    choosing_best = int((population - 1) * (population - 2) / 2 * 0.004 * 3.1 ** depth)
     return evolving_time + choosing_best
 
 def time_to_text(seconds : int) -> str:
     string = str()
+
+    if seconds == 0:
+        string += '< 1 sekunda'
+        return string
+
     hours = seconds // 3600
 
     if hours == 1:
         string += '1 hodina '
     elif 1 < hours < 5:
         string += f'{hours} hodiny '
-    elif 5 < hours:
+    elif 5 <= hours:
         string += f'{hours} hodín '
 
     minutes = (seconds % 3600) // 60
@@ -46,11 +55,30 @@ def time_to_text(seconds : int) -> str:
 class GeneticSettingWindow(Window):
     def __init__(self, surface):
         super().__init__(surface)
+        self.surface.fill(BACKGROUND_COLOR)
+        self.genetic_settings = [SLIDER_PROPERTIES[i][3] if i < 3 else SLIDER_PROPERTIES[i][3] / 100 for i in range(5)]
         self.slider_text_vals, self.sliders = self.init_sliders()
         self.awaited_time = self.init_awaited_time()
         self.start_button = self.init_start_button()
         self.start = False
 
+    def set_start_true(self) -> None:
+        self.start = True
+
+    def get_setting_function(self, i : int) -> Callable[[int], None]:
+        def set_genetic_setting(value : int) -> None:
+            if i in range(3, 5):
+                value /= 100
+            self.genetic_settings[i] = value
+
+        return set_genetic_setting
+
+    def set_global_genetic_settings(self):
+        state.POPULATION_SIZE = self.genetic_settings[0]
+        state.GENERATIONS = self.genetic_settings[1]
+        state.MAX_TRAIN_DEPTH = self.genetic_settings[2]
+        state.CROSSOVER_PCT = self.genetic_settings[3]
+        state.MUTATION_PCT = self.genetic_settings[4]
 
     def init_start_button(self):
         margin_x = 6 * self.surface.get_rect().width // 8
@@ -62,17 +90,17 @@ class GeneticSettingWindow(Window):
 
         button_rect = pygame.Rect(margin_x, margin_y, size_x, size_y)
 
-        def on_start_click():
-            self.start = True
-
         button = Button(self.surface.subsurface(button_rect), (margin_x, margin_y),
-                        START_TRAIN_BUTTON_TEXT, on_start_click)
+                        START_TRAIN_BUTTON_TEXT, self.set_start_true)
         return button
 
     def get_time_text_from_sliders(self):
-        values = [self.sliders[i].get_value() for i in range(3)]
+        values = self.get_slider_values()[0:3]
         seconds = get_awaited_train_time(*values)
         return time_to_text(seconds)
+
+    def get_slider_values(self):
+        return [slider.get_value() for slider in self.sliders]
 
     def init_awaited_time(self):
         margin_x = self.surface.get_rect().width // 8
@@ -127,7 +155,8 @@ class GeneticSettingWindow(Window):
             left += slider_text_rect.width + padding_x
 
             slider_rect = pygame.Rect(left, top, 9 * (size_x - 2 * padding_x) // 16, size_y)
-            sliders.append(Slider(self.surface.subsurface(slider_rect), (left, top), min_val, max_val, initial_val))
+            sliders.append(Slider(self.surface.subsurface(slider_rect), (left, top), min_val, max_val, initial_val,
+                                  self.get_setting_function(i)))
 
             sliders[-1].draw()
         return slider_text_vals, sliders
@@ -136,7 +165,7 @@ class GeneticSettingWindow(Window):
         run = True
 
         while run and not self.start:
-            pygame.time.delay(10)
+            pygame.time.delay(100)
             for event in pygame.event.get():
                 self.start_button.handle_event(event)
                 if event.type == pygame.QUIT:
@@ -149,5 +178,8 @@ class GeneticSettingWindow(Window):
 
                 self.awaited_time.set_string(self.get_time_text_from_sliders())
                 self.awaited_time.draw()
-
             pygame.display.update()
+
+        if self.start:
+            self.set_global_genetic_settings()
+            GeneticWindow(self.surface).show()
