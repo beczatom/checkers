@@ -150,7 +150,7 @@ BORDER_GAP = 3
 DEFAULT_FONT_SIZE = 20
 
 TILE_BACKGROUND = {
-    TileColor.BLACK:    'assets/black_tile.svg',
+    TileColor.BLACK:    'checkers_sem/assets/black_tile.svg',
     TileColor.WHITE:    BACKGROUND_COLOR,
 }
 
