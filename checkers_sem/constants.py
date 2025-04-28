@@ -82,7 +82,7 @@ class PieceColor:
 
 GENERATIONS = 5
 POPULATION_SIZE = 10
-MAX_TRAIN_DEPTH = 4
+MAX_TRAIN_DEPTH = 8
 MUTATION_PCT = 0.125
 CROSSOVER_PCT = 0.75
 
@@ -115,19 +115,35 @@ SLIDER_PROPERTIES = [
     ('Percento mutácie', 0, 100, 25),
 ]
 
-SLIDER_CIRCLE = 'assets/slider_circle.svg'
+BAR_IMAGE = 'checkers_sem/assets/bar.svg'
 
-DEFAULT_FONT = 'assets/SpecialElite-Regular.ttf'
+GENETIC_SETTINGS_TEXT =             'Nastavenia trénovania'
+
+STAT_TEXTS = [
+    'Hodnota pešiaka',
+    'Hodnota kráľa',
+    'Pešiak pred povýšením',
+    'Figúra na bokoch',
+    'Figúra na základni',
+    'Figúra v centre'
+]
+AVERAGE_GENETIC_COEFICIENTS_TEXT =  'Priemerné koeficienty'
+
+BEST_GENETIC_COEFICIENTS_TEXT =  'Výsledné koeficienty'
+
+SLIDER_CIRCLE = 'checkers_sem/assets/slider_circle.svg'
+
+DEFAULT_FONT = 'checkers_sem/assets/SpecialElite-Regular.ttf'
 DEFAULT_TEXT_COLOR = (0,0,0)
 
 PIECE_IMAGES = {
-    (Piece.PAWN, PieceColor.WHITE) : 'assets/white_pawn.svg',
-    (Piece.PAWN, PieceColor.BLACK) : 'assets/black_pawn.svg',
-    (Piece.KING, PieceColor.WHITE) : 'assets/white_king.svg',
-    (Piece.KING, PieceColor.BLACK) : 'assets/black_king.svg',
+    (Piece.PAWN, PieceColor.WHITE) : 'checkers_sem/assets/white_pawn.svg',
+    (Piece.PAWN, PieceColor.BLACK) : 'checkers_sem/assets/black_pawn.svg',
+    (Piece.KING, PieceColor.WHITE) : 'checkers_sem/assets/white_king.svg',
+    (Piece.KING, PieceColor.BLACK) : 'checkers_sem/assets/black_king.svg',
 }
 
-POSSIBLE_MOVE_IMG = 'assets/possible_tile.svg'
+POSSIBLE_MOVE_IMG = 'checkers_sem/assets/possible_tile.svg'
 
 AI_COEFS = [3.6, 10.6, 4.4, 2.7, 5.2, 3.2]
 
