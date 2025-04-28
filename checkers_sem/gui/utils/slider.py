@@ -4,7 +4,8 @@ from checkers_sem.gui.utils.widget import *
 
 class Slider(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],
-                 min : float = 0, max : float = 100, initial : float = 50):
+                 min : int = 0, max : int = 100, initial : int = 50,
+                 onchange : Callable[[int], None] = None, ):
         super().__init__(surface, left_top)
 
         self.min = min
@@ -14,6 +15,8 @@ class Slider(Widget):
         self.circle_rect = self.__get_circle_rect()
 
         self.mouse_drag = False
+
+        self.onchange = onchange
 
     def handle_event(self, event : pygame.event.Event):
         if event.type == pygame.QUIT:
@@ -35,6 +38,7 @@ class Slider(Widget):
                 pos_on_line = self.surface.get_width() - self.circle_rect.size[0]
 
             self.value = int((pos_on_line / (self.surface.get_width() - self.circle_rect.size[0])) * (self.max - self.min) + self.min)
+            self.onchange(self.value)
             self.draw()
 
         if event.type == pygame.MOUSEBUTTONUP:
@@ -66,8 +70,6 @@ class Slider(Widget):
         circle = pygame.image.load(circle).convert_alpha()
         circle = pygame.transform.scale(circle, self.circle_rect.size)
         self.surface.blit(circle, self.circle_rect)
-
-        # self.surface.fill(BORDER_COLOR)
 
 
     def get_value(self):
