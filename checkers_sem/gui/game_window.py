@@ -5,11 +5,12 @@ from checkers_sem.player.player import Player
 from checkers_sem.constants import *
 from checkers_sem.gui.utils.chessboard import ChessBoard
 from checkers_sem.gui.utils.timer import Timer
+from checkers_sem.gui.utils.window import Window
 
 
-class GameWindow:
+class GameWindow(Window):
     def __init__(self, surface : pygame.surface, players : tuple[Player, Player]):
-        self.surface = surface
+        super().__init__(surface)
         self.surface.fill(BACKGROUND_COLOR)
 
         self.game = Game()
@@ -27,39 +28,35 @@ class GameWindow:
         self.turn_before = Turn.BLACK
 
     def init_timers(self):
-        top_padding = self.chessboard.rect.top - self.chessboard.rect.height // 8
-        left_padding = self.chessboard.rect.right - self.chessboard.rect.height // 4
 
-        height = self.chessboard.rect.height // 10
-        width = self.chessboard.rect.width // 4
+        height = self.chessboard.get_height() // 10
+        width = self.chessboard.get_width() // 4
 
-        print(top_padding, left_padding, height, width)
+        top = self.chessboard.get_screen_top() - self.chessboard.get_height() // 8
+        left = self.chessboard.get_screen_left() + 3 * self.chessboard.get_width() // 4
 
-        timer_rect = pygame.Rect(left_padding, top_padding, width, height)
+        timer_rect = pygame.Rect(left, top, width, height)
 
-        black_timer = Timer(self.surface.subsurface(timer_rect),
+        black_timer = Timer(self.surface.subsurface(timer_rect), (left, top),
                             first_border=True, second_border=True, font_size=24)
 
-        top_padding = self.chessboard.rect.bottom + self.chessboard.rect.height // 8 - height
+        top = self.chessboard.get_screen_bottom() + self.chessboard.get_height() // 8 - height
 
-        timer_rect = pygame.Rect(left_padding, top_padding, width, height)
+        timer_rect = pygame.Rect(left, top, width, height)
 
-        print(top_padding, left_padding, height, width)
-
-        white_timer = Timer(self.surface.subsurface(timer_rect),
+        white_timer = Timer(self.surface.subsurface(timer_rect), (left, top),
                             first_border=True, second_border=True, font_size=24)
         return white_timer, black_timer
 
 
     def init_chessboard(self) -> ChessBoard:
-        size = self.surface.get_width() // 2
-        top_padding = (self.surface.get_height() - size) // 2
-        left_padding = (self.surface.get_width() - size) // 5
+        size = self.surface.get_width() // 2 // 8 * 8
+        top = (self.surface.get_height() - size) // 2
+        left = (self.surface.get_width() - size) // 5
 
-        chessboard_rect = pygame.Rect(left_padding, top_padding, size, size)
+        chessboard_rect = pygame.Rect(left, top, size, size)
 
-        return ChessBoard(self.surface.subsurface(chessboard_rect), chessboard_rect.topleft, self.game)
-
+        return ChessBoard(self.surface.subsurface(chessboard_rect), (left, top), self.game)
 
 
     def make_move(self, clicked_mouse_pos : tuple[int, int] = None) -> None:
@@ -85,7 +82,7 @@ class GameWindow:
 
         self.res = self.game.get_result()
 
-    def play(self):
+    def show(self):
         run = True
 
         self.chessboard.draw()
@@ -112,7 +109,6 @@ class GameWindow:
                 self.make_move()
 
             if before_chessboard != hash(self.chessboard.game) or clicked:
-                print(self.white.get_time_left(), self.black.get_time_left())
                 self.chessboard.draw()
 
             self.white_timer.draw(self.white.get_time_left())
