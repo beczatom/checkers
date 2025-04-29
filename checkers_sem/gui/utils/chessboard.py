@@ -3,31 +3,8 @@ from checkers_sem.game.game import Game
 from checkers_sem.gui.utils.widget import *
 from checkers_sem.gui.utils.tile import Tile
 from checkers_sem.constants import *
+from checkers_sem.helper import *
 
-# coords being from (0, 0) on top-left corner
-def coords_to_bitboard_mask(coords : tuple[int, int]) -> BitBoard | None:
-    if coords[0] % 2 == coords[1] % 2: return None
-
-    right_shift = 4 * coords[0]
-    right_shift += coords[1] // 2
-
-    start = BitBoard(0x80000000)
-
-    return BitBoard(start >> right_shift)
-
-def bitboard_to_coords(bitboard : BitBoard) -> tuple[int, int]:
-    gap_from_start = 0
-    while bitboard != BitBoard(0x80000000):
-        bitboard <<= 1
-        gap_from_start += 1
-
-    row = gap_from_start // 4
-    col = gap_from_start % 4
-    col *= 2
-    if row % 2  == 0:
-        col += 1
-
-    return row, col
 
 class ChessBoard(Widget):
     def __init__(self, surface : pygame.surface, left_top : tuple[int, int],  game : Game):
@@ -36,23 +13,35 @@ class ChessBoard(Widget):
         self.tiles = self.tiles_init()
         self.possible_moves = []
         self.game = game
+        self.clicked_mask = BitBoard()
+        self.clicked = False
 
-    def tiles_init(self) -> list[list[Tile]]:
-        square_size = self.surface.get_width() // 8
+    def generate_tile_onclick(self, pos : BitBoard):
+        def tile_onclick():
+            self.clicked_mask = pos
+            self.clicked = True
+        return tile_onclick
+
+    def tiles_init(self) -> list[Tile]:
+        square_size = self.rect_without_border.width / 8
 
         tiles = []
         for i in range(8):
-            tiles.append([])
-            tile_color = TileColor.WHITE if i % 2 == 0 else TileColor.BLACK
-            for j in range(8):
-                rect_y = i * square_size
-                rect_x = j * square_size
+            top = self.rect_without_border.topleft[0] + i * square_size
+            left = self.rect_without_border.topleft[1]
+            left += square_size if i % 2 == 0 else 0
+            for j in range(4):
 
-                rect = pygame.Rect(rect_x, rect_y, square_size, square_size)
-                screen_left_top = tuple_sum(self.left_top, (rect_x, rect_y))
-                tiles[-1].append(Tile(self.surface.subsurface(rect), screen_left_top, coords_to_bitboard_mask((i, j)), tile_color))
-                tiles[-1][-1].draw(pygame.mouse.get_pos())
-                tile_color = not tile_color
+                rect = pygame.Rect(left, top, square_size, square_size)
+                screen_left_top = tuple_sum(self.left_top, (left, top))
+
+                mask = coords_to_bitboard_mask((i, j))
+                tiles.append(Tile(self.surface.subsurface(rect), screen_left_top,
+                                      mask, self.generate_tile_onclick(mask)))
+
+                left += 2 * square_size
+                tiles[-1].draw()
+
         return tiles
 
     def bitboard_to_bool_board(self, bitboard : BitBoard) -> list[list[bool]]:
@@ -71,19 +60,16 @@ class ChessBoard(Widget):
 
         return bool_board
 
-
-    def set_figures(self, bool_boards : list[list[list[bool]]], pieces : list[tuple[Piece, PieceColor]]):
-        for i in range(8):
-            for j in range(8):
-                if i % 2 == j % 2: continue
-                values = [bool_boards[k][i][j] for k in range(4)]
-                true_idx = values.count(True)
-                if true_idx == 1:
-                    piece, piece_color = pieces[values.index(True)]
-                    self.tiles[i][j].put_piece_img(piece, piece_color)
-                elif (i, j) not in self.possible_moves:
-                    self.tiles[i][j].clear_img()
-                self.tiles[i][j].draw()
+    def set_figures(self, bool_boards : list[list[bool]], pieces : list[tuple[Piece, PieceColor]]):
+        for i in range(32):
+            values = [bool_boards[k][i] for k in range(4)]
+            true_idx = values.count(True)
+            if true_idx == 1:
+                piece, piece_color = pieces[values.index(True)]
+                self.tiles[i].put_piece_img(piece, piece_color)
+            elif i not in self.possible_moves:
+                self.tiles[i].clear_img()
+            self.tiles[i].draw()
 
     def draw(self):
         white_pawns = BitBoard(self.game.board.pawns & self.game.board.white)
@@ -100,14 +86,8 @@ class ChessBoard(Widget):
                                        (Piece.KING, PieceColor.BLACK)])
 
 
-    def get_clicked_mask(self, mouse_pos) -> BitBoard | None:
-        for i in range(8):
-            for j in range(8):
-                if i % 2 == j % 2: continue
-                if self.tiles[i][j].clicked(mouse_pos):
-                    return self.tiles[i][j].pos_mask
-
-        return None
+    def get_clicked_mask(self) -> BitBoard:
+        return self.clicked_mask
 
     def set_possible_moves(self, possible_to_masks : list[BitBoard]):
         self.possible_moves = []
