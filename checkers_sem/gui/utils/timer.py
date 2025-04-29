@@ -20,7 +20,7 @@ class Timer(Widget):
 
         self.font_size = kwargs.get('font_size', DEFAULT_FONT_SIZE)
 
-        self.font = pygame.font.Font('assets/SpecialElite-Regular.ttf', self.font_size)
+        self.font = pygame.font.Font(DEFAULT_FONT, self.font_size)
 
     def draw(self, seconds : float):
         self.draw_border()
