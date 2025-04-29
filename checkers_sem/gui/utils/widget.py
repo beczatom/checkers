@@ -14,7 +14,7 @@ class Widget:
         self.rect_without_border = surface.get_rect()
         self.background_color = BACKGROUND_COLOR
 
-    def draw(self, mouse_pos : tuple[int, int]):
+    def draw(self):
         raise Exception('Pure virtual method')
 
     def clicked(self, mouse_pos : tuple[int, int]):
