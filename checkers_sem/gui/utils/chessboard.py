@@ -44,21 +44,6 @@ class ChessBoard(Widget):
 
         return tiles
 
-    def bitboard_to_bool_board(self, bitboard : BitBoard) -> list[list[bool]]:
-        bin_list = [bool(int(x)) for x in bin(bitboard)[2:].zfill(32)]
-
-        k = 0
-
-        bool_board = []
-        for i in range(8):
-            bool_board.append([])
-            white = bool(i % 2 == 0)
-            for j in range(8):
-                bool_board[-1].append(False if white else bin_list[k])
-                k += 0 if white else 1
-                white = not white
-
-        return bool_board
 
     def set_figures(self, bool_boards : list[list[bool]], pieces : list[tuple[Piece, PieceColor]]):
         for i in range(32):
@@ -78,7 +63,7 @@ class ChessBoard(Widget):
         white_kings = BitBoard(~self.game.board.pawns & self.game.board.white)
         black_kings = BitBoard(~self.game.board.pawns & self.game.board.black)
 
-        bool_boards = list(map(self.bitboard_to_bool_board, [white_pawns, black_pawns, white_kings, black_kings]))
+        bool_boards = list(map(bitboard_to_bool_board, [white_pawns, black_pawns, white_kings, black_kings]))
 
         self.set_figures(bool_boards, [(Piece.PAWN, PieceColor.WHITE),
                                        (Piece.PAWN, PieceColor.BLACK),
@@ -90,12 +75,28 @@ class ChessBoard(Widget):
         return self.clicked_mask
 
     def set_possible_moves(self, possible_to_masks : list[BitBoard]):
+        for possible_to_mask in self.possible_moves:
+            idx = bitboard_to_idx(possible_to_mask)
+            self.tiles[idx].clear_img()
+            self.tiles[idx].draw()
+
         self.possible_moves = []
         for possible_to_mask in possible_to_masks:
-
-            row, col = bitboard_to_coords(possible_to_mask)
-            self.possible_moves.append((row, col))
-            self.tiles[row][col].put_possible_move()
+            idx = bitboard_to_idx(possible_to_mask)
+            self.possible_moves.append(idx)
+            self.tiles[idx].put_possible_move()
+            self.tiles[idx].draw()
 
     def reset_possible_moves(self):
         self.possible_moves = []
+
+    def handle_event(self, event : pygame.event.Event):
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            return
+
+        self.clicked = False
+        for tile in self.tiles:
+            tile.handle_event(event)
+
+        if not self.clicked:
+            self.clicked_mask = BitBoard()
