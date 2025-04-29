@@ -20,9 +20,9 @@ class Board:
     def move_mask(self, mask: BitBoard, moves: list, target_mask: BitBoard, not_file_mask: BitBoard = ALL_FILES):
         if target_mask and target_mask & not_file_mask and (target_mask & (self.white | self.black)) == 0:
             if self.is_promotion(mask, target_mask):
-                moves.append(Move(mask, target_mask, MoveType() | PROMOTION))
+                moves.append(Move(self.turn, mask, target_mask, MoveType() | PROMOTION))
             else:
-                moves.append(Move(mask, target_mask, MoveType()))
+                moves.append(Move(self.turn, mask, target_mask, MoveType()))
 
 
     def is_oponent(self, mask : BitBoard, oponent : BitBoard, not_file_mask: BitBoard = ALL_FILES):
@@ -62,23 +62,23 @@ class Board:
             # even row
             if mask & EVEN_ROW:
                 # right take
-                possible_move = self.attacking(Move(mask, BitBoard(mask << 7), MoveType(), BitBoard(mask << 4)), ALL_FILES, NOT_B_FILE, oponent_color)
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask << 7), MoveType(), BitBoard(mask << 4)), ALL_FILES, NOT_B_FILE, oponent_color)
                 if possible_move is not None:
                     moves.append(possible_move)
 
                 # left take
-                possible_move = self.attacking(Move(mask, BitBoard(mask << 9), MoveType(), BitBoard(mask << 5)),
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask << 9), MoveType(), BitBoard(mask << 5)),
                                                NOT_G_FILE, ALL_FILES, oponent_color)
                 if possible_move is not None:
                     moves.append(possible_move)
             else:
                 # left take
-                possible_move = self.attacking(Move(mask, BitBoard(mask << 9), MoveType(), BitBoard(mask << 4)),
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask << 9), MoveType(), BitBoard(mask << 4)),
                                                ALL_FILES, NOT_G_FILE, oponent_color)
                 if possible_move is not None:
                     moves.append(possible_move)
 
-                possible_move = self.attacking(Move(mask, BitBoard(mask << 7), MoveType(), BitBoard(mask << 3)),
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask << 7), MoveType(), BitBoard(mask << 3)),
                                                NOT_B_FILE, ALL_FILES, oponent_color)
 
                 if possible_move is not None:
@@ -90,12 +90,12 @@ class Board:
             if mask & EVEN_ROW:
 
                 # left take
-                possible_move = self.attacking(Move(mask, BitBoard(mask >> 9), MoveType(), BitBoard(mask >> 4)),
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask >> 9), MoveType(), BitBoard(mask >> 4)),
                                                ALL_FILES, NOT_B_FILE, oponent_color)
                 if possible_move is not None:
                     moves.append(possible_move)
 
-                possible_move = self.attacking(Move(mask, BitBoard(mask >> 7), MoveType(), BitBoard(mask >> 3)),
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask >> 7), MoveType(), BitBoard(mask >> 3)),
                                                NOT_G_FILE, ALL_FILES, oponent_color)
 
                 if possible_move is not None:
@@ -104,13 +104,13 @@ class Board:
             else:
 
                 # right take
-                possible_move = self.attacking(Move(mask, BitBoard(mask >> 7), MoveType(), BitBoard(mask >> 4)),
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask >> 7), MoveType(), BitBoard(mask >> 4)),
                                                ALL_FILES, NOT_G_FILE, oponent_color)
                 if possible_move is not None:
                     moves.append(possible_move)
 
                 # left take
-                possible_move = self.attacking(Move(mask, BitBoard(mask >> 9), MoveType(), BitBoard(mask >> 5)),
+                possible_move = self.attacking(Move(self.turn, mask, BitBoard(mask >> 9), MoveType(), BitBoard(mask >> 5)),
                                                NOT_B_FILE, ALL_FILES, oponent_color)
                 if possible_move is not None:
                     moves.append(possible_move)
@@ -205,7 +205,7 @@ class Board:
         return oponent
 
     def undo_move(self, move : Move) -> None:
-        move_without_take = Move(move.to_mask, move.from_mask, move.move_type & ~TAKE)
+        move_without_take = Move(None, move.to_mask, move.from_mask, move.move_type & ~TAKE)
 
         # undo promotion
         if move.move_type & PROMOTION:

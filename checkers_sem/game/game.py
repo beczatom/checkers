@@ -14,9 +14,11 @@ class Game:
     def __init__(self):
         self.board = Board()
         self.moves_stack = deque[Move, int]()
+        self.popped_moves = deque[Move, int]()
         self.last_take = 0
 
     def push(self, move : Move):
+        self.popped_moves = deque[Move, int]()
         self.last_take += 1
 
         if move.move_type & TAKE:
@@ -26,17 +28,28 @@ class Game:
 
         self.board.make_move(move)
 
-    def pop(self):
+    def pop(self) -> Move | None:
+        if len(self.moves_stack) == 0:
+            return None
+
         last_move, _ = self.moves_stack[-1]
 
         self.board.undo_move(last_move)
 
-        self.moves_stack.pop()
+        self.popped_moves.append(self.moves_stack.pop())
 
         if len(self.moves_stack) != 0:
             self.last_take = self.moves_stack[-1][1]
         else:
             self.last_take = 0
+
+    def push_from_popped(self):
+        if len(self.popped_moves) == 0:
+            return
+
+        move, self.last_take = self.popped_moves.pop()
+        self.moves_stack.append((move, self.last_take))
+        self.board.make_move(move)
 
     def peek(self):
         return self.moves_stack[-1][0]
@@ -75,6 +88,10 @@ class Game:
         if self.last_take > 50 or tree_fold_repetition(self.moves_stack):
             return 1 / 2, 1 / 2
         return None
+
+    def get_move_history(self) -> list[Move]:
+        move_history = [move for move, _ in self.moves_stack]
+        return move_history
 
     def __str__(self):
         return str(self.board) + 'Last Take: ' + str(self.last_take) + '\n'
