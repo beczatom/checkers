@@ -165,12 +165,19 @@ BORDER_GAP = 3
 
 DEFAULT_FONT_SIZE = 20
 
-TILE_BACKGROUND = {
-    TileColor.BLACK:    'checkers_sem/assets/black_tile.svg',
-    TileColor.WHITE:    BACKGROUND_COLOR,
-}
+TILE_BACKGROUND = 'checkers_sem/assets/black_tile.svg'
 
 CHESSBOARD_LEFT_PADDING = 50
 
 AWAITED_TIME_TRAIN_TEXT = 'Očakávaná doba trénovania:'
 START_TRAIN_BUTTON_TEXT = 'Štart'
+
+FILE_NAMES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+
+GAME_CONTROL_BUTTON_IMAGES = ['checkers_sem/assets/left_arrow.svg',
+                              'checkers_sem/assets/right_arrow.svg',
+                              'checkers_sem/assets/restart_button.svg']
+
+CHECKED_CHECKBOX_BACKGROUND =  'checkers_sem/assets/black_tile.svg'
+
+MENU_BUTTON_TEXT = 'Menu'
