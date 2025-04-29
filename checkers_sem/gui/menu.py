@@ -4,6 +4,7 @@ from checkers_sem.gui.game_window import GameWindow
 from checkers_sem.gui.genetic_setting_window import GeneticSettingWindow
 from checkers_sem.player.player import *
 import pygame
+from checkers_sem.gui.utils.checkbox import CheckBox
 
 
 class Menu:
@@ -11,8 +12,16 @@ class Menu:
         self.screen = screen
         self.screen.fill(BACKGROUND_COLOR)
         self.buttons = self.buttons_init()
-
         self.next_window = None
+        self.checkbox = self.checkbox_init()
+
+    def checkbox_init(self) -> CheckBox:
+        left = self.screen.get_width() // 8
+        top = self.screen.get_height() // 8
+        checkbox_rect = pygame.Rect(left, top, 40, 40)
+        checkbox = CheckBox(self.screen.subsurface(checkbox_rect), (left, top))
+
+        return checkbox
 
     def buttons_init(self) -> list[Button]:
 
@@ -57,13 +66,13 @@ class Menu:
             pygame.time.delay(10)
 
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return
 
                 for button in self.buttons:
-                    # try:
-                        button.handle_event(event)
-                    # except Exception as e:
-                    #     print('returned exception', e.args)
-                    #     return
+                    button.handle_event(event)
+
+                self.checkbox.handle_event(event)
 
             pygame.display.update()
 
