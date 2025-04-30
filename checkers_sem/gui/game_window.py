@@ -27,8 +27,6 @@ class GameWindow(Window):
 
         self.res = None
 
-        self.turn_before = Turn.BLACK
-
         self.move_table = self.init_move_table()
 
         self.game_control_buttons = self.init_game_control_buttons()
@@ -37,11 +35,16 @@ class GameWindow(Window):
         match i:
             case 0:
                 def undo_move_button_onclick():
+                    print('popping move')
                     self.game.pop()
+                    self.chessboard.draw()
+                    self.move_table.set_move_texts(self.game.get_move_history())
                 return undo_move_button_onclick
             case 1:
                 def do_move_button_onclick():
                     self.game.push_from_popped()
+                    self.chessboard.draw()
+                    self.move_table.set_move_texts(self.game.get_move_history())
                 return do_move_button_onclick
             case 2:
                 def reset_game_button_onclick():
@@ -118,17 +121,19 @@ class GameWindow(Window):
 
         return ChessBoard(self.surface.subsurface(chessboard_rect), (left, top), self.game)
 
-    def __start_times(self):
+    def start_times(self):
         if self.res is not None: return
-        if self.game.board.turn == Turn.WHITE and not self.white.time_going:
+        if self.game.board.turn == Turn.WHITE:
+            self.black.time_stop()
             self.white.time_start()
-        elif self.game.board.turn == Turn.WHITE and not self.white.time_going:
-            self.white.time_start()
+        elif self.game.board.turn == Turn.BLACK:
+            self.black.time_start()
+            self.white.time_stop()
 
     def make_move(self) -> None:
         if self.res is not None: return
 
-        self.__start_times()
+        self.start_times()
         if self.game.board.turn == Turn.WHITE:
             if self.white.move(MAX_TRAIN_DEPTH):
                 self.res = (0, 1)
@@ -139,12 +144,7 @@ class GameWindow(Window):
                 return
         self.res = self.game.get_result()
 
-        self.__start_times()
-        # if self.res is not None:
-        #     if self.game.board.turn == Turn.WHITE and not self.white.time_going:
-        #         self.white.time_start()
-        #     elif self.game.board.turn == Turn.BLACK and not self.black.time_going:
-        #         self.black.time_start()
+        self.start_times()
 
 
     def show(self):
@@ -168,8 +168,6 @@ class GameWindow(Window):
 
             if clicked:
                 self.make_move()
-                self.move_table.set_move_texts(self.game.get_move_history())
-                self.chessboard.draw()
             self.white_timer.draw(self.white.get_time_left())
             self.black_timer.draw(self.black.get_time_left())
             pygame.display.update()
