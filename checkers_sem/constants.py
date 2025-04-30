@@ -30,32 +30,6 @@ BOTTOM_ROW =            BitBoard(0x0000000f)
 
 CENTER =                BitBoard(0x00666600)
 
-# FILE_MASKS = np.array(
-#     [
-#         BitBoard(0x08080808), # A
-#         BitBoard(0x80808080), # B
-#         BitBoard(0x04040404), # C
-#         BitBoard(0x40404040), # D
-#         BitBoard(0x02020202), # E
-#         BitBoard(0x20202020), # F
-#         BitBoard(0x01010101), # G
-#         BitBoard(0x10101010), # H
-#     ]
-# )
-#
-# ROW_MASKS = np.array(
-#     [
-#         BitBoard(0xf0000000), # 1
-#         BitBoard(0x0f000000), # 2
-#         BitBoard(0x00f00000), # 3
-#         BitBoard(0x000f0000), # 4
-#         BitBoard(0x0000f000), # 5
-#         BitBoard(0x00000f00), # 6
-#         BitBoard(0x000000f0), # 7
-#         BitBoard(0x0000000f), # 8
-#     ]
-# )
-
 
 #   0000 0001   promotion
 #   0000 0010   take
@@ -82,7 +56,7 @@ class PieceColor:
 
 GENERATIONS = 5
 POPULATION_SIZE = 10
-MAX_TRAIN_DEPTH = 8
+MAX_TRAIN_DEPTH = 7
 MUTATION_PCT = 0.125
 CROSSOVER_PCT = 0.75
 
