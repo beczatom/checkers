@@ -34,6 +34,7 @@ class Button(Widget):
     def hover(self):
         self.background_color = HOVER_BACKGROUND_COLOR
         self.text_color = HOVER_TEXT_COLOR
+        self.is_hovered = True
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
 
     def unhover(self):
@@ -47,7 +48,6 @@ class Button(Widget):
             if self.screen_rect.collidepoint(event.pos):
                 self.hover()
                 self.draw()
-                self.is_hovered = True
             else:
                 if self.is_hovered:
                     self.unhover()
@@ -91,9 +91,3 @@ class ImageButton(Widget):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 \
                 and self.screen_rect.collidepoint(event.pos):
             self.onclick()
-
-    # def clicked(self, mouse_pos : tuple[int, int]) -> bool:
-    #     if self.screen_rect.collidepoint(mouse_pos) and self.onclick:
-    #         self.onclick()
-    #         return True
-    #     return self.screen_rect.collidepoint(mouse_pos)
