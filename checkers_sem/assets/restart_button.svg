@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1000"
+   height="1000"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="restart_button.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="-338.29235,178.93952"
+       end_point="-131.71856,358.28184"
+       center_point="-235.00546,268.61068"
+       id="path-effect4"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path12"
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="-240.14449,438.55516"
+       end_point="636.96583,918.84413"
+       center_point="198.41067,678.69964"
+       id="path-effect1"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path1"
+       mode="horizontal"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="0,500"
+       end_point="1000,500"
+       center_point="500,500"
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites="#path3"
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="true"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="999.99994,-7.1738213e-08"
+       end_point="0,1000"
+       center_point="499.99997,500"
+       id="path-effect1422"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="fill_between_many"
+       method="originald"
+       linkedpaths="#path6,0,1|"
+       id="path-effect11" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.5"
+     inkscape:cx="547"
+     inkscape:cy="243"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     id="path15"
+     style="stroke-width:0"
+     d="M 484.36813 164.27124 A 400 400 0 0 0 171.29001 316.76538 L 166.14548 419.50366 L 226.63571 413.99194 A 300 300 0 0 1 484.36813 264.27124 A 300 300 0 0 1 784.36813 564.27124 A 300 300 0 0 1 484.36813 864.27124 A 300 300 0 0 1 184.36813 564.27124 A 300 300 0 0 1 184.37985 564.11108 L 84.383759 564.05835 A 400 400 0 0 0 84.368134 564.27124 A 400 400 0 0 0 484.36813 964.27124 A 400 400 0 0 0 884.36813 564.27124 A 400 400 0 0 0 484.36813 164.27124 z "
+     transform="translate(15.631866,-64.27124)" />
+  <path
+     id="path16"
+     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:5;stroke-dasharray:none;stroke-opacity:1"
+     d="M -38.291979 178.93874 L -338.29241 178.93854 L -338.29231 178.94049 L -324.10938 278.93834 L -38.292697 278.93892 L -38.291979 178.93874 z "
+     transform="rotate(-87.133312,14.412829,-6.2954129)" />
+  <path
+     inkscape:original-d="M 0,0"
+     inkscape:path-effect="#path-effect11"
+     d="M 0,0"
+     id="path11" />
+  <g
+     id="g11" />
+  <path
+     id="path14"
+     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:5;stroke-dasharray:none;stroke-opacity:1"
+     d="M -324.10857 278.94004 L -338.29138 178.93942 L -38.292161 178.93979 L -38.292872 278.94023 L -324.10857 278.94004 z "
+     transform="matrix(0.9958751,-0.0907347,-0.0907347,-0.9958751,534.90932,502.73897)" />
+</svg>
