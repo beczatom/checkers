@@ -13,7 +13,7 @@ class ChessBoard(Widget):
         self.tiles = self.tiles_init()
         self.possible_moves = []
         self.game = game
-        self.clicked_mask = BitBoard()
+        self.clicked_mask = None
         self.clicked = False
 
     def generate_tile_onclick(self, pos : BitBoard):
@@ -74,6 +74,12 @@ class ChessBoard(Widget):
     def get_clicked_mask(self) -> BitBoard:
         return self.clicked_mask
 
+    def push_move(self, from_pos : BitBoard, to_pos : BitBoard):
+        self.game.push(self.game.get_move_from_to(from_pos, to_pos))
+        self.set_possible_moves([])
+        self.clicked_mask = None
+        self.draw()
+
     def set_possible_moves(self, possible_to_masks : list[BitBoard]):
         for possible_to_mask in self.possible_moves:
             idx = bitboard_to_idx(possible_to_mask)
@@ -83,7 +89,7 @@ class ChessBoard(Widget):
         self.possible_moves = []
         for possible_to_mask in possible_to_masks:
             idx = bitboard_to_idx(possible_to_mask)
-            self.possible_moves.append(idx)
+            self.possible_moves.append(possible_to_mask)
             self.tiles[idx].put_possible_move()
             self.tiles[idx].draw()
 
@@ -99,4 +105,4 @@ class ChessBoard(Widget):
             tile.handle_event(event)
 
         if not self.clicked:
-            self.clicked_mask = BitBoard()
+            self.clicked_mask = None
