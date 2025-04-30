@@ -1,6 +1,8 @@
 from checkers_sem.constants import *
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.gui.game_window import GameWindow
+from checkers_sem.gui.ai_vs_ai_window import AIVSAIWindow
+from checkers_sem.gui.human_vs_ai_window import HumanVSAIWindow
 from checkers_sem.gui.genetic_setting_window import GeneticSettingWindow
 from checkers_sem.player.player import *
 import pygame
@@ -29,10 +31,11 @@ class Menu:
             self.next_window = GameWindow(self.screen, (HumanPlayer(), HumanPlayer()))
 
         def human_vs_pc():
-            self.next_window = GameWindow(self.screen, (HumanPlayer(), AIPlayer()))
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+            self.next_window = HumanVSAIWindow(self.screen, (HumanPlayer(), AIPlayer()))
 
         def pc_vs_pc():
-            self.next_window = GameWindow(self.screen, (AIPlayer(), AIPlayer()))
+            self.next_window = AIVSAIWindow(self.screen, (AIPlayer(), AIPlayer()))
 
         def genetic():
             self.next_window = GeneticSettingWindow(self.screen)
