@@ -1,8 +1,7 @@
 from checkers_sem.constants import *
 from checkers_sem.gui.utils.button import Button
-from checkers_sem.gui.game_window import GameWindow
-from checkers_sem.gui.ai_vs_ai_window import AIVSAIWindow
-from checkers_sem.gui.human_vs_ai_window import HumanVSAIWindow
+from checkers_sem.gui.utils.edit_text import EditText
+from checkers_sem.gui.game_setting_window import GameSettingWindow
 from checkers_sem.gui.genetic_setting_window import GeneticSettingWindow
 from checkers_sem.player.player import *
 import pygame
@@ -12,10 +11,13 @@ from checkers_sem.gui.utils.checkbox import CheckBox
 class Menu:
     def __init__(self, screen):
         self.screen = screen
-        self.screen.fill(BACKGROUND_COLOR)
+        self.screen.fill(BACKGROUND_COLOR, self.screen.get_rect())
+        pygame.display.flip()
         self.buttons = self.buttons_init()
         self.next_window = None
         self.checkbox = self.checkbox_init()
+
+        self.edit_text = self.edit_text_init()
 
     def checkbox_init(self) -> CheckBox:
         left = self.screen.get_width() // 8
@@ -25,22 +27,23 @@ class Menu:
 
         return checkbox
 
+    def edit_text_init(self) -> EditText:
+        left = self.screen.get_width() // 4
+        top = self.screen.get_height() // 8
+        edit_text_rect = pygame.Rect(left, top, 100, 40)
+        edit_text = EditText(self.screen.subsurface(edit_text_rect), (left, top), '0.')
+        edit_text.draw()
+        return edit_text
+
     def buttons_init(self) -> list[Button]:
 
-        def human_vs_human():
-            self.next_window = GameWindow(self.screen, (HumanPlayer(), HumanPlayer()))
+        def game_onclick():
+            self.next_window = GameSettingWindow(self.screen)
 
-        def human_vs_pc():
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-            self.next_window = HumanVSAIWindow(self.screen, (HumanPlayer(), AIPlayer()))
-
-        def pc_vs_pc():
-            self.next_window = AIVSAIWindow(self.screen, (AIPlayer(), AIPlayer()))
-
-        def genetic():
+        def genetic_onclick():
             self.next_window = GeneticSettingWindow(self.screen)
 
-        actions = [human_vs_human, human_vs_pc, pc_vs_pc, genetic]
+        actions = [game_onclick, genetic_onclick]
 
         buttons = []
 
@@ -49,9 +52,9 @@ class Menu:
         padding_y = self.screen.get_height() // 24
 
         button_width = (self.screen.get_width() - 2 * margin_x)
-        button_height = (self.screen.get_height() - margin_y_up - 3 * padding_y) // 4
+        button_height = (self.screen.get_height() - margin_y_up - padding_y) // 4
 
-        for i, text in enumerate([HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT, GENETIC_TEXT]):
+        for i, text in enumerate([PLAY_BUTTON_TEXT, GENETIC_TEXT]):
             top = margin_y_up + i * button_height + i * padding_y
             left = margin_x
 
@@ -65,19 +68,26 @@ class Menu:
         return buttons
 
     def show(self):
-        while self.next_window is None:
-            pygame.time.delay(10)
+        while True:
+            while self.next_window is None:
+                pygame.time.delay(10)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        return
 
-                for button in self.buttons:
-                    button.handle_event(event)
+                    for button in self.buttons:
+                        button.handle_event(event)
 
-                self.checkbox.handle_event(event)
+                    self.checkbox.handle_event(event)
+                    self.edit_text.handle_event(event)
 
-            pygame.display.update()
+                pygame.display.update()
+            try:
+                self.next_window.show()
+                print('returned to menu')
+                self.__init__(self.screen)
 
-        self.next_window.show()
+            except StopIteration:
+                break
 
