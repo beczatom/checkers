@@ -1,29 +1,34 @@
 from checkers_sem.gui.utils.widget import *
-
-def seconds_to_string(seconds : float) -> str:
-    return f'{int(seconds) // 60:02} : {int(seconds) % 60:02}'
+from checkers_sem.helper import *
+from checkers_sem.state import *
+import time
 
 class Timer(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], **kwargs):
+    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int]):
         super().__init__(surface, left_top)
-
-        self.background_color = kwargs.get('background_color', BACKGROUND_COLOR)
-
-        self.first_border = kwargs.get('first_border', False)
-        self.second_border = kwargs.get('second_border', False)
-
-        if not self.first_border and self.second_border:
-            raise Exception('second_border cannot be True if first_border is False')
-
-        if self.first_border:
-            self.draw_border()
-
-        self.font_size = kwargs.get('font_size', DEFAULT_FONT_SIZE)
-
-        self.font = pygame.font.Font(DEFAULT_FONT, self.font_size)
-
-    def draw(self, seconds : float):
         self.draw_border()
-        text = self.font.render(seconds_to_string(seconds), True, TEXT_COLOR)
+        self.font = pygame.font.Font(DEFAULT_FONT, DEFAULT_FONT_SIZE)
+
+        self.time_left = state.TIME
+        self.last_start = None
+        self.time_going = False
+
+    def time_start(self):
+        if self.time_going: return
+        self.last_start = time.time()
+        self.time_going = True
+
+    def time_stop(self):
+        if not self.time_going: return
+        self.time_left = self.get_time_left()
+        self.last_start = None
+        self.time_going = False
+
+    def get_time_left(self) -> float:
+        return self.time_left - (time.time() - self.last_start) if self.last_start else self.time_left
+
+    def draw(self):
+        self.draw_border()
+        text = self.font.render(seconds_to_string(self.get_time_left()), True, TEXT_COLOR)
         text_rect = text.get_rect(center=self.surface.get_rect().center)
         self.surface.blit(text, text_rect)

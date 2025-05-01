@@ -3,46 +3,27 @@ from checkers_sem.constants import *
 from checkers_sem.genetic.genetic_player import *
 from checkers_sem.gui.utils.chessboard import ChessBoard
 
-import time
 
 class Player:
     def __init__(self, chessboard : ChessBoard = None):
         self.chessboard = chessboard
-        self.time_left = 70
-        self.last_start = None
-        self.time_going = False
 
     def set_chessboard(self, chessboard):
         self.chessboard = chessboard
 
-    def time_start(self):
-        if self.time_going: return
-        self.last_start = time.time()
-        self.time_going = True
-
-    def time_stop(self):
-        if not self.time_going: return
-        self.time_left = self.get_time_left()
-        self.last_start = None
-        self.time_going = False
-
-    def get_time_left(self) -> float:
-        return self.time_left - (time.time() - self.last_start) if self.last_start else self.time_left
-
-    def move(self, depth : int = MAX_TRAIN_DEPTH):
+    def move(self, depth : int = MAX_TRAIN_DEPTH) -> tuple[bool, bool]:
         pass
 
 class AIPlayer(Player):
-    def __init__(self, chessboard : ChessBoard = None):
+    def __init__(self, coefs : list[float] = AI_COEFS, chessboard : ChessBoard = None):
         super().__init__(chessboard)
-        self.player = GeneticPlayer(AI_COEFS)
+        self.player = GeneticPlayer(coefs)
 
     # performs move in game via AI genetic player
-    def move(self, depth : int = MAX_TRAIN_DEPTH):
-        super().time_start()
+    def move(self, depth : int = MAX_TRAIN_DEPTH) -> tuple[bool, bool]:
         no_moves = self.player.move(self.chessboard.game, depth)
-        super().time_stop()
-        return no_moves
+        # returns if there are no moves to perform and if the move was performed
+        return no_moves, not no_moves
 
 class HumanPlayer(Player):
     def __init__(self, chessboard : ChessBoard = None):
@@ -51,32 +32,30 @@ class HumanPlayer(Player):
 
 
     # depth is always None, only for polymorphism compatibility
-    def move(self, depth : int = None):
-        super().time_start()
+    def move(self, depth : int = None) -> tuple[bool, bool]:
         # returns if the player lost by no more moves left
         moves_num = len(self.chessboard.game.get_moves_from_mask())
         if moves_num == 0:
-            return True
+            return True, False
 
         # return if nothing was clicked
         clicked_now = self.chessboard.get_clicked_mask()
         if clicked_now is None:
-            return  False
+            return False, False
 
         if self.last_clicked is not None and clicked_now in self.chessboard.game.get_moves_to_mask(self.last_clicked):
             # move can be performed
             self.chessboard.push_move(self.last_clicked, clicked_now)
             self.last_clicked = None
-            super().time_stop()
-            return False
+            return False, True
 
         if clicked_now not in self.chessboard.game.get_moves_from_mask():
             self.last_clicked = None
-            return False
+            return False, False
 
         # so far nothing was clicked
         self.last_clicked = clicked_now
 
         self.chessboard.set_possible_moves(self.chessboard.game.get_moves_to_mask(self.last_clicked))
 
-        return False
+        return False, False
