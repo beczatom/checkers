@@ -6,6 +6,7 @@ class Window:
     def __init__(self, surface : pygame.surface):
         self.surface = surface
         self.surface.fill(BACKGROUND_COLOR)
+        pygame.display.flip()
 
     def show(self):
         raise Exception('Pure virtual method')
