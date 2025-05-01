@@ -7,13 +7,17 @@ from checkers_sem.gui.utils.chessboard import ChessBoard
 from checkers_sem.gui.utils.timer import Timer
 from checkers_sem.gui.utils.window import Window
 from checkers_sem.gui.utils.move_table import MoveTable
-from checkers_sem.gui.utils.button import ImageButton
+from checkers_sem.gui.utils.button import Button, ImageButton
+from checkers_sem.state import *
+
+from threading import Thread
 
 
 class GameWindow(Window):
     def __init__(self, surface : pygame.surface, players : tuple[Player, Player]):
         super().__init__(surface)
-        self.surface.fill(BACKGROUND_COLOR)
+        self.surface.fill(BACKGROUND_COLOR, self.surface.get_rect())
+        pygame.display.flip()
 
         self.game = Game()
         self.chessboard = self.init_chessboard()
@@ -31,11 +35,37 @@ class GameWindow(Window):
 
         self.game_control_buttons = self.init_game_control_buttons()
 
+        self.turn = Turn.WHITE
+
+        self.move_thread = None
+        self.run = True
+        self.menu_button = self.init_menu_button()
+
+
+    def init_menu_button(self):
+        size_x = self.surface.get_width() // 12
+        size_y = self.surface.get_height() // 12
+
+        top = self.surface.get_height() // 16
+        left = self.surface.get_width() // 16
+
+        def menu_button_onclick():
+            print('menu button pressed')
+            if self.move_thread is not None:
+                self.move_thread.join()
+            self.run = False
+
+        menu_button_rect = pygame.Rect(left, top, size_x, size_y)
+        menu_button = Button(self.surface.subsurface(menu_button_rect), (left, top),
+                             MENU_BUTTON_TEXT, menu_button_onclick)
+        menu_button.draw()
+        return menu_button
+
+
     def get_button_control_function(self, i : int):
         match i:
             case 0:
                 def undo_move_button_onclick():
-                    print('popping move')
                     self.game.pop()
                     self.chessboard.draw()
                     self.move_table.set_move_texts(self.game.get_move_history())
@@ -64,7 +94,7 @@ class GameWindow(Window):
         left = self.move_table.get_screen_left()
 
         game_control_buttons = []
-        for i, button_img in enumerate(GAME_CONTROL_BUTTON_IMAGES):
+        for i, button_img in enumerate([LEFT_ARROW_IMAGE, RIGHT_ARROW_IMAGE, RESTART_ARROW_IMAGE]):
 
             game_control_button_rect = pygame.Rect(left, top, button_size, button_size)
             game_control_button = ImageButton(self.surface.subsurface(game_control_button_rect), (left, top),
@@ -100,15 +130,13 @@ class GameWindow(Window):
 
         timer_rect = pygame.Rect(left, top, width, height)
 
-        black_timer = Timer(self.surface.subsurface(timer_rect), (left, top),
-                            first_border=True, second_border=True, font_size=24)
+        black_timer = Timer(self.surface.subsurface(timer_rect), (left, top))
 
         top = self.chessboard.get_screen_bottom() + self.chessboard.get_height() // 8 - height
 
         timer_rect = pygame.Rect(left, top, width, height)
 
-        white_timer = Timer(self.surface.subsurface(timer_rect), (left, top),
-                            first_border=True, second_border=True, font_size=24)
+        white_timer = Timer(self.surface.subsurface(timer_rect), (left, top))
         return white_timer, black_timer
 
 
@@ -123,51 +151,53 @@ class GameWindow(Window):
 
     def start_times(self):
         if self.res is not None: return
-        if self.game.board.turn == Turn.WHITE:
-            self.black.time_stop()
-            self.white.time_start()
-        elif self.game.board.turn == Turn.BLACK:
-            self.black.time_start()
-            self.white.time_stop()
+        if self.turn == Turn.WHITE:
+            self.black_timer.time_stop()
+            self.white_timer.time_start()
+        else:
+            self.black_timer.time_start()
+            self.white_timer.time_stop()
 
     def make_move(self) -> None:
         if self.res is not None: return
 
-        self.start_times()
-        if self.game.board.turn == Turn.WHITE:
-            if self.white.move(MAX_TRAIN_DEPTH):
-                self.res = (0, 1)
-                return
+        if not self.black_timer.time_going and not self.white_timer.time_going:
+            self.start_times()
+
+        was_performed = False
+        if self.turn == Turn.WHITE:
+            no_moves, was_performed = self.white.move(state.DEPTH_WHITE)
         else:
-            if self.black.move(MAX_TRAIN_DEPTH):
-                self.res = (1, 0)
-                return
+            no_moves, was_performed = self.black.move(state.DEPTH_BLACK)
+
+        if no_moves:
+            self.res = (0, 1) if self.turn == Turn.WHITE else (1, 0)
+            return
+
+        if was_performed:
+            self.turn = self.game.board.turn
+            self.move_table.set_move_texts(self.game.get_move_history())
+            pygame.display.update(self.move_table.screen_rect)
+            self.start_times()
+
         self.res = self.game.get_result()
 
-        self.start_times()
+    def move_ai(self):
+        if self.move_thread is None and self.res is None:
+            self.move_thread = Thread(target=self.make_move)
+            self.move_thread.start()
 
+        if self.move_thread is not None and not self.move_thread.is_alive():
+            self.move_thread.join()
+            self.move_thread = None
+            self.chessboard.draw()
+            # self.move_table.set_move_texts(self.game.get_move_history())
+
+    def handle_event(self, event : pygame.event.Event):
+        if event.type == pygame.QUIT:
+            raise StopIteration()
+
+        self.menu_button.handle_event(event)
 
     def show(self):
-        run = True
-
-        self.chessboard.draw()
-        pygame.display.update()
-
-        while run:
-            clicked = False
-            pygame.time.delay(10)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    clicked = True
-                    self.move_table.handle_event(event)
-                    self.chessboard.handle_event(event)
-                    for button in self.game_control_buttons:
-                        button.handle_event(event)
-
-            if clicked:
-                self.make_move()
-            self.white_timer.draw(self.white.get_time_left())
-            self.black_timer.draw(self.black.get_time_left())
-            pygame.display.update()
+        raise NotImplementedError('Pure virtual method')
