@@ -102,6 +102,9 @@ STAT_TEXTS = [
     'Figúra v centre'
 ]
 AVERAGE_GENETIC_COEFICIENTS_TEXT =  'Priemerné koeficienty'
+COEFICIENTS_TEXT =  'Koeficienty počítača'
+WHITE_TEXT = 'Biely'
+BLACK_TEXT = 'Čierny'
 
 BEST_GENETIC_COEFICIENTS_TEXT =  'Výsledné koeficienty'
 
@@ -151,6 +154,17 @@ FILE_NAMES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 GAME_CONTROL_BUTTON_IMAGES = ['checkers_sem/assets/left_arrow.svg',
                               'checkers_sem/assets/right_arrow.svg',
                               'checkers_sem/assets/restart_button.svg']
+
+LEFT_ARROW_IMAGE = 'checkers_sem/assets/left_arrow.svg'
+RIGHT_ARROW_IMAGE = 'checkers_sem/assets/right_arrow.svg'
+RESTART_ARROW_IMAGE = 'checkers_sem/assets/restart_button.svg'
+
+PLAY_BUTTON_TEXT = 'Hraj'
+
+TIME = 300
+
+TIME_SLIDER_PROPERTIES = ('Čas', 10, 3599, TIME)
+DEPTH_SLIDER_PROPERTIES = ('Hĺbka', 1, 10, 5)
 
 CHECKED_CHECKBOX_BACKGROUND =  'checkers_sem/assets/black_tile.svg'
 
