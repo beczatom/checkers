@@ -8,49 +8,9 @@ from checkers_sem.gui.utils.slider import Slider
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.constants import *
+from checkers_sem.helper import *
 
 from checkers_sem.state import *
-
-def get_awaited_train_time(population : int, generations : int, depth : int) -> int:
-    evolving_time = int(population * generations * 0.004 * 3.1 ** depth)
-    choosing_best = int((population - 1) * (population - 2) / 2 * 0.004 * 3.1 ** depth)
-    return evolving_time + choosing_best
-
-def time_to_text(seconds : int) -> str:
-    string = str()
-
-    if seconds == 0:
-        string += '< 1 sekunda'
-        return string
-
-    hours = seconds // 3600
-
-    if hours == 1:
-        string += '1 hodina '
-    elif 1 < hours < 5:
-        string += f'{hours} hodiny '
-    elif 5 <= hours:
-        string += f'{hours} hodín '
-
-    minutes = (seconds % 3600) // 60
-
-    if minutes == 1:
-        string += '1 minúta '
-    elif 1 < minutes < 5:
-        string += f'{minutes} minúty '
-    elif 5 <= minutes:
-        string += f'{minutes} minút '
-
-    seconds = seconds % 60
-
-    if seconds == 1:
-        string += '1 sekunda'
-    elif 1 < seconds < 5:
-        string += f'{seconds} sekundy'
-    elif 5 <= seconds:
-        string += f'{seconds} sekúnd'
-
-    return string
 
 class GeneticSettingWindow(Window):
     def __init__(self, surface):

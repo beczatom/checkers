@@ -9,29 +9,8 @@ from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.bar import Bar
 from checkers_sem.state import *
 from threading import Thread
+from checkers_sem.helper import *
 from checkers_sem.genetic.genetic_player import GeneticPlayer
-
-def do_one_generation_thread(genetic : Genetic):
-    genetic.do_iteration()
-
-def choose_best_thread(genetic : Genetic, q : queue.Queue[GeneticPlayer]):
-    q.put(genetic.best())
-
-def get_genetic_completion(generations : int) -> int:
-    evolving_games = state.POPULATION_SIZE * state.GENERATIONS
-    choosing_best_games = (state.POPULATION_SIZE - 1) * (state.POPULATION_SIZE - 2) / 2
-    elapsed_games = state.POPULATION_SIZE * generations
-
-    return elapsed_games / (evolving_games + choosing_best_games)
-
-def get_coefs_header_text(generations : int) -> str:
-    string = AVERAGE_GENETIC_COEFICIENTS_TEXT
-    if generations == 1:
-        string += ' po 1 generácii'
-    else:
-        string += f' po {generations} generáciách'
-
-    return string
 
 class GeneticWindow(Window):
     def __init__(self, surface : pygame.surface):
@@ -66,7 +45,6 @@ class GeneticWindow(Window):
 
     def update_bar(self):
         completed_pct = 1 if self.completed else get_genetic_completion(self.current_generation)
-        print(f'completed pct: {completed_pct}')
         self.bar.set_value(completed_pct)
         self.bar.draw()
 
@@ -188,10 +166,6 @@ class GeneticWindow(Window):
             option_value_text_rect = pygame.Rect(left, top, 3 * (size_x - padding_x) // 8, size_y)
             Text(self.surface.subsurface(option_value_text_rect), (left, top), setting_val, font_size = font_size).draw()
 
-    # TODO bar
-    # TODO show_average
-    # TODO show_best and end
-
 
     def show(self):
         run = True
@@ -203,8 +177,5 @@ class GeneticWindow(Window):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    mouse_pos = event.pos
 
             pygame.display.update()
