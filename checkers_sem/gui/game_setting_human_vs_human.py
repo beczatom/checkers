@@ -1,0 +1,49 @@
+import pygame
+
+from checkers_sem.gui.utils.widget import Widget
+from checkers_sem.gui.game_setting_widget import GameSettingWidget
+from checkers_sem.gui.human_vs_human_window import HumanVsHumanWindow
+from checkers_sem.player.player import HumanPlayer
+from checkers_sem.constants import *
+from checkers_sem.state import *
+
+class GameSettingHumanVSHuman(GameSettingWidget):
+    def __init__(self, surface: pygame.Surface, left_top: tuple[int, int]):
+        super().__init__(surface, left_top)
+
+        top = self.time_slider.get_height() + 3 * DEFAULT_FONT_SIZE // 2
+
+        self.depth_text_val, self.depth_slider = self.init_depth_slider(
+            top, self.depth_slider_onclick)
+
+        top += self.depth_slider.get_height() + DEFAULT_FONT_SIZE // 2
+
+        self.init_coefs_header(top)
+
+        top += 2 * DEFAULT_FONT_SIZE
+
+        coefs_text_width = 10 * self.surface.get_width() // 16
+
+        self.init_coefs_texts(top, coefs_text_width)
+
+        coefs_edit_text_width = 6 * self.surface.get_width() // 16
+
+        self.coefs_edit_texts = self.init_edit_texts(top, coefs_text_width, coefs_edit_text_width)
+
+    def depth_slider_onclick(self, val : int):
+        state.DEPTH = val
+        self.depth_text_val.set_string(state.DEPTH)
+        self.depth_text_val.draw()
+
+    def handle_event(self, event : pygame.event.Event):
+        self.time_slider.handle_event(event)
+        self.depth_slider.handle_event(event)
+        self.depth_text_val.set_string(state.DEPTH_BLACK)
+        for edit_text in self.coefs_edit_texts:
+            edit_text.handle_event(event)
+
+    def start_game(self, screen: pygame.Surface):
+        HumanVsHumanWindow(screen, (HumanPlayer(), HumanPlayer())).show()
+
+    def draw(self):
+        pass
