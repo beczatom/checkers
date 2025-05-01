@@ -70,7 +70,6 @@ class ChessBoard(Widget):
                                        (Piece.KING, PieceColor.WHITE),
                                        (Piece.KING, PieceColor.BLACK)])
 
-
     def get_clicked_mask(self) -> BitBoard:
         return self.clicked_mask
 

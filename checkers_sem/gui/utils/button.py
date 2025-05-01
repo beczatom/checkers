@@ -4,6 +4,7 @@ import pygame
 
 from checkers_sem.constants import *
 from checkers_sem.gui.utils.widget import Widget
+from checkers_sem.gui.utils.loader import *
 
 class Button(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], text : str,
@@ -67,8 +68,7 @@ class Button(Widget):
 class ImageButton(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], background_image : str, onclick : Callable[[], None] = None):
         super().__init__(surface, left_top)
-        self.background_image = background_image
-        self.background_image = pygame.image.load(self.background_image).convert_alpha()
+        self.background_image = loader.LOADED_IMAGES[background_image]
         self.background_image = pygame.transform.scale(self.background_image, self.surface.get_rect().size)
         self.onclick = onclick
         self.is_hovered = False

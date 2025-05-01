@@ -3,6 +3,7 @@ from checkers_sem.gui.utils.button import ImageButton
 from checkers_sem.constants import *
 from checkers_sem.gui.utils.widget import Widget
 from collections.abc import Callable
+from checkers_sem.gui.utils.loader import *
 
 class Tile(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], pos_mask : BitBoard, onclick : Callable[[],None]):
@@ -15,7 +16,7 @@ class Tile(Widget):
 
 
     def put_piece_img(self, piece : Piece, piece_color : PieceColor):
-        self.piece_img = PIECE_IMAGES[(piece, piece_color)]
+        self.piece_img = loader.LOADED_IMAGES[(piece, piece_color)]
         self.possible_move = False
 
     def put_possible_move(self):
@@ -31,12 +32,11 @@ class Tile(Widget):
             surface_rect = pygame.Rect(self.surface.get_rect())
             image_rect = pygame.Rect(surface_rect.x + surface_rect.width // 5, surface_rect.y + surface_rect.height // 5,
                                      3 * surface_rect.width // 5, 3 * surface_rect.height // 5)
-            image = pygame.image.load(self.piece_img).convert_alpha()
-            image = pygame.transform.scale(image, image_rect.size)
+            image = pygame.transform.scale(self.piece_img, image_rect.size)
             self.surface.blit(image, image_rect)
 
         if self.possible_move:
-            image = pygame.image.load(POSSIBLE_MOVE_IMG).convert_alpha()
+            image = loader.LOADED_IMAGES[POSSIBLE_MOVE_IMG]
             image = pygame.transform.scale(image, self.surface.get_rect().size)
             self.surface.blit(image, self.surface.get_rect())
 
