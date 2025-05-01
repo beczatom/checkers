@@ -2,6 +2,10 @@ from collections.abc import Callable
 
 from checkers_sem.gui.utils.widget import *
 
+from checkers_sem.gui.utils.loader import *
+
+from checkers_sem.helper import *
+
 class Slider(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],
                  min : int = 0, max : int = 100, initial : int = 50,
@@ -66,11 +70,10 @@ class Slider(Widget):
 
         self.circle_rect = self.__get_circle_rect()
 
-        circle = SLIDER_CIRCLE
-        circle = pygame.image.load(circle).convert_alpha()
+        circle = loader.LOADED_IMAGES[SLIDER_CIRCLE]
         circle = pygame.transform.scale(circle, self.circle_rect.size)
         self.surface.blit(circle, self.circle_rect)
 
 
     def get_value(self):
-        return self.value
+        return int(self.value)
