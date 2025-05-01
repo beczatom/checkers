@@ -9,7 +9,10 @@ class State:
         self.CROSSOVER_PCT = CROSSOVER_PCT
         self.MUTATION_PCT = MUTATION_PCT
 
-        self.DEPTH = MAX_TRAIN_DEPTH
+        self.DEPTH_WHITE = MAX_TRAIN_DEPTH
+        self.DEPTH_BLACK = MAX_TRAIN_DEPTH
+        self.COEFS = AI_COEFS
+        self.TIME = TIME
 
     def get_genetic_settings(self):
         return [self.POPULATION_SIZE, self.GENERATIONS, self.MAX_TRAIN_DEPTH, self.CROSSOVER_PCT, self.MUTATION_PCT]
