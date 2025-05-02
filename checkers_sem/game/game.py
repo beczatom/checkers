@@ -89,6 +89,15 @@ class Game:
             return 1 / 2, 1 / 2
         return None
 
+    def get_end_type(self) -> int | None:
+        if self.board.black.bit_count() == 0 or self.board.white.bit_count() == 0:
+            return GameEnd.NO_FIGURES
+        if self.last_take > 50:
+            return GameEnd.FIFTY_MOVES_WITHOUT_TAKE
+        if three_fold_repetition(self.moves_stack):
+            return GameEnd.THREEFOLD_REPETITION
+        return None
+
     def get_move_history(self) -> list[Move]:
         move_history = [move for move, _ in self.moves_stack]
         return move_history
