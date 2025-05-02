@@ -53,7 +53,6 @@ class GeneticPlayer:
 
     # returns true if lost for no possible moves or None if the game is currently undecided
     def move(self, game : Game, depth: int = MAX_TRAIN_DEPTH):
-        print(self.coefs, depth)
         best = self.alpha_beta(game, -np.inf, np.inf, depth)
 
         # if player can not move, he loses
