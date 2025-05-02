@@ -5,9 +5,6 @@ from checkers_sem.state import *
 from checkers_sem.genetic.genetic_player import GeneticPlayer
 import queue
 
-# from checkers_sem.gui.menu import Menu
-# from checkers_sem.gui.utils.button import Button
-
 def seconds_to_string(seconds : float) -> str:
     return f'{int(seconds) // 60:02} : {int(seconds) % 60:02}'
 
@@ -136,19 +133,3 @@ def get_coefs_header_text(generations : int) -> str:
 
     return string
 
-
-# def init_menu_button(self):
-#     top = self.surface.get_rect().height // 16
-#     left = top
-#
-#     size_x = self.surface.get_width() // 12
-#     size_y = self.surface.get_height() // 16
-#
-#     mouse_rect = pygame.Rect(left, top, size_x, size_y)
-#
-#     def menu_button_onclick():
-#         Menu(self.surface).show()
-#
-#     button = Button(self.surface.subsurface(mouse_rect), (left, top), MENU_BUTTON_TEXT, menu_button_onclick)
-#     button.draw()
-#     return button
