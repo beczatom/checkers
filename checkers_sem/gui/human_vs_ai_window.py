@@ -8,6 +8,7 @@ from checkers_sem.player.player import AIPlayer, HumanPlayer
 class HumanVSAIWindow(GameWindow):
     def __init__(self, surface : pygame.surface, players : tuple[HumanPlayer, AIPlayer]):
         super().__init__(surface, players)
+        self.chessboard.draw()
 
     def handle_event(self, event: pygame.event.Event):
         super().handle_event(event)
@@ -19,24 +20,12 @@ class HumanVSAIWindow(GameWindow):
                 for button in self.game_control_buttons:
                     button.handle_event(event)
 
-    def show(self):
+    def refresh(self):
+        if self.turn == Turn.WHITE:
+            self.make_move()
 
-        self.chessboard.draw()
-        pygame.display.update()
+        if self.turn == Turn.BLACK or self.active_thread is not None:
+            self.move_ai()
 
-        while self.run:
-            pygame.time.delay(10)
-
-            for event in pygame.event.get():
-                self.handle_event(event)
-
-            if self.turn == Turn.WHITE:
-                self.make_move()
-
-            if self.turn == Turn.BLACK or self.move_thread is not None:
-                self.move_ai()
-
-            self.white_timer.draw()
-            self.black_timer.draw()
-
-            pygame.display.update()
+        self.update_timers()
+        self.check_game_end()
