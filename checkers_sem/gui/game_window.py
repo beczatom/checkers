@@ -8,6 +8,7 @@ from checkers_sem.gui.utils.timer import Timer
 from checkers_sem.gui.utils.window import Window
 from checkers_sem.gui.utils.move_table import MoveTable
 from checkers_sem.gui.utils.button import Button, ImageButton
+from checkers_sem.gui.utils.result import Result
 from checkers_sem.state import *
 
 from threading import Thread
@@ -30,6 +31,7 @@ class GameWindow(Window):
         self.white_timer, self.black_timer = self.init_timers()
 
         self.res = None
+        self.game_end_type = None
 
         self.move_table = self.init_move_table()
 
@@ -158,6 +160,23 @@ class GameWindow(Window):
             self.black_timer.time_start()
             self.white_timer.time_stop()
 
+    def result_onclick(self):
+        self.res_window = None
+        self.surface.fill(BACKGROUND_COLOR)
+        self.chessboard.draw()
+        self.move_table.clear_indexes()
+        self.move_table.draw()
+        self.menu_button.draw()
+        for button in self.game_control_buttons:
+            button.draw()
+
+    def __init_result_window(self) -> Result:
+        self.res_window_showed = True
+        top = self.surface.get_height() // 4
+        left = self.surface.get_width() // 4
+        result_rect = pygame.Rect(left, top, self.surface.get_width() // 2, self.surface.get_height() // 2)
+        return Result(self.surface.subsurface(result_rect), (left, top), self.res, self.game_end_type, self.result_onclick)
+
     def make_move(self) -> None:
         if self.res is not None: return
 
@@ -172,6 +191,8 @@ class GameWindow(Window):
 
         if no_moves:
             self.res = (0, 1) if self.turn == Turn.WHITE else (1, 0)
+            self.game_end_type = GameEnd.NO_MOVES
+            self.res_window = self.__init_result_window()
             return
 
         if was_performed:
@@ -181,23 +202,51 @@ class GameWindow(Window):
             self.start_times()
 
         self.res = self.game.get_result()
+        if self.res is not None:
+            self.game_end_type = self.game.get_end_type()
+
+    def check_game_end(self):
+        if self.res_window_showed or self.active_thread is not None: return
+        if self.res is None:
+            self.res = self.game.get_result()
+        if self.res is not None:
+            self.white_timer.time_stop()
+            self.black_timer.time_stop()
+            if self.game_end_type is None:
+                self.game_end_type = self.game.get_end_type()
+            self.res_window = self.__init_result_window()
+
 
     def move_ai(self):
         if self.move_thread is None and self.res is None:
             self.move_thread = Thread(target=self.make_move)
             self.move_thread.start()
 
-        if self.move_thread is not None and not self.move_thread.is_alive():
-            self.move_thread.join()
-            self.move_thread = None
+        if self.active_thread is not None and not self.active_thread.is_alive():
+            self.active_thread.join()
+            if self.game_end_type == GameEnd.NO_TIME:
+                self.game.pop()
+            self.active_thread = None
             self.chessboard.draw()
+
+            self.check_game_end()
             # self.move_table.set_move_texts(self.game.get_move_history())
 
     def handle_event(self, event : pygame.event.Event):
-        if event.type == pygame.QUIT:
-            raise StopIteration()
+        super().handle_event(event)
+        if self.res_window is not None:
+            self.res_window.handle_event(event)
 
-        self.menu_button.handle_event(event)
+    def time_over_check(self):
+        if self.white_timer.time_is_over():
+            self.res = (0, 1)
+            self.game_end_type = GameEnd.NO_TIME
+        elif self.black_timer.time_is_over():
+            self.res = (1, 0)
+            self.game_end_type = GameEnd.NO_TIME
 
-    def show(self):
-        raise NotImplementedError('Pure virtual method')
+    def update_timers(self):
+        self.white_timer.draw()
+        self.black_timer.draw()
+        self.time_over_check()
+
