@@ -25,7 +25,10 @@ class Timer(Widget):
         self.time_going = False
 
     def get_time_left(self) -> float:
-        return self.time_left - (time.time() - self.last_start) if self.last_start else self.time_left
+        return max(0, self.time_left - (time.time() - self.last_start) if self.last_start else self.time_left)
+
+    def time_is_over(self) -> bool:
+        return self.get_time_left() == 0
 
     def draw(self):
         self.draw_border()
