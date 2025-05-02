@@ -2,7 +2,7 @@ from checkers_sem.game.board import Board
 from checkers_sem.game.move import *
 from collections import deque
 
-def tree_fold_repetition(moves_stack : deque[Move, int]) -> bool:
+def three_fold_repetition(moves_stack : deque[tuple[Move, int]]) -> bool:
     if len(moves_stack) < 6:
         return False
 
@@ -13,12 +13,12 @@ class Game:
 
     def __init__(self):
         self.board = Board()
-        self.moves_stack = deque[Move, int]()
-        self.popped_moves = deque[Move, int]()
+        self.moves_stack = deque[tuple[Move, int]]()
+        self.popped_moves = deque[tuple[Move, int]]()
         self.last_take = 0
 
     def push(self, move : Move):
-        self.popped_moves = deque[Move, int]()
+        self.popped_moves = deque[tuple[Move, int]]()
         self.last_take += 1
 
         if move.move_type & TAKE:
@@ -85,7 +85,7 @@ class Game:
         if self.board.white.bit_count() == 0:
             return 0, 1
 
-        if self.last_take > 50 or tree_fold_repetition(self.moves_stack):
+        if self.last_take > 50 or three_fold_repetition(self.moves_stack):
             return 1 / 2, 1 / 2
         return None
 
