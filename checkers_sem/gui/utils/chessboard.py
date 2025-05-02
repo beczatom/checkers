@@ -57,6 +57,7 @@ class ChessBoard(Widget):
             self.tiles[i].draw()
 
     def draw(self):
+        self.draw_border()
         white_pawns = BitBoard(self.game.board.pawns & self.game.board.white)
         black_pawns = BitBoard(self.game.board.pawns & self.game.board.black)
 

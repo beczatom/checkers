@@ -85,9 +85,7 @@ class Menu:
                 pygame.display.update()
             try:
                 self.next_window.show()
-                print('returned to menu')
                 self.__init__(self.screen)
-
             except StopIteration:
                 break
 
