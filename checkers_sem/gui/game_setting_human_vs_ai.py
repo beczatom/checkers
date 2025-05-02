@@ -1,12 +1,8 @@
-from checkers_sem.gui.utils.widget import Widget
-from checkers_sem.gui.utils.text import Text
-from checkers_sem.gui.utils.slider import Slider
-from checkers_sem.gui.utils.edit_text import EditText
+
 from checkers_sem.gui.human_vs_ai_window import HumanVSAIWindow
 from checkers_sem.player.player import HumanPlayer, AIPlayer
 import pygame
 
-from checkers_sem.helper import *
 
 from checkers_sem.state import *
 from checkers_sem.gui.game_setting_widget import GameSettingWidget
@@ -18,18 +14,18 @@ class GameSettingHumanVSAI(GameSettingWidget):
 
         top = self.time_slider.get_height() + 3 * DEFAULT_FONT_SIZE // 2
 
-        self.depth_text_val, self.depth_slider = self.init_depth_slider(
-            top, self.depth_slider_onclick)
+        self.depth_header, self.depth_text_val, self.depth_slider = self.init_slider(
+            top, self.depth_slider_onclick, (DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX, state.DEPTH_BLACK))
 
         top += self.depth_slider.get_height() + DEFAULT_FONT_SIZE // 2
 
-        self.init_coefs_header(top)
+        self.coefs_header = self.init_coefs_header(top)
 
         top += 2 * DEFAULT_FONT_SIZE
 
         coefs_text_width = 10 * self.surface.get_width() // 16
 
-        self.init_coefs_texts(top, coefs_text_width)
+        self.coefs_edit_texts_headers = self.init_coefs_texts(top, coefs_text_width)
 
         coefs_edit_text_width = 6 * self.surface.get_width() // 16
 
@@ -61,4 +57,12 @@ class GameSettingHumanVSAI(GameSettingWidget):
         HumanVSAIWindow(screen, (HumanPlayer(), AIPlayer(ai_coefs))).show()
 
     def draw(self):
-        pass
+        super().draw()
+        self.depth_header.draw()
+        self.depth_text_val.draw()
+        self.depth_slider.draw()
+
+        self.coefs_header.draw()
+        for i in range(len(AI_COEFS)):
+            self.coefs_edit_texts_headers[i].draw()
+            self.coefs_edit_texts[i].draw()

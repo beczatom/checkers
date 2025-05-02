@@ -14,7 +14,6 @@ import pygame
 class GameSettingWindow(Window):
     def __init__(self, surface):
         super().__init__(surface)
-        self.surface.fill(BACKGROUND_COLOR)
         self.start = False
         self.option_widget = self.option_widget_init(GameSettingHumanVSHuman)
         self.mode_buttons = self.buttons_init()
@@ -84,20 +83,17 @@ class GameSettingWindow(Window):
 
         return buttons
 
+    def handle_event(self, event : pygame.event.Event):
+        super().handle_event(event)
 
-    def show(self):
-        run = True
+        for button in self.mode_buttons:
+            button.handle_event(event)
+        self.option_widget.handle_event(event)
+        self.start_button.handle_event(event)
 
-        while run:
-            pygame.time.delay(10)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
+    def refresh(self):
+        for button in self.mode_buttons:
+            button.draw()
 
-                for button in self.mode_buttons:
-                    button.handle_event(event)
-
-                self.option_widget.handle_event(event)
-                self.start_button.handle_event(event)
-
-            pygame.display.update()
+        self.option_widget.draw()
+        self.start_button.draw()

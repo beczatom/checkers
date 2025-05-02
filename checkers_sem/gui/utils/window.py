@@ -48,7 +48,6 @@ class Window:
             pygame.time.delay(100)
             self.menu_button.draw()
 
-
             for event in pygame.event.get():
                 self.handle_event(event)
 

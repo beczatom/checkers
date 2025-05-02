@@ -1,10 +1,5 @@
-import queue
-
-import pygame
-
 from checkers_sem.gui.utils.window import *
 
-from checkers_sem.genetic.genetic import Genetic
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.bar import Bar
 from checkers_sem.state import *
@@ -22,8 +17,8 @@ class GeneticWindow(Window):
         self.completed = False
         self.genetic_thread = Thread(target=do_one_generation_thread, args=(self.genetic,))
         self.genetic_thread.start()
-        self.init_setting_options()
-        self.average_coefs_text, self.coefs_header = self.init_average_texts()
+        self.setting_header, self.setting_val_headers, self.setting_values = self.init_setting_options()
+        self.coefs_header, self.average_coefs_headers, self.average_coefs_text  = self.init_average_texts()
         self.bar = self.init_bar()
         self.best_queue = queue.Queue()
         self.best_player = None
@@ -86,12 +81,9 @@ class GeneticWindow(Window):
 
         bar_rect = pygame.Rect(margin_x, margin_y_top, size_x, size_y)
         bar = Bar(self.surface.subsurface(bar_rect), (margin_x, margin_y_top), 0)
-        bar.draw()
         return bar
 
-    def init_average_texts(self) -> tuple[list[Text], Text]:
-        texts = []
-
+    def init_average_texts(self) -> tuple[Text, list[Text], list[Text]]:
         margin_x_right = self.surface.get_rect().width // 16
         margin_x_left = 7 * self.surface.get_rect().width // 16
 
@@ -106,10 +98,11 @@ class GeneticWindow(Window):
         text_rect = pygame.Rect(margin_x_left, margin_y_top, size_x, DEFAULT_FONT_SIZE)
         header_text = AVERAGE_GENETIC_COEFICIENTS_TEXT + ' pri inicializácii'
         coefs_header = Text(self.surface.subsurface(text_rect), (margin_x_left, margin_y_top), header_text)
-        coefs_header.draw()
 
         margin_y_top += 2 * DEFAULT_FONT_SIZE
 
+        coefs_val_headers = []
+        coefs_vals = []
         for i, stat_name in enumerate(STAT_TEXTS):
             top = margin_y_top + i * padding_between + i * size_y
             padding_x = size_x // 10
@@ -119,18 +112,17 @@ class GeneticWindow(Window):
             font_size = 4 * DEFAULT_FONT_SIZE // 5
 
             text_rect = pygame.Rect(margin_x_left, top, 5 * (size_x - padding_x) // 8, size_y)
-            Text(self.surface.subsurface(text_rect), (margin_x_left, top), stat_name, font_size=font_size).draw()
+            coefs_val_headers.append(Text(self.surface.subsurface(text_rect), (margin_x_left, top), stat_name, font_size=font_size))
 
             left += text_rect.width + padding_x
 
             option_value_text_rect = pygame.Rect(left, top, 3 * (size_x - padding_x) // 8, size_y)
-            texts.append(Text(self.surface.subsurface(option_value_text_rect), (left, top),
+            coefs_vals.append(Text(self.surface.subsurface(option_value_text_rect), (left, top),
                          round(self.average_coefs[i], 3), font_size=font_size))
-            texts[-1].draw()
 
-        return texts, coefs_header
+        return coefs_header, coefs_val_headers, coefs_vals
 
-    def init_setting_options(self) -> None:
+    def init_setting_options(self) -> tuple[Text, list[Text], list[Text]]:
 
         margin_x_left = self.surface.get_rect().width // 16
         margin_x_right = 9 * self.surface.get_rect().width // 16
@@ -143,9 +135,12 @@ class GeneticWindow(Window):
         size_y = (self.surface.get_rect().height - margin_y_top - margin_y_bottom - 4 * padding_between) // 5
 
         text_rect = pygame.Rect(margin_x_left, margin_y_top, size_x, DEFAULT_FONT_SIZE)
-        Text(self.surface.subsurface(text_rect), (margin_x_left, margin_y_top), GENETIC_SETTINGS_TEXT).draw()
+        header = Text(self.surface.subsurface(text_rect), (margin_x_left, margin_y_top), GENETIC_SETTINGS_TEXT)
 
         margin_y_top += 2 * DEFAULT_FONT_SIZE
+
+        setting_val_headers = []
+        setting_val_texts = []
 
         for i, setting_val in enumerate(state.get_genetic_settings()):
             if i > 3:
@@ -159,23 +154,26 @@ class GeneticWindow(Window):
             font_size = 4 * DEFAULT_FONT_SIZE // 5
 
             text_rect = pygame.Rect(margin_x_left, top, 5 * (size_x - padding_x) // 8, size_y)
-            Text(self.surface.subsurface(text_rect), (margin_x_left, top), text, font_size = font_size).draw()
+            setting_val_headers.append(Text(self.surface.subsurface(text_rect), (margin_x_left, top), text, font_size = font_size))
 
             left += text_rect.width + padding_x
 
             option_value_text_rect = pygame.Rect(left, top, 3 * (size_x - padding_x) // 8, size_y)
-            Text(self.surface.subsurface(option_value_text_rect), (left, top), setting_val, font_size = font_size).draw()
+            setting_val_texts.append(Text(self.surface.subsurface(option_value_text_rect), (left, top), setting_val, font_size = font_size))
 
+        return header, setting_val_headers, setting_val_texts
 
-    def show(self):
-        run = True
-        print(state.POPULATION_SIZE, state.GENERATIONS, state.MAX_TRAIN_DEPTH, state.CROSSOVER_PCT, state.MUTATION_PCT)
+    def handle_event(self, event : pygame.event.Event):
+        super().handle_event(event)
 
-        while run:
-            pygame.time.delay(10)
-            self.check_thread()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
+    def refresh(self):
+        self.check_thread()
+        self.setting_header.draw()
+        for i in range(len(self.setting_val_headers)):
+            self.setting_val_headers[i].draw()
+            self.setting_values[i].draw()
 
-            pygame.display.update()
+        self.coefs_header.draw()
+        for i in range(len(self.average_coefs)):
+            self.average_coefs_headers[i].draw()
+            self.average_coefs_text[i].draw()
