@@ -163,9 +163,42 @@ PLAY_BUTTON_TEXT = 'Hraj'
 
 TIME = 300
 
+
+TIME_SLIDER_TEXT = 'Čas'
+TIME_SLIDER_MIN = 10
+TIME_SLIDER_MAX = 3599
+
+DEPTH_WHITE_TEXT = 'Hĺbka bieleho'
+DEPTH_BLACK_TEXT = 'Hĺbka čierneho'
+DEPTH_SLIDER_MIN = 1
+DEPTH_SLIDER_MAX = 10
+
+
 TIME_SLIDER_PROPERTIES = ('Čas', 10, 3599, TIME)
 DEPTH_SLIDER_PROPERTIES = ('Hĺbka', 1, 10, 5)
 
 CHECKED_CHECKBOX_BACKGROUND =  'checkers_sem/assets/black_tile.svg'
 
 MENU_BUTTON_TEXT = 'Menu'
+
+OK_TEXT =           'Okej'
+
+WIN_TEXT = {(1, 0) : 'Biely vyhral', (0, 1) : 'Čierny vyhral', (0.5, 0.5) : 'Remíza' }
+
+class GameEnd:
+    # somebody won
+    NO_FIGURES = 1
+    NO_MOVES = 2
+    NO_TIME = 3
+
+    # draw
+    THREEFOLD_REPETITION = 4
+    FIFTY_MOVES_WITHOUT_TAKE = 5
+
+GAME_END_TYPE_TEXT = {
+    GameEnd.NO_FIGURES :                'Nezostala žiadna figúrka',
+    GameEnd.NO_MOVES :                  'Nezostal žiaden ťah',
+    GameEnd.NO_TIME :                   'Čas vypršal',
+    GameEnd.THREEFOLD_REPETITION :      'Opakovanie ťahov',
+    GameEnd.FIFTY_MOVES_WITHOUT_TAKE :  'Veľa ťahov bez výmeny'
+}
