@@ -1,3 +1,5 @@
+import numpy as np
+
 from checkers_sem.game.game import *
 
 class GeneticPlayer:
@@ -27,7 +29,7 @@ class GeneticPlayer:
                 possible_best = self.alpha_beta(game, alpha, beta, depth - 1)
                 game.pop()
 
-                if best_move[1] <= possible_best[1]:
+                if best_move[1] < possible_best[1] or best_move[0] is None:
                     best_move = (move, possible_best[1])
                     alpha = possible_best[1]
 
@@ -42,7 +44,7 @@ class GeneticPlayer:
                 possible_best = self.alpha_beta(game, alpha, beta, depth - 1)
                 game.pop()
 
-                if best_move[1] >= possible_best[1]:
+                if best_move[1] > possible_best[1] or best_move[0] is None:
                     best_move = (move, possible_best[1])
                     beta = possible_best[1]
 
@@ -52,7 +54,7 @@ class GeneticPlayer:
         return best_move
 
     # returns true if lost for no possible moves or None if the game is currently undecided
-    def move(self, game : Game, depth: int = MAX_TRAIN_DEPTH):
+    def move(self, game : Game, depth: int = MAX_TRAIN_DEPTH) -> tuple[bool, tuple[Move, float]]:
         best = self.alpha_beta(game, -np.inf, np.inf, depth)
 
         # if player can not move, he loses
@@ -60,26 +62,27 @@ class GeneticPlayer:
         # (there was no change in sons exploration)
         # so he tries to avoid it as much as possible
         if best[0] is None:
-            return True
+            return True, best
 
         game.push(best[0])
+        return False, best
 
     def __str__(self):
         return str(np.round(self.coefs, 3))
 
 
 def play(white: GeneticPlayer, black: GeneticPlayer, depth: int) -> tuple[float, float]:
-    if np.array_equal(white.coefs, black.coefs):
+    if np.allclose(white.coefs, black.coefs, atol=1e-3):
         return 1 / 2, 1 / 2
 
     game = Game()
 
     while (res := game.get_result()) is None:
         if game.board.turn == Turn.WHITE:
-            if white.move(game, depth):
+            if white.move(game, depth)[0]:
                 return 0, 1
         else:
-            if black.move(game, depth):
+            if black.move(game, depth)[0]:
                 return 1, 0
 
     return res
