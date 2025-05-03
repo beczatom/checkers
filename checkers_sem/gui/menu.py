@@ -1,11 +1,9 @@
 from checkers_sem.constants import *
 from checkers_sem.gui.utils.button import Button
-from checkers_sem.gui.utils.edit_text import EditText
 from checkers_sem.gui.game_setting_window import GameSettingWindow
 from checkers_sem.gui.genetic_setting_window import GeneticSettingWindow
 from checkers_sem.player.player import *
 import pygame
-from checkers_sem.gui.utils.checkbox import CheckBox
 
 
 class Menu:
@@ -15,25 +13,6 @@ class Menu:
         pygame.display.flip()
         self.buttons = self.buttons_init()
         self.next_window = None
-        self.checkbox = self.checkbox_init()
-
-        self.edit_text = self.edit_text_init()
-
-    def checkbox_init(self) -> CheckBox:
-        left = self.screen.get_width() // 8
-        top = self.screen.get_height() // 8
-        checkbox_rect = pygame.Rect(left, top, 40, 40)
-        checkbox = CheckBox(self.screen.subsurface(checkbox_rect), (left, top))
-
-        return checkbox
-
-    def edit_text_init(self) -> EditText:
-        left = self.screen.get_width() // 4
-        top = self.screen.get_height() // 8
-        edit_text_rect = pygame.Rect(left, top, 100, 40)
-        edit_text = EditText(self.screen.subsurface(edit_text_rect), (left, top), '0.')
-        edit_text.draw()
-        return edit_text
 
     def buttons_init(self) -> list[Button]:
 
@@ -78,9 +57,6 @@ class Menu:
 
                     for button in self.buttons:
                         button.handle_event(event)
-
-                    self.checkbox.handle_event(event)
-                    self.edit_text.handle_event(event)
 
                 pygame.display.update()
             try:
