@@ -180,7 +180,8 @@ class Genetic:
     def do(self):
         for i in range(state.GENERATIONS):
             print(f'Before {i} it.')
-            self.print()
+            print(self.get_average_coefs())
+            # self.print()
 
             self.select()
             self.crossover()
@@ -192,25 +193,25 @@ class Genetic:
             print(player)
 
 if __name__ == "__main__":
-    GENERATIONS = 5
-    POPULATION_SIZE = 16
-    MUTATION_PCT = 0.1
-    CROSSOVER_PCT = 0.8
+    # GENERATIONS = 5
+    # POPULATION_SIZE = 16
+    # MUTATION_PCT = 0.1
+    # CROSSOVER_PCT = 0.8
 
 
-    for i in range(1, 11):
-        MAX_TRAIN_DEPTH = i
-        print(f'START {i}: ')
-        start = time.time()
-        for j in range(GENERATIONS):
-            Genetic().do_iteration()
-        print(f'DONE {i}: ', time.time() - start)
+    # for i in range(1, 11):
+    #     MAX_TRAIN_DEPTH = i
+    #     print(f'START {i}: ')
+    #     start = time.time()
+    #     for j in range(GENERATIONS):
+    #         Genetic().do_iteration()
+    #     print(f'DONE {i}: ', time.time() - start)
 
 
-    # gen = Genetic()
-    # start = time.time()
-    # gen.do()
-    # print('GEN DONE:', time.time() - start)
-    # print(gen.best())
-    # print('DONE:', time.time() - start)
+    gen = Genetic()
+    start = time.time()
+    gen.do()
+    print('GEN DONE:', time.time() - start)
+    print(gen.best())
+    print('DONE:', time.time() - start)
 
