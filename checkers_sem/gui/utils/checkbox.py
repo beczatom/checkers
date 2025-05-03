@@ -4,13 +4,16 @@ from checkers_sem.constants import *
 from checkers_sem.gui.utils.widget import Widget
 
 class CheckBox(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int]):
+    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], **kwargs):
         super().__init__(surface, left_top)
 
         self.draw_border()
         self.background_color = BACKGROUND_COLOR
         self.is_hovered = False
         self.is_checked = False
+
+        self.on_uncheck = kwargs.get('on_uncheck', None)
+        self.on_check = kwargs.get('on_check', None)
 
     def set_value(self, value : bool):
         self.is_checked = value
@@ -39,6 +42,10 @@ class CheckBox(Widget):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.screen_rect.collidepoint(event.pos):
                 self.is_checked = not self.is_checked
+                if self.is_checked and self.on_check is not None:
+                    self.on_check()
+                elif not self.is_checked and self.on_uncheck is not None:
+                    self.on_uncheck()
                 self.draw()
 
     def draw(self):
