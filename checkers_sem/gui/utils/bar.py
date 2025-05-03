@@ -14,17 +14,11 @@ class Bar(Widget):
         self.background_color = BACKGROUND_COLOR
         self.bar_image = BAR_IMAGE
         self.bar_image = pygame.image.load(BAR_IMAGE).convert_alpha()
-        print(self.bar_image.get_rect())
-
-        # top, left = self.rect_without_border.topleft
-        # resize_img_size = (self.rect_without_border.width, self.bar_image.get_height() // 2)
-        # self.bar_image = pygame.transform.scale(self.bar_image, resize_img_size)
 
     def set_value(self, value):
         self.value = value
 
     def draw(self):
-        print(f'drawing {self.value}')
         self.draw_border()
         top, left = self.rect_without_border.topleft
         size_y = self.rect_without_border.height
