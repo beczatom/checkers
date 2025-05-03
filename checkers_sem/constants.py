@@ -52,13 +52,16 @@ class PieceColor:
     WHITE = True
     BLACK = False
 
+
+MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW = 50
+
 #GENETIC################################################################################################################
 
-GENERATIONS = 5
-POPULATION_SIZE = 10
-MAX_TRAIN_DEPTH = 7
-MUTATION_PCT = 0.125
-CROSSOVER_PCT = 0.75
+GENERATIONS = 10
+POPULATION_SIZE = 20
+MAX_TRAIN_DEPTH = 4
+MUTATION_PCT = 0.1
+CROSSOVER_PCT = 0.9
 
 N_JOBS = 8
 
@@ -82,11 +85,11 @@ PC_VS_PC_TEXT = 'Počítač proti počítaču'
 GENETIC_TEXT = 'Genetické trénovanie'
 
 SLIDER_PROPERTIES = [
-    ('Veľkosť populácie', 2, 50, 10),
-    ('Počet generácií', 1, 50, 10),
-    ('Hĺbka trénovania', 1, 10, 4),
-    ('Percento kríženia', 0, 100, 85),
-    ('Percento mutácie', 0, 100, 25),
+    ('Veľkosť populácie', 2, 50, POPULATION_SIZE),
+    ('Počet generácií', 1, 50, GENERATIONS),
+    ('Hĺbka trénovania', 1, 10, MAX_TRAIN_DEPTH),
+    ('Percento kríženia', 0, 100, CROSSOVER_PCT * 100),
+    ('Percento mutácie', 0, 100, MUTATION_PCT * 100),
 ]
 
 BAR_IMAGE = 'checkers_sem/assets/bar.svg'
@@ -120,9 +123,11 @@ PIECE_IMAGES = {
     (Piece.KING, PieceColor.BLACK) : 'checkers_sem/assets/black_king.svg',
 }
 
-POSSIBLE_MOVE_IMG = 'checkers_sem/assets/possible_tile.svg'
+POSSIBLE_MOVE_IMG = 'checkers_sem/assets/possible_move.svg'
+BEST_TILE_IMG = 'checkers_sem/assets/best_tile.svg'
+SHOW_BEST_MOVES_TEXT = 'Najlepšie ťahy'
 
-AI_COEFS = [3.6, 10.6, 4.4, 2.7, 5.2, 3.2]
+AI_COEFS = [0.205, 0.224, 0.188, 0.035, 0.246, 0.102]
 
 class TileColor:
     WHITE = True
