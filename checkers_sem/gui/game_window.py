@@ -1,15 +1,18 @@
 import pygame
 
 from checkers_sem.game.game import Game
-from checkers_sem.player.player import Player
+from checkers_sem.player.player import Player, AIPlayer
 from checkers_sem.constants import *
 from checkers_sem.gui.utils.chessboard import ChessBoard
 from checkers_sem.gui.utils.timer import Timer
+from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.window import Window
 from checkers_sem.gui.utils.move_table import MoveTable
 from checkers_sem.gui.utils.button import Button, ImageButton
 from checkers_sem.gui.utils.result import Result
+from checkers_sem.gui.utils.checkbox import CheckBox
 from checkers_sem.state import *
+import copy
 
 from threading import Thread
 
@@ -40,6 +43,55 @@ class GameWindow(Window):
         self.res_window = None
         self.res_window_showed = False
 
+        self.eval_values = {Turn.BLACK: None, Turn.WHITE: None}
+        self.eval_texts = self.init_eval_texts()
+        self.evaluation_start_hash = hash(None)
+        self.evaluating = False
+        self.best_move = None
+
+    def checkbox_on_uncheck(self):
+        self.chessboard.reset_best_move()
+        self.chessboard.draw()
+
+    def checkbox_on_check(self):
+        self.evaluation_start_hash = hash(None)
+
+    def init_best_move_checkbox(self) -> tuple[Text, CheckBox]:
+        top = self.game_control_buttons[0].get_screen_bottom() + self.move_table.get_height() // 16
+        left = self.move_table.left_top[0] - self.surface.get_height() // 32
+        size_x = self.move_table.get_width()  + self.surface.get_height() // 16
+        size_y = self.game_control_buttons[0].get_height()
+
+        text_rect = pygame.Rect(left, top, size_x - size_y, size_y)
+        text = Text(self.surface.subsurface(text_rect), (left, top), SHOW_BEST_MOVES_TEXT)
+
+        left += text.get_width()
+        checkbox_rect = pygame.Rect(left, top, size_y, size_y)
+        checkbox = CheckBox(self.surface.subsurface(checkbox_rect), (left, top),
+                            on_check=self.checkbox_on_check,
+                            on_uncheck=self.checkbox_on_uncheck)
+        return text, checkbox
+
+    def init_eval_texts(self) -> dict[Turn, Text]:
+        eval_texts = {}
+
+        top = self.black_timer.left_top[1]
+        left = self.chessboard.left_top[0] + self.chessboard.get_width() // 2
+        size = self.black_timer.get_width(), self.black_timer.get_height()
+        text_rect = pygame.Rect(left, top, *size)
+        eval_texts[Turn.BLACK] = Text(self.surface.subsurface(text_rect), (left, top), '')
+
+        top = self.white_timer.left_top[1]
+        text_rect = pygame.Rect(left, top, *size)
+        eval_texts[Turn.WHITE] = Text(self.surface.subsurface(text_rect), (left, top), '')
+
+        return eval_texts
+
+    def update_eval_texts(self):
+        for color in [Turn.BLACK, Turn.WHITE]:
+            if self.eval_values[color] is not None:
+                self.eval_texts[color].set_string(f'{self.eval_values[color]:.3f}')
+            self.eval_texts[color].draw()
 
     def get_button_control_function(self, i : int):
         match i:
@@ -215,7 +267,7 @@ class GameWindow(Window):
             self.active_thread = None
             self.chessboard.draw()
 
-            self.check_game_end()
+            # self.check_game_end()
             # self.move_table.set_move_texts(self.game.get_move_history())
 
     def handle_event(self, event : pygame.event.Event):
