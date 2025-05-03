@@ -1,7 +1,6 @@
 import pygame
 
 from checkers_sem.gui.game_window import GameWindow
-from checkers_sem.constants import *
 from checkers_sem.player.player import AIPlayer
 
 
@@ -21,5 +20,6 @@ class AIVSAIWindow(GameWindow):
 
     def refresh(self):
         self.move_ai()
+        self.update_eval_texts()
         self.update_timers()
         self.check_game_end()

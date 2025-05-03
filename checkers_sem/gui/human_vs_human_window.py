@@ -8,29 +8,23 @@ class HumanVsHumanWindow(GameWindow):
         self.run = True
         self.chessboard.draw()
 
+        self.best_move_text, self.best_move_checkbox = self.init_best_move_checkbox()
+
     def handle_event(self, event: pygame.event.Event):
         super().handle_event(event)
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            self.move_table.handle_event(event)
-            self.chessboard.handle_event(event)
+        self.move_table.handle_event(event)
+        self.chessboard.handle_event(event)
+        if self.active_thread is None:
+            self.best_move_checkbox.handle_event(event)
             for button in self.game_control_buttons:
                 button.handle_event(event)
 
     def refresh(self):
+        self.best_move_text.draw()
+        self.best_move_checkbox.draw()
+        self.update_eval_texts()
         self.make_move()
         self.update_timers()
         self.check_game_end()
-
-    # def show(self):
-    #
-    #
-    #     pygame.display.update()
-    #
-    #     while self.run:
-    #         pygame.time.delay(100)
-    #         for event in pygame.event.get():
-    #             self.handle_event(event)
-    #
-    #
-    #         pygame.display.update()
+        if self.best_move_checkbox.get_value():
+            self.evaluating_thread_check()
