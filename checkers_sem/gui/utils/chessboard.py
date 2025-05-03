@@ -12,6 +12,7 @@ class ChessBoard(Widget):
         self.draw_border()
         self.tiles = self.tiles_init()
         self.possible_moves = []
+        self.best_move = None, None
         self.game = game
         self.clicked_mask = None
         self.clicked = False
@@ -49,8 +50,14 @@ class ChessBoard(Widget):
         for i in range(32):
             values = [bool_boards[k][i] for k in range(4)]
             true_idx = values.count(True)
-            if true_idx == 1:
+
+            if self.best_move is not None and (i == self.best_move[0] or i == self.best_move[1]):
+                if i == self.best_move[1]:
+                    self.tiles[i].clear_top()
+                self.tiles[i].put_best_move()
+            elif true_idx == 1:
                 piece, piece_color = pieces[values.index(True)]
+                self.tiles[i].clear_img()
                 self.tiles[i].put_piece_img(piece, piece_color)
             elif i not in self.possible_moves:
                 self.tiles[i].clear_img()
@@ -78,12 +85,13 @@ class ChessBoard(Widget):
         self.game.push(self.game.get_move_from_to(from_pos, to_pos))
         self.set_possible_moves([])
         self.clicked_mask = None
+        self.best_move = None
         self.draw()
 
     def set_possible_moves(self, possible_to_masks : list[BitBoard]):
         for possible_to_mask in self.possible_moves:
             idx = bitboard_to_idx(possible_to_mask)
-            self.tiles[idx].clear_img()
+            self.tiles[idx].clear_top()
             self.tiles[idx].draw()
 
         self.possible_moves = []
@@ -92,6 +100,12 @@ class ChessBoard(Widget):
             self.possible_moves.append(possible_to_mask)
             self.tiles[idx].put_possible_move()
             self.tiles[idx].draw()
+
+    def set_best_move(self, best_move : tuple[BitBoard, BitBoard]):
+        self.best_move = (bitboard_to_idx(best_move[0]), bitboard_to_idx(best_move[1]))
+
+    def reset_best_move(self):
+        self.best_move = None
 
     def reset_possible_moves(self):
         self.possible_moves = []
