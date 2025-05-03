@@ -11,7 +11,8 @@ class State:
 
         self.DEPTH_WHITE = MAX_TRAIN_DEPTH
         self.DEPTH_BLACK = MAX_TRAIN_DEPTH
-        self.COEFS = AI_COEFS
+        self.COEFS_BLACK = AI_COEFS
+        self.COEFS_WHITE = AI_COEFS
         self.TIME = TIME
 
     def get_genetic_settings(self):
