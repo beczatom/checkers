@@ -43,6 +43,8 @@ class Game:
         else:
             self.last_take = 0
 
+        return None
+
     def push_from_popped(self):
         if len(self.popped_moves) == 0:
             return
@@ -55,7 +57,7 @@ class Game:
         return self.moves_stack[-1][0]
 
     def get_moves(self):
-        if self.last_take < 25:
+        if self.last_take < MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW:
             return self.board.get_legal_moves()
         return []
 
@@ -65,34 +67,34 @@ class Game:
             from_masks.append(move.from_mask)
         return from_masks
 
-    def get_moves_to_mask(self, from_mask : BitBoard):
+    def get_moves_to_mask(self, from_mask : BitBoard) -> list[BitBoard]:
         to_masks = []
         for move in self.board.get_legal_moves():
             if move.from_mask == from_mask:
                 to_masks.append(move.to_mask)
         return to_masks
 
-    def get_move_from_to(self, from_mask : BitBoard, to_mask : BitBoard):
+    def get_move_from_to(self, from_mask : BitBoard, to_mask : BitBoard) -> Move | None:
         for move in self.board.get_legal_moves():
             if move.from_mask == from_mask and move.to_mask == to_mask:
                 return move
         return None
 
-    def get_result(self) -> tuple | None:
+    def get_result(self) -> tuple[float, float] | None:
         if self.board.black.bit_count() == 0:
             return 1, 0
 
         if self.board.white.bit_count() == 0:
             return 0, 1
 
-        if self.last_take > 50 or three_fold_repetition(self.moves_stack):
+        if self.last_take > MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW or three_fold_repetition(self.moves_stack):
             return 1 / 2, 1 / 2
         return None
 
     def get_end_type(self) -> int | None:
         if self.board.black.bit_count() == 0 or self.board.white.bit_count() == 0:
             return GameEnd.NO_FIGURES
-        if self.last_take > 50:
+        if self.last_take > MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW:
             return GameEnd.FIFTY_MOVES_WITHOUT_TAKE
         if three_fold_repetition(self.moves_stack):
             return GameEnd.THREEFOLD_REPETITION
