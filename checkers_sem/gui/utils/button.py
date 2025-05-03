@@ -1,8 +1,5 @@
 from collections.abc import Callable
 
-import pygame
-
-from checkers_sem.constants import *
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.loader import *
 
@@ -73,6 +70,9 @@ class ImageButton(Widget):
         self.onclick = onclick
         self.is_hovered = False
 
+    def set_background_image(self, name : str):
+        self.background_image = loader.LOADED_IMAGES[name]
+        self.background_image = pygame.transform.scale(self.background_image, self.surface.get_rect().size)
 
     def draw(self):
         self.surface.fill(BACKGROUND_COLOR)
