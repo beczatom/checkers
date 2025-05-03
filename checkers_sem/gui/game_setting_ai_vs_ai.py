@@ -65,8 +65,8 @@ class GameSettingAIVSAI(GameSettingWidget):
         return white_coefs, black_coefs
 
     def start_game(self, screen: pygame.Surface):
-        ai_coefs = self.get_coefs()
-        AIVSAIWindow(screen, (AIPlayer(ai_coefs[0]), AIPlayer(ai_coefs[1]))).show()
+        state.COEFS_WHITE, state.COEFS_BLACK = self.get_coefs()
+        AIVSAIWindow(screen, (AIPlayer(state.COEFS_WHITE), AIPlayer(state.COEFS_BLACK))).show()
 
     def draw(self):
         super().draw()

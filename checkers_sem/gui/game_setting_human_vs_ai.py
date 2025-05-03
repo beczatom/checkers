@@ -52,9 +52,9 @@ class GameSettingHumanVSAI(GameSettingWidget):
         return coefs
 
     def start_game(self, screen : pygame.Surface):
-        ai_coefs = self.get_coefs()
+        state.COEFS_BLACK = self.get_coefs()
         state.DEPTH_BLACK = self.depth_slider.get_value()
-        HumanVSAIWindow(screen, (HumanPlayer(), AIPlayer(ai_coefs))).show()
+        HumanVSAIWindow(screen, (HumanPlayer(), AIPlayer(state.COEFS_BLACK))).show()
 
     def draw(self):
         super().draw()

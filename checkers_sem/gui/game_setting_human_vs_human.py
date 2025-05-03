@@ -40,7 +40,14 @@ class GameSettingHumanVSHuman(GameSettingWidget):
         for edit_text in self.coefs_edit_texts:
             edit_text.handle_event(event)
 
+    def get_coefs(self) -> list[float]:
+        coefs = []
+        for edit_text in self.coefs_edit_texts:
+            coefs.append(float(edit_text.get_string()))
+        return coefs
+
     def start_game(self, screen: pygame.Surface):
+        state.COEFS_BLACK = self.get_coefs()
         HumanVsHumanWindow(screen, (HumanPlayer(), HumanPlayer())).show()
 
     def draw(self):
