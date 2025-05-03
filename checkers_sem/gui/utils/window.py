@@ -1,8 +1,7 @@
 import pygame
 
 from checkers_sem.constants import *
-from checkers_sem.gui.utils.button import Button
-from threading import Thread
+from checkers_sem.gui.utils.button import ImageButton
 
 from abc import abstractmethod
 
@@ -17,11 +16,11 @@ class Window:
         self.active_thread = None
 
     def init_menu_button(self):
-        size_x = self.surface.get_width() // 12
-        size_y = self.surface.get_height() // 12
+        size_x = self.surface.get_width() // 16
+        size_y = self.surface.get_height() // 16
 
-        top = self.surface.get_height() // 16
-        left = self.surface.get_width() // 16
+        top = self.surface.get_height() // 32
+        left = self.surface.get_width() // 32
 
         def menu_button_onclick():
             if self.active_thread is not None:
@@ -29,8 +28,8 @@ class Window:
             self.run = False
 
         menu_button_rect = pygame.Rect(left, top, size_x, size_y)
-        menu_button = Button(self.surface.subsurface(menu_button_rect), (left, top),
-                             MENU_BUTTON_TEXT, menu_button_onclick)
+        menu_button = ImageButton(self.surface.subsurface(menu_button_rect), (left, top),
+                             LEFT_ARROW_IMAGE, menu_button_onclick)
         menu_button.draw()
         return menu_button
 
