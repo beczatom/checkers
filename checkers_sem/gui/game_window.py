@@ -168,9 +168,9 @@ class GameWindow(Window):
 
         was_performed = False
         if self.turn == Turn.WHITE:
-            no_moves, was_performed = self.white.move(state.DEPTH_WHITE)
+            no_moves, was_performed, best = self.white.move(state.DEPTH_WHITE)
         else:
-            no_moves, was_performed = self.black.move(state.DEPTH_BLACK)
+            no_moves, was_performed, best = self.black.move(state.DEPTH_BLACK)
 
         if no_moves:
             self.res = (0, 1) if self.turn == Turn.WHITE else (1, 0)
@@ -179,6 +179,8 @@ class GameWindow(Window):
             return
 
         if was_performed:
+            if best is not None:
+                self.eval_values[self.turn] = best[1]
             self.turn = self.game.board.turn
             self.move_table.set_move_texts(self.game.get_move_history())
             self.start_times()
@@ -192,6 +194,7 @@ class GameWindow(Window):
         if self.res is None:
             self.res = self.game.get_result()
         if self.res is not None:
+            self.chessboard.reset_best_move()
             self.white_timer.time_stop()
             self.black_timer.time_stop()
             if self.game_end_type is None:
@@ -206,6 +209,7 @@ class GameWindow(Window):
 
         if self.active_thread is not None and not self.active_thread.is_alive():
             self.active_thread.join()
+            self.turn = self.game.board.turn
             if self.game_end_type == GameEnd.NO_TIME:
                 self.game.pop()
             self.active_thread = None
@@ -231,4 +235,32 @@ class GameWindow(Window):
         self.white_timer.draw()
         self.black_timer.draw()
         self.time_over_check()
+
+
+    def evaluating_thread(self, game: Game):
+        player = AIPlayer(state.COEFS_BLACK)
+        player.set_game(game)
+        _, _, best = player.move(state.DEPTH_BLACK)
+        game.pop()
+        self.eval_values[Turn.BLACK] = best[1]
+        if best[0] is not None:
+            self.best_move = (best[0].from_mask, best[0].to_mask)
+
+
+    def evaluating_thread_check(self):
+        if self.res is not None: return
+        if self.active_thread is None and self.evaluation_start_hash != hash(self.game.board) and not self.evaluating:
+            self.evaluation_start_hash = hash(self.game.board)
+            self.evaluating = True
+            self.active_thread = Thread(target=self.evaluating_thread, args=(copy.deepcopy(self.game),))
+            self.active_thread.start()
+
+        if self.active_thread is not None and not self.active_thread.is_alive() and self.evaluating:
+            self.active_thread.join()
+            self.evaluating = False
+            if self.evaluation_start_hash == hash(self.game.board):
+                self.chessboard.set_best_move(self.best_move)
+            if self.res is None:
+                self.chessboard.draw()
+            self.active_thread = None
 
