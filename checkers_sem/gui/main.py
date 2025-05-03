@@ -1,5 +1,6 @@
+import numpy as np
+
 from checkers_sem.gui.menu import *
-from checkers_sem.gui.game_window import *
 from checkers_sem.gui.utils.loader import *
 
 class Main:
