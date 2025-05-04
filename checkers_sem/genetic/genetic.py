@@ -2,9 +2,10 @@
 import multiprocessing as mp
 import time
 
+from networkx.generators.random_graphs import random_regular_graph
+
 from checkers_sem.genetic.genetic_player import *
 from checkers_sem.state import *
-from itertools import combinations
 
 
 def crossover_ox(first : GeneticPlayer, second : GeneticPlayer) -> GeneticPlayer:
@@ -36,9 +37,9 @@ def play_process(players_q : mp.Queue, new_generation_q : mp.Queue, state : Stat
     while (players := players_q.get()) is not None:
         res = play(players[0], players[1], state.MAX_TRAIN_DEPTH)
         match res:
-            case 1, 0:
+            case 1:
                 winner = players[0]
-            case 0, 1:
+            case -1:
                 winner = players[1]
             case _:
                 winner = players[0]
@@ -49,20 +50,20 @@ def play_process(players_q : mp.Queue, new_generation_q : mp.Queue, state : Stat
     new_generation_q.put(new_generation_list)
 
 
-def tournament_process(players_q : mp.Queue, results : mp.Queue, state : State ):
-    vector_res = np.zeros(state.POPULATION_SIZE)
+def tournament_process(players_q : mp.Queue, results : mp.Queue, depth : int, res_length : int ):
+    vector_res = np.zeros(res_length)
 
     while (players := players_q.get()) is not None:
         white, black = players
         if np.random.rand() > 0.5:
             white, black = black, white
 
-        res = play(white[1], black[1], state.MAX_TRAIN_DEPTH)
+        res = play(white[1], black[1], depth)
 
         match res:
-            case 1, 0:
+            case 1:
                 vector_res[white[0]] += 1
-            case 0, 1:
+            case -1:
                 vector_res[black[0]] += 1
             case _:
                 vector_res[white[0]] += 1 / 2
@@ -125,29 +126,54 @@ class Genetic:
                 new_coefs = np.multiply(self.population[mutant_idx].coefs, rand_scaler_vector)
                 self.population[mutant_idx].coefs = new_coefs / np.sum(new_coefs)
 
+    def get_games_for_best_choosing(self) -> mp.Queue:
+        games_q = mp.Queue()
+
+        games_num_each = int(np.ceil(len(self.population) / 32))
+
+        while games_num_each * len(self.population) % 2 != 0:
+            games_num_each += 1
+            if games_num_each >= len(self.population):
+                raise RuntimeError('Regular graph : n * d must be even')
+
+        G = random_regular_graph(d=games_num_each, n = len(self.population))
+
+        scheduled_games_num = np.zeros(len(self.population))
+        for player_idx_comb in list(G.edges()):
+            scheduled_games_num[player_idx_comb[0]] += 1
+            scheduled_games_num[player_idx_comb[1]] += 1
+            players = ((player_idx_comb[0], self.population[player_idx_comb[0]]),
+                        (player_idx_comb[1], self.population[player_idx_comb[1]]))
+            games_q.put(players)
+
+        return games_q
+
     def best(self) -> GeneticPlayer:
-        processes = []
 
-        players_q = mp.Queue()
-        results = np.zeros(state.POPULATION_SIZE)
-        results_q = mp.Queue()
+        while len(self.population) != 1:
+            processes = []
+            results = np.zeros(len(self.population))
+            results_q = mp.Queue()
+            games_q = self.get_games_for_best_choosing()
 
-        player_indexes = combinations(range(POPULATION_SIZE), 2)
+            for _ in range(min(N_JOBS, len(self.population) // 2)):
+                games_q.put(None)
+                processes.append(mp.Process(target=tournament_process,
+                                            args=(games_q, results_q, state.MAX_TRAIN_DEPTH, len(self.population))))
+                processes[-1].start()
 
-        for players in [((i, self.population[i]), (j, self.population[j])) for i, j in player_indexes]:
-            players_q.put(players)
+            for process in processes:
+                process.join()
+                results += results_q.get()
 
-        for _ in range(N_JOBS):
-            players_q.put(None)
-            processes.append(mp.Process(target=tournament_process, args=(players_q, results_q, state)))
-            processes[-1].start()
+            max_indexes = np.where(results == np.max(results))[0]
 
-        for process in processes:
-            process.join()
-            results += results_q.get()
-            print(results)
+            if len(max_indexes) == len(self.population):
+                break
 
-        return self.population[np.argmax(results)]
+            self.population = [self.population[i] for i in max_indexes]
+
+        return self.population[0]
 
     def do_iteration(self) -> list[GeneticPlayer]:
         self.print()
