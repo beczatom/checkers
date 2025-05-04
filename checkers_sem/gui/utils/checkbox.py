@@ -1,6 +1,6 @@
 import pygame
 
-from checkers_sem.constants import *
+from checkers_sem.constants import BACKGROUND_COLOR, CHECKED_CHECKBOX_BACKGROUND
 from checkers_sem.gui.utils.widget import Widget
 
 class CheckBox(Widget):

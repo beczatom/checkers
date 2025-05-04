@@ -45,7 +45,7 @@ def bitboard_to_pos(bitboard : BitBoard) -> tuple[int, int]:
     return row, col
 
 def move_to_display_string(move: Move) -> str:
-    string = 'B ' if move.turn == Turn.WHITE else 'Č '
+    string = 'B ' if move.turn == Color.WHITE else 'Č '
 
     row, col = bitboard_to_pos(move.from_mask)
     string += FILE_NAMES[col] + str(row) + ' '

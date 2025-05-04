@@ -1,8 +1,8 @@
+import pygame
 
 from checkers_sem.game.game import Game
-from checkers_sem.gui.utils.widget import *
+from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.tile import Tile
-from checkers_sem.constants import *
 from checkers_sem.helper import *
 
 
@@ -46,7 +46,7 @@ class ChessBoard(Widget):
         return tiles
 
 
-    def set_figures(self, bool_boards : list[list[bool]], pieces : list[tuple[Piece, PieceColor]]):
+    def set_figures(self, bool_boards : list[list[bool]], pieces : list[tuple[Piece, bool]]):
         for i in range(32):
             values = [bool_boards[k][i] for k in range(4)]
             true_idx = values.count(True)
@@ -73,10 +73,10 @@ class ChessBoard(Widget):
 
         bool_boards = list(map(bitboard_to_bool_board, [white_pawns, black_pawns, white_kings, black_kings]))
 
-        self.set_figures(bool_boards, [(Piece.PAWN, PieceColor.WHITE),
-                                       (Piece.PAWN, PieceColor.BLACK),
-                                       (Piece.KING, PieceColor.WHITE),
-                                       (Piece.KING, PieceColor.BLACK)])
+        self.set_figures(bool_boards, [(Piece.PAWN, Color.WHITE),
+                                       (Piece.PAWN, Color.BLACK),
+                                       (Piece.KING, Color.WHITE),
+                                       (Piece.KING, Color.BLACK)])
 
     def get_clicked_mask(self) -> BitBoard:
         return self.clicked_mask

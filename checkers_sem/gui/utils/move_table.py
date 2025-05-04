@@ -1,7 +1,6 @@
 import pygame
 
-from checkers_sem.game.move import Move
-from checkers_sem.gui.utils.widget import *
+from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.helper import *
 

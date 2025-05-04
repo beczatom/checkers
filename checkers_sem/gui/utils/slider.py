@@ -1,6 +1,6 @@
 from collections.abc import Callable
 
-from checkers_sem.gui.utils.widget import *
+from checkers_sem.gui.utils.widget import Widget
 
 from checkers_sem.gui.utils.loader import *
 

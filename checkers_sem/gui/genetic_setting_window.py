@@ -7,7 +7,7 @@ from checkers_sem.gui.genetic_window import GeneticWindow
 from checkers_sem.gui.utils.slider import Slider
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.button import Button
-from checkers_sem.constants import *
+from checkers_sem.constants import SLIDER_PROPERTIES
 from checkers_sem.helper import *
 
 from checkers_sem.state import *

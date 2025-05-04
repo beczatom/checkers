@@ -2,13 +2,12 @@ import pygame
 
 from checkers_sem.game.game import Game
 from checkers_sem.player.player import Player, AIPlayer
-from checkers_sem.constants import *
 from checkers_sem.gui.utils.chessboard import ChessBoard
 from checkers_sem.gui.utils.timer import Timer
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.window import Window
 from checkers_sem.gui.utils.move_table import MoveTable
-from checkers_sem.gui.utils.button import Button, ImageButton
+from checkers_sem.gui.utils.button import ImageButton
 from checkers_sem.gui.utils.result import Result
 from checkers_sem.gui.utils.checkbox import CheckBox
 from checkers_sem.state import *
@@ -38,12 +37,12 @@ class GameWindow(Window):
 
         self.game_control_buttons = self.init_game_control_buttons()
 
-        self.turn = Turn.WHITE
+        self.turn = Color.WHITE
 
         self.res_window = None
         self.res_window_showed = False
 
-        self.eval_values = {Turn.BLACK: None, Turn.WHITE: None}
+        self.eval_values = {Color.BLACK: None, Color.WHITE: None}
         self.eval_texts = self.init_eval_texts()
         self.evaluation_start_hash = hash(None)
         self.evaluating = False
@@ -72,23 +71,23 @@ class GameWindow(Window):
                             on_uncheck=self.checkbox_on_uncheck)
         return text, checkbox
 
-    def init_eval_texts(self) -> dict[Turn, Text]:
+    def init_eval_texts(self) -> dict[bool, Text]:
         eval_texts = {}
 
         top = self.black_timer.left_top[1]
         left = self.chessboard.left_top[0] + self.chessboard.get_width() // 2
         size = self.black_timer.get_width(), self.black_timer.get_height()
         text_rect = pygame.Rect(left, top, *size)
-        eval_texts[Turn.BLACK] = Text(self.surface.subsurface(text_rect), (left, top), '')
+        eval_texts[Color.BLACK] = Text(self.surface.subsurface(text_rect), (left, top), '')
 
         top = self.white_timer.left_top[1]
         text_rect = pygame.Rect(left, top, *size)
-        eval_texts[Turn.WHITE] = Text(self.surface.subsurface(text_rect), (left, top), '')
+        eval_texts[Color.WHITE] = Text(self.surface.subsurface(text_rect), (left, top), '')
 
         return eval_texts
 
     def update_eval_texts(self):
-        for color in [Turn.BLACK, Turn.WHITE]:
+        for color in [Color.BLACK, Color.WHITE]:
             if self.eval_values[color] is not None:
                 self.eval_texts[color].set_string(f'{self.eval_values[color]:.3f}')
             self.eval_texts[color].draw()
@@ -188,7 +187,7 @@ class GameWindow(Window):
 
     def start_times(self):
         if self.res is not None: return
-        if self.turn == Turn.WHITE:
+        if self.turn == Color.WHITE:
             self.black_timer.time_stop()
             self.white_timer.time_start()
         else:
@@ -219,13 +218,13 @@ class GameWindow(Window):
             self.start_times()
 
         was_performed = False
-        if self.turn == Turn.WHITE:
+        if self.turn == Color.WHITE:
             no_moves, was_performed, best = self.white.move(state.DEPTH_WHITE)
         else:
             no_moves, was_performed, best = self.black.move(state.DEPTH_BLACK)
 
         if no_moves:
-            self.res = (0, 1) if self.turn == Turn.WHITE else (1, 0)
+            self.res = -1 if self.turn == Color.WHITE else 1
             self.game_end_type = GameEnd.NO_MOVES
             self.res_window = self.__init_result_window()
             return
@@ -267,9 +266,6 @@ class GameWindow(Window):
             self.active_thread = None
             self.chessboard.draw()
 
-            # self.check_game_end()
-            # self.move_table.set_move_texts(self.game.get_move_history())
-
     def handle_event(self, event : pygame.event.Event):
         super().handle_event(event)
         if self.res_window is not None:
@@ -277,10 +273,10 @@ class GameWindow(Window):
 
     def time_over_check(self):
         if self.white_timer.time_is_over():
-            self.res = (0, 1)
+            self.res = -1
             self.game_end_type = GameEnd.NO_TIME
         elif self.black_timer.time_is_over():
-            self.res = (1, 0)
+            self.res = 1
             self.game_end_type = GameEnd.NO_TIME
 
     def update_timers(self):
@@ -294,7 +290,7 @@ class GameWindow(Window):
         player.set_game(game)
         _, _, best = player.move(state.DEPTH_BLACK)
         game.pop()
-        self.eval_values[Turn.BLACK] = best[1]
+        self.eval_values[Color.BLACK] = best[1]
         if best[0] is not None:
             self.best_move = (best[0].from_mask, best[0].to_mask)
 

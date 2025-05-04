@@ -2,6 +2,8 @@ from collections.abc import Callable
 
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.loader import *
+from checkers_sem.constants import (DEFAULT_FONT_SIZE, DEFAULT_FONT, BACKGROUND_COLOR, TEXT_COLOR, HOVER_TEXT_COLOR,
+                                    HOVER_BACKGROUND_COLOR)
 
 class Button(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], text : str,

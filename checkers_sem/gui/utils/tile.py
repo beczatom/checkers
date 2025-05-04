@@ -1,6 +1,4 @@
-import pygame
 from checkers_sem.gui.utils.button import ImageButton
-from checkers_sem.constants import *
 from checkers_sem.gui.utils.widget import Widget
 from collections.abc import Callable
 from checkers_sem.gui.utils.loader import *
@@ -16,7 +14,7 @@ class Tile(Widget):
     def set_background_image(self, name : str):
         self.button.set_background_image(name)
 
-    def put_piece_img(self, piece : Piece, piece_color : PieceColor):
+    def put_piece_img(self, piece : Piece, piece_color : bool):
         self.img_on_top = loader.LOADED_IMAGES[(piece, piece_color)]
 
     def put_possible_move(self):

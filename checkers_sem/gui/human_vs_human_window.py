@@ -1,5 +1,5 @@
-from checkers_sem.gui.game_window import *
-from checkers_sem.constants import *
+import pygame
+from checkers_sem.gui.game_window import GameWindow
 from checkers_sem.player.player import HumanPlayer
 
 class HumanVsHumanWindow(GameWindow):
@@ -20,6 +20,7 @@ class HumanVsHumanWindow(GameWindow):
                 button.handle_event(event)
 
     def refresh(self):
+        if self.res_window is not None: return
         self.best_move_text.draw()
         self.best_move_checkbox.draw()
         self.update_eval_texts()

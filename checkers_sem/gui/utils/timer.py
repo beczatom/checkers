@@ -1,7 +1,9 @@
-from checkers_sem.gui.utils.widget import *
+import pygame
+import time
+
+from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.helper import *
 from checkers_sem.state import *
-import time
 
 class Timer(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int]):

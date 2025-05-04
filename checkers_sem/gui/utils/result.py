@@ -1,19 +1,17 @@
 from collections.abc import Callable
 
-from checkers_sem.gui.utils.widget import *
+from checkers_sem.gui.utils.widget import Widget
 
 from checkers_sem.gui.utils.loader import *
 
 from checkers_sem.helper import *
-
-from checkers_sem.constants import *
 
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.gui.utils.text import Text
 
 class Result(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],
-                 res : tuple[float, float], game_end_type : int,
+                 res : int, game_end_type : int,
                  onclick : Callable[[], None] = None, ):
         super().__init__(surface, left_top)
 

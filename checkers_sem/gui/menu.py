@@ -1,8 +1,7 @@
-from checkers_sem.constants import *
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.gui.game_setting_window import GameSettingWindow
 from checkers_sem.gui.genetic_setting_window import GeneticSettingWindow
-from checkers_sem.player.player import *
+from checkers_sem.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT
 import pygame
 
 

@@ -1,7 +1,7 @@
 import pygame
 
 from checkers_sem.gui.game_window import GameWindow
-from checkers_sem.constants import *
+from checkers_sem.constants import Color
 from checkers_sem.player.player import AIPlayer, HumanPlayer
 
 
@@ -16,7 +16,7 @@ class HumanVSAIWindow(GameWindow):
         super().handle_event(event)
 
         self.move_table.handle_event(event)
-        if self.turn == Turn.WHITE:
+        if self.turn == Color.WHITE:
             self.chessboard.handle_event(event)
 
         if self.active_thread is None:
@@ -25,15 +25,14 @@ class HumanVSAIWindow(GameWindow):
                 button.handle_event(event)
 
     def refresh(self):
+        if self.res_window is not None: return
 
-        if self.turn == Turn.WHITE or self.evaluating:
+        if self.turn == Color.WHITE or self.evaluating:
             if self.best_move_checkbox.get_value():
                 self.evaluating_thread_check()
             self.make_move()
 
-        # print(self.turn == Turn.BLACK, self.active_thread is not None, not self.evaluating)
-        if (self.turn == Turn.BLACK or self.active_thread is not None) and not self.evaluating:
-            # print('move ai')
+        if (self.turn == Color.BLACK or self.active_thread is not None) and not self.evaluating:
             self.move_ai()
 
         self.update_eval_texts()

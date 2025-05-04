@@ -10,8 +10,8 @@ class GeneticPlayer:
         possible_res = game.get_result()
 
         if possible_res is not None:
-            if possible_res[0] == 1: return np.inf
-            if possible_res[1] == 1: return -np.inf
+            if possible_res == 1: return np.inf
+            if possible_res == -1: return -np.inf
             return 0
 
         return np.dot(self.coefs, game.board.stats())
@@ -20,7 +20,7 @@ class GeneticPlayer:
         if depth == 0 or game.get_result() is not None:
             return game.peek(), self.evaluate(game)
 
-        if game.board.turn == Turn.WHITE:
+        if game.board.turn == Color.WHITE:
             # pair of move and evaluation of that move
             best_move = (None, -np.inf)
 
@@ -71,18 +71,18 @@ class GeneticPlayer:
         return str(np.round(self.coefs, 3))
 
 
-def play(white: GeneticPlayer, black: GeneticPlayer, depth: int) -> tuple[float, float]:
+def play(white: GeneticPlayer, black: GeneticPlayer, depth: int) -> int:
     if np.allclose(white.coefs, black.coefs, atol=1e-3):
-        return 1 / 2, 1 / 2
+        return 0
 
     game = Game()
 
-    while (res := game.get_result()) is None:
-        if game.board.turn == Turn.WHITE:
+    while (res := game.get_result_train()) is None:
+        if game.board.turn == Color.WHITE:
             if white.move(game, depth)[0]:
-                return 0, 1
+                return -1
         else:
             if black.move(game, depth)[0]:
-                return 1, 0
+                return 1
 
     return res
