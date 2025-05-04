@@ -28,9 +28,9 @@ class Game:
 
         self.board.make_move(move)
 
-    def pop(self) -> Move | None:
+    def pop(self) -> None:
         if len(self.moves_stack) == 0:
-            return None
+            return
 
         last_move, _ = self.moves_stack[-1]
 
@@ -38,12 +38,9 @@ class Game:
 
         self.popped_moves.append(self.moves_stack.pop())
 
-        if len(self.moves_stack) != 0:
-            self.last_take = self.moves_stack[-1][1]
-        else:
-            self.last_take = 0
+        self.last_take = 0 if len(self.moves_stack) == 0 else self.moves_stack[-1][1]
 
-        return None
+        return
 
     def push_from_popped(self):
         if len(self.popped_moves) == 0:
