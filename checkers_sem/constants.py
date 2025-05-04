@@ -4,11 +4,8 @@ import numpy as np
 
 BitBoard = np.uint32
 
-NOT_A_FILE =           ~BitBoard(0x08080808)
-NOT_B_FILE =           ~BitBoard(0x80808080)
-NOT_G_FILE =           ~BitBoard(0x01010101)
-NOT_H_FILE =           ~BitBoard(0x10101010)
-ALL_FILES  =            BitBoard(0xffffffff)
+ALL_ROWS  =             BitBoard(0xffffffff)
+BOARD_LEFT_TOP =        BitBoard(0x80000000)
 
 EVEN_ROW =              BitBoard(0x0f0f0f0f)
 
@@ -40,7 +37,7 @@ PROMOTION = MoveType(0x01)
 TAKE =      MoveType(0x02)
 TOOK_TYPE = MoveType(0x0c)
 
-class Turn:
+class Color:
     WHITE = True
     BLACK = False
 
@@ -48,20 +45,18 @@ class Piece:
     PAWN = np.uint8(0x04)
     KING = np.uint8(0x08)
 
-class PieceColor:
-    WHITE = True
-    BLACK = False
-
-
+MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW_TRAIN = 30
 MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW = 50
 
 #GENETIC################################################################################################################
 
-GENERATIONS = 10
-POPULATION_SIZE = 20
-MAX_TRAIN_DEPTH = 4
+GENERATIONS = 3
+POPULATION_SIZE = 100
+MAX_TRAIN_DEPTH = 3
 MUTATION_PCT = 0.1
 CROSSOVER_PCT = 0.9
+
+CHOOSING_BEST_GAMES = 10
 
 N_JOBS = 8
 
@@ -117,10 +112,10 @@ DEFAULT_FONT = 'checkers_sem/assets/SpecialElite-Regular.ttf'
 DEFAULT_TEXT_COLOR = (0,0,0)
 
 PIECE_IMAGES = {
-    (Piece.PAWN, PieceColor.WHITE) : 'checkers_sem/assets/white_pawn.svg',
-    (Piece.PAWN, PieceColor.BLACK) : 'checkers_sem/assets/black_pawn.svg',
-    (Piece.KING, PieceColor.WHITE) : 'checkers_sem/assets/white_king.svg',
-    (Piece.KING, PieceColor.BLACK) : 'checkers_sem/assets/black_king.svg',
+    (Piece.PAWN, Color.WHITE) : 'checkers_sem/assets/white_pawn.svg',
+    (Piece.PAWN, Color.BLACK) : 'checkers_sem/assets/black_pawn.svg',
+    (Piece.KING, Color.WHITE) : 'checkers_sem/assets/white_king.svg',
+    (Piece.KING, Color.BLACK) : 'checkers_sem/assets/black_king.svg',
 }
 
 POSSIBLE_MOVE_IMG = 'checkers_sem/assets/possible_move.svg'
@@ -188,7 +183,7 @@ MENU_BUTTON_TEXT = 'Menu'
 
 OK_TEXT =           'Okej'
 
-WIN_TEXT = {(1, 0) : 'Biely vyhral', (0, 1) : 'Čierny vyhral', (0.5, 0.5) : 'Remíza' }
+WIN_TEXT = {1 : 'Biely vyhral', -1 : 'Čierny vyhral', 0 : 'Remíza' }
 
 class GameEnd:
     # somebody won
