@@ -1,7 +1,8 @@
 import pygame
 
 from checkers_sem.gui.utils.widget import Widget
-from checkers_sem.constants import DEFAULT_FONT, FIRST_BORDER_WIDTH, BACKGROUND_COLOR, BORDER_GAP, DEFAULT_TEXT_COLOR
+from checkers_sem.constants import (DEFAULT_FONT, FIRST_BORDER_WIDTH, BACKGROUND_COLOR, BORDER_GAP, DEFAULT_TEXT_COLOR,
+                                    DEFAULT_FONT_SIZE)
 
 class EditText(Widget):
     def __init__(self, surface : pygame.surface, left_top : tuple[int, int], string : str | int | float, font_size : int = DEFAULT_FONT_SIZE):

@@ -2,6 +2,7 @@ from checkers_sem.gui.utils.button import ImageButton
 from checkers_sem.gui.utils.widget import Widget
 from collections.abc import Callable
 from checkers_sem.gui.utils.loader import *
+from checkers_sem.constants import BitBoard
 
 class Tile(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], pos_mask : BitBoard, onclick : Callable[[],None]):

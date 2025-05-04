@@ -1,6 +1,7 @@
 import numpy as np
 
 from checkers_sem.game.game import *
+from checkers_sem.constants import MAX_TRAIN_DEPTH, Color
 
 class GeneticPlayer:
     def __init__(self, coefs: np.array):
