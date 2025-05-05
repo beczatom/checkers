@@ -50,13 +50,11 @@ MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW = 50
 
 #GENETIC################################################################################################################
 
-GENERATIONS = 3
+GENERATIONS = 50
 POPULATION_SIZE = 100
-MAX_TRAIN_DEPTH = 3
+MAX_TRAIN_DEPTH = 4
 MUTATION_PCT = 0.1
 CROSSOVER_PCT = 0.9
-
-CHOOSING_BEST_GAMES = 10
 
 N_JOBS = 8
 
