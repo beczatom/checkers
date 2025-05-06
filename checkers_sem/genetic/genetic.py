@@ -365,10 +365,11 @@ class Genetic:
             # getting the min indexes
             min_indexes = np.where(results == np.min(results))[0]
 
-            # if all are min, then the scores are equal
-            all_equal = len(min_indexes) == len(self.population)
-
             if not all_equal:
+                # if all are min, then the scores are equal
+                if len(min_indexes) == len(self.population):
+                    all_equal = True
+                    continue
                 # dropping the minimal scorers
                 self.population = [player for i, player in enumerate(self.population) if i not in min_indexes]
             else:
@@ -422,12 +423,15 @@ class Genetic:
         we will need to do it separately.
         """
 
+        avgs = []
         for i in range(state.GENERATIONS):
             print(f'Average coefficients before {i + 1}. iteration :')
             print(self.get_average_coefs())
+            avgs.append(self.get_average_coefs())
             self.select()
             self.crossover()
-            self.mutate()
+            if i != state.GENERATIONS - 1 : self.mutate()
+        np.save("avg_genotypes_three.npy", avgs)
 
     def print(self) -> None:
         """
