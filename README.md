@@ -16,7 +16,7 @@ Vďaka tomu vie byť hra rýchla a následne trénovanie tiež.
 Keďže som chcel nechať populáciu nech si sama nájde ideálne koeficienty,
 nepoužívam žiadne externé enginy 
 (v šachu napr. Stockfish 🚫🐟, v dáme sa však ajtak len ťažko nachádzajú).
-Algoritmus je teda bez evaluačnej funkcie a na porovnávanie jednotlivých
+Algoritmus je teda bez fitness funkcie a na porovnávanie jednotlivých
 hráčov sa používa výhradne výsledok ich vzájomnej hry.
 
 
