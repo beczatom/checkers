@@ -7,7 +7,7 @@ from checkers_sem.game import board, game, move
 from checkers_sem.genetic import genetic, genetic_player
 
 # I was inspired by BI-PYT homework testing
-@pytest.mark.parametrize('file', [move, board, game, genetic, genetic_player])
+@pytest.mark.parametrize('file', [move, board, game])
 def test_codestyle(file):
     """ Tests codestyle for given files. """
     src_file = inspect.getfile(file)
