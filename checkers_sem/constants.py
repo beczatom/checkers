@@ -15,9 +15,9 @@ PROMOTION_ROW_BLACK =   BitBoard(0x0000000f)
 INITIAL_WHITE =         BitBoard(0x00000fff)
 INITIAL_BLACK =         BitBoard(0xfff00000)
 
-LEFT_EDGE =         BitBoard(0x08080808)
-RIGHT_EDGE =        BitBoard(0x10101010)
-HORIZONTAL_EDGE =   LEFT_EDGE | RIGHT_EDGE
+LEFT_EDGE =             BitBoard(0x08080808)
+RIGHT_EDGE =            BitBoard(0x10101010)
+HORIZONTAL_EDGE =       LEFT_EDGE | RIGHT_EDGE
 
 TOP_NEXT_PROM_EDGE =    BitBoard(0x0f000000)
 BOTTOM_NEXT_PROM_EDGE = BitBoard(0x000000f0)
@@ -50,9 +50,9 @@ MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW = 50
 
 #GENETIC################################################################################################################
 
-GENERATIONS = 50
-POPULATION_SIZE = 100
-MAX_TRAIN_DEPTH = 4
+GENERATIONS = 10
+POPULATION_SIZE = 30
+MAX_TRAIN_DEPTH = 3
 MUTATION_PCT = 0.1
 CROSSOVER_PCT = 0.9
 
@@ -71,7 +71,7 @@ class MenuOption:
     PC_VS_PC = 3
     GENETIC = 4
 
-MENU_TITLE = 'Checkers Menu'
+MENU_TITLE = 'Dáma'
 HUMAN_VS_HUMAN_TEXT = 'Hráč proti hráčovi'
 HUMAN_VS_PC_TEXT = 'Hráč proti počítaču'
 PC_VS_PC_TEXT = 'Počítač proti počítaču'
@@ -120,7 +120,7 @@ POSSIBLE_MOVE_IMG = 'checkers_sem/assets/possible_move.svg'
 BEST_TILE_IMG = 'checkers_sem/assets/best_tile.svg'
 SHOW_BEST_MOVES_TEXT = 'Najlepšie ťahy'
 
-AI_COEFS = [0.205, 0.224, 0.188, 0.035, 0.246, 0.102]
+AI_COEFS = [0.182, 0.355, 0.07, 0.137, 0.188, 0.069]
 
 class TileColor:
     WHITE = True

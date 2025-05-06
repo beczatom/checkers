@@ -58,6 +58,9 @@ class Menu:
                         button.handle_event(event)
 
                 pygame.display.update()
+
+            self.screen.fill(BACKGROUND_COLOR)
+            pygame.display.flip()
             try:
                 self.next_window.show()
                 self.__init__(self.screen)

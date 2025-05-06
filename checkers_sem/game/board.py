@@ -41,7 +41,7 @@ def make_gen(iterable: Iterable[int], color: BitBoard, func: Callable[[BitBoard]
             yield from res
 
 
-def is_color(mask: BitBoard, color: BitBoard) -> BitBoard:
+def is_color(mask: BitBoard, color: BitBoard) -> bool:
     """
     Checks if on the mask is a piece of color, file_mask is used for filtering some positions.
 
@@ -54,10 +54,10 @@ def is_color(mask: BitBoard, color: BitBoard) -> BitBoard:
 
     Returns
     -------
-    is_color : bool
+    is_color : BitBoard
         if there is a piece of color
     """
-    return mask & color
+    return bool(mask & color)
 
 
 class Board:
@@ -94,11 +94,11 @@ class Board:
         """
 
         if mask & self.pawns == 0:
-            return False
+            return BitBoard(0)
 
-        return target_mask & PROMOTION_ROW_WHITE if self.turn == Color.WHITE else target_mask & PROMOTION_ROW_BLACK
+        return bool(target_mask & PROMOTION_ROW_WHITE) if self.turn == Color.WHITE else bool(target_mask & PROMOTION_ROW_BLACK)
 
-    def is_free(self, mask: BitBoard):
+    def is_free(self, mask: BitBoard) -> bool:
         """
         Checks if the mask is free.
 
@@ -109,18 +109,14 @@ class Board:
 
         Returns
         -------
-        is_free : bool
+        is_free : BitBoard
             if there is empty space
         """
-        return mask & ~(self.black | self.white)
+        return bool(mask & ~(self.black | self.white))
 
-    def get_fig_type(self, mask: BitBoard) -> bool:
+    def get_fig_type(self, mask: BitBoard) -> np.uint8:
         """
         Returns figure type of the mask.
-
-        Warnings
-        ----------
-        Must be used on non-empty mask, otherwise the output would be king.
 
         Parameters
         ----------
@@ -129,12 +125,16 @@ class Board:
 
         Returns
         -------
-        fig_type : bool
+        fig_type : np.uint8
             type of figure
+
+        Warns
+        -----
+            Must be used on non-empty mask, otherwise the output would be king.
         """
         return Piece.PAWN if mask & self.pawns else Piece.KING
 
-    def is_valid_attacking_move(self, possible_move: Move, oponent: BitBoard, current_row_parity: BitBoard):
+    def is_valid_attacking_move(self, possible_move: Move, oponent: BitBoard, current_row_parity: BitBoard) -> bool:
         """
         Checks possible attacking move if it is valid.
 
@@ -151,13 +151,18 @@ class Board:
         -------
         is_valid : bool
             if the possible move is valid
+
+        Warns
+        -----
+            Does not care about from where the move begins
+            We also don't care about multiple line jumps, it is time-consuming and won't happen in move generation
         """
 
-        return (current_row_parity & possible_move.to_mask and ~current_row_parity & possible_move.took_mask
+        return (bool(current_row_parity & possible_move.to_mask) and bool(~current_row_parity & possible_move.took_mask)
                 and is_color(possible_move.took_mask, oponent)
                 and self.is_free(possible_move.to_mask))
 
-    def validate_attacking_move(self, possible_move: Move, current_row_parity: BitBoard, oponent: BitBoard):
+    def validate_attacking_move(self, possible_move: Move, oponent: BitBoard, current_row_parity: BitBoard):
         """
         If the move is valid attacking, it sets it to possible move and returns it.
 
@@ -165,10 +170,10 @@ class Board:
         ----------
         possible_move : Move
             move to check
-        current_row_parity : BitBoard
-            used for checking the move validity
         oponent : BitBoard
             positions of oponent
+        current_row_parity : BitBoard
+            used for checking the move validity
 
         Returns
         -------
@@ -228,7 +233,7 @@ class Board:
         # append to moves if possible moves meets criteria
         for i, _ in enumerate(take_masks):
             possible_move = Move(self.turn, (mask, to_masks[i]), MoveType(), take_masks[i])
-            if (move := self.validate_attacking_move(possible_move, current_row_parity, oponent)) is not None:
+            if (move := self.validate_attacking_move(possible_move, oponent, current_row_parity)) is not None:
                 moves.append(move)
 
     def attacking_moves_from_pos(self, mask: BitBoard) -> list[Move]:
@@ -274,9 +279,13 @@ class Board:
         -------
         is_valid : bool
             if the possible move is valid
+
+        Warns
+        -----
+            Does not care about from where the move begins
         """
 
-        return ~current_row_parity & possible_move.to_mask and self.is_free(possible_move.to_mask)
+        return bool(~current_row_parity & possible_move.to_mask) and self.is_free(possible_move.to_mask)
 
     def validate_not_attacking_move(self, possible_move: Move, current_row_parity: BitBoard) -> Move | None:
         """

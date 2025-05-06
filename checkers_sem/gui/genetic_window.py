@@ -11,6 +11,7 @@ class GeneticWindow(Window):
     def __init__(self, surface : pygame.surface):
         super().__init__(surface)
         self.surface.fill(BACKGROUND_COLOR)
+        pygame.display.flip()
         self.genetic = Genetic()
         self.average_coefs = self.genetic.get_average_coefs()
         self.current_generation = 0

@@ -264,7 +264,9 @@ class GameWindow(Window):
             if self.game_end_type == GameEnd.NO_TIME:
                 self.game.pop()
             self.active_thread = None
-            self.chessboard.draw()
+
+            if self.res is None:
+                self.chessboard.draw()
 
     def handle_event(self, event : pygame.event.Event):
         super().handle_event(event)

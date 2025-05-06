@@ -40,8 +40,11 @@ class Game:
     It has a board, on which the game is played.
     Then holds the history of moves, and also the popped ones (will be used for "analyzing, replaying" the game).
     Last take number indicating how many moves passed after last take (important for result).
-    Note : in the history of moves we hold a pair of move and last_take value,
-    it is because when we go back, we can't know the value at that time
+
+    Notes
+    -------
+        in the history of moves we hold a pair of move and last_take value,
+        it is because when we go back, we can't know the value at that time
     """
 
     def __init__(self):
