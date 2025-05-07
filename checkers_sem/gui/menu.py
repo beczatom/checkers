@@ -1,7 +1,7 @@
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.gui.game_setting_window import GameSettingWindow
 from checkers_sem.gui.genetic_setting_window import GeneticSettingWindow
-from checkers_sem.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT
+from checkers_sem.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT, REFRESH_RATE_MS
 import pygame
 
 
@@ -48,7 +48,7 @@ class Menu:
     def show(self):
         while True:
             while self.next_window is None:
-                pygame.time.delay(10)
+                pygame.time.delay(REFRESH_RATE_MS)
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:

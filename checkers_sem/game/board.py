@@ -283,6 +283,8 @@ class Board:
         Warns
         -----
             Does not care about from where the move begins
+            The output may be incorrect when the shift between from and to mask is more than 5,
+            however the extra checking would be unnecessary because we don't use it in such way.
         """
 
         return bool(~current_row_parity & possible_move.to_mask) and self.is_free(possible_move.to_mask)

@@ -1,6 +1,6 @@
 import pygame
 
-from checkers_sem.constants import BACKGROUND_COLOR, LEFT_ARROW_IMAGE
+from checkers_sem.constants import BACKGROUND_COLOR, LEFT_ARROW_IMAGE, REFRESH_RATE_MS
 from checkers_sem.gui.utils.button import ImageButton
 
 from abc import abstractmethod
@@ -44,7 +44,7 @@ class Window:
 
     def show(self):
         while self.run:
-            pygame.time.delay(100)
+            pygame.time.delay(REFRESH_RATE_MS)
             self.menu_button.draw()
 
             for event in pygame.event.get():

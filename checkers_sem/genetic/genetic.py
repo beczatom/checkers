@@ -430,7 +430,8 @@ class Genetic:
             avgs.append(self.get_average_coefs())
             self.select()
             self.crossover()
-            if i != state.GENERATIONS - 1 : self.mutate()
+            if i != state.GENERATIONS - 1 :
+                self.mutate()
         np.save("avg_genotypes_three.npy", avgs)
 
     def print(self) -> None:
