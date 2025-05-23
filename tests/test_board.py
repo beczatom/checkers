@@ -7,7 +7,6 @@ from checkers_sem.game.board import Board, make_gen, is_color
 from checkers_sem.game.move import Move
 from checkers_sem.constants import BitBoard, Color, MoveType, PROMOTION, Piece, EVEN_ROW, TAKE
 
-
 def dummy_fun_make_gen_test(bitboard : BitBoard) -> list[int] :
 
     assert bitboard.bit_count() == 1
@@ -191,7 +190,6 @@ def test_is_valid_attacking_move():
     assert board.is_valid_attacking_move(
         Move(Color.BLACK, (BitBoard(0x00020000), BitBoard(0x00000400)), MoveType(), BitBoard(0x00004000)),
         board.white, EVEN_ROW) == False
-
 
 def test_validate_attacking_move():
     board = Board()
@@ -432,7 +430,6 @@ def test_attacking_moves_in_direction():
     board.attacking_moves_in_direction(BitBoard(0x00000100), moves, board.white, False)
     assert moves == [Move(Color.BLACK, (BitBoard(0x00000100), BitBoard(0x00000002)), MoveType() | PROMOTION | TAKE | Piece.PAWN, BitBoard(0x00000020))]
     moves = []
-
 
 def test_is_valid_not_attacking_move():
     board = Board()
@@ -689,11 +686,121 @@ def test_stats(white : BitBoard, black : BitBoard, pawns : BitBoard, true_stats 
 
     assert np.array_equal(board.stats(), np.array(true_stats))
 
-def test_make_move_changes():
-    pass
+@pytest.mark.parametrize('init_board_tuple, move, ref_board_tuple', [
+    (
+        (BitBoard(0x000840f4), BitBoard(0x00808d00), BitBoard(0x0088c9f4)),
+        Move(Color.WHITE, (BitBoard(0x00080000), BitBoard(0x04000000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00800000)),
+        (BitBoard(0x040040f4), BitBoard(0x00008d00), BitBoard(0x0400c9f4))
+    ),
+    (
+        (BitBoard(0x040040f4), BitBoard(0x00008d00), BitBoard(0x0400c9f4)),
+        Move(Color.BLACK, (BitBoard(0x00000400), BitBoard(0x00000008)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00000080)),
+        (BitBoard(0x04004074), BitBoard(0x00008908), BitBoard(0x0400c974))
+    ),
+    (
+        (BitBoard(0x04004074), BitBoard(0x00008908), BitBoard(0x0400c974)),
+        Move(Color.BLACK, (BitBoard(0x00000100), BitBoard(0x00000002)), MoveType() | PROMOTION | TAKE | Piece.PAWN, BitBoard(0x00000020)),
+        (BitBoard(0x04004054), BitBoard(0x0000880a), BitBoard(0x0400c854))
+    ),
+    (
+        (BitBoard(0x04004054), BitBoard(0x0000880a), BitBoard(0x0400c854)),
+        Move(Color.WHITE, (BitBoard(0x00000004), BitBoard(0x00000080)), MoveType(), BitBoard(0x00000000)),
+        (BitBoard(0x040040d0), BitBoard(0x0000880a), BitBoard(0x0400c8d0))
+    ),
+    (
+        (BitBoard(0x040040d0), BitBoard(0x0000880a), BitBoard(0x0400c8d0)),
+        Move(Color.BLACK, (BitBoard(0x00000008), BitBoard(0x00000400)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00000080)),
+        (BitBoard(0x04004050), BitBoard(0x00008c02), BitBoard(0x0400c850))
+    ),
+    (
+        (BitBoard(0x04004050), BitBoard(0x00008c02), BitBoard(0x0400c850)),
+        Move(Color.BLACK, (BitBoard(0x00000400), BitBoard(0x00020000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00004000)),
+        (BitBoard(0x04000050), BitBoard(0x00028802), BitBoard(0x04008850))
+    ),
+    (
+        (BitBoard(0x04000050), BitBoard(0x00028802), BitBoard(0x04008850)),
+        Move(Color.WHITE, (BitBoard(0x04000000), BitBoard(0x80000000)), MoveType(0x01), BitBoard(0x00000000)),
+        (BitBoard(0x80000050), BitBoard(0x00028802), BitBoard(0x00008850))
+    ),
+    (
+        (BitBoard(0x00800000), BitBoard(0x06000000), BitBoard(0x06800000)),
+        Move(Color.WHITE, (BitBoard(0x00800000), BitBoard(0x40000000)), MoveType() | PROMOTION | TAKE | Piece.PAWN, BitBoard(0x04000000)),
+        (BitBoard(0x40000000), BitBoard(0x02000000), BitBoard(0x02000000))
+    ),
+])
+def test_make_move_changes(init_board_tuple : tuple[BitBoard, BitBoard, BitBoard], move,  ref_board_tuple : tuple[BitBoard, BitBoard, BitBoard]):
+    board = Board()
+    board.white = init_board_tuple[0]
+    board.black = init_board_tuple[1]
+    board.pawns = init_board_tuple[2]
 
-def test_get_legal_moves():
-    pass
+    if move.turn == Color.WHITE:
+        white, black = board.make_move_changes(move, board.white, board.black)
+    else:
+        black, white = board.make_move_changes(move, board.black, board.white)
+
+    assert white == ref_board_tuple[0]
+    assert black == ref_board_tuple[1]
+    assert board.pawns == ref_board_tuple[2]
+
+@pytest.mark.parametrize('init_board_tuple, white_ref_set, black_ref_set', [
+    (
+        (BitBoard(0x000000ff), BitBoard(0xff000000), BitBoard(0xff0000ff)),
+        {
+            Move(Color.WHITE, (BitBoard(0x00000080), BitBoard(0x00000800)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.WHITE, (BitBoard(0x00000080), BitBoard(0x00000400)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.WHITE, (BitBoard(0x00000040), BitBoard(0x00000400)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.WHITE, (BitBoard(0x00000040), BitBoard(0x00000200)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.WHITE, (BitBoard(0x00000020), BitBoard(0x00000200)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.WHITE, (BitBoard(0x00000020), BitBoard(0x00000100)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.WHITE, (BitBoard(0x00000010), BitBoard(0x00000100)), MoveType(), BitBoard(0x00000000)),
+        },
+        {
+            Move(Color.BLACK, (BitBoard(0x08000000), BitBoard(0x00800000)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.BLACK, (BitBoard(0x04000000), BitBoard(0x00800000)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.BLACK, (BitBoard(0x04000000), BitBoard(0x00400000)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.BLACK, (BitBoard(0x02000000), BitBoard(0x00400000)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.BLACK, (BitBoard(0x02000000), BitBoard(0x00200000)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.BLACK, (BitBoard(0x01000000), BitBoard(0x00200000)), MoveType(), BitBoard(0x00000000)),
+            Move(Color.BLACK, (BitBoard(0x01000000), BitBoard(0x00100000)), MoveType(), BitBoard(0x00000000))
+        }
+    ),
+    (
+        (BitBoard(0x000840f4), BitBoard(0x00808d00), BitBoard(0x0088c9f4)),
+        {
+            Move(Color.WHITE, (BitBoard(0x00080000), BitBoard(0x04000000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00800000)),
+            Move(Color.WHITE, (BitBoard(0x00000020), BitBoard(0x00001000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00000100)),
+            Move(Color.WHITE, (BitBoard(0x00000010), BitBoard(0x00002000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00000100))
+        },
+        {
+            Move(Color.BLACK, (BitBoard(0x00000400), BitBoard(0x00020000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00004000)),
+            Move(Color.BLACK, (BitBoard(0x00000400), BitBoard(0x00000002)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00000040)),
+            Move(Color.BLACK, (BitBoard(0x00000400), BitBoard(0x00000008)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00000080)),
+            Move(Color.BLACK, (BitBoard(0x00000100), BitBoard(0x00000002)), MoveType() | PROMOTION | TAKE | Piece.PAWN, BitBoard(0x00000020))
+        }
+    ),
+])
+def test_get_legal_moves(init_board_tuple : tuple[BitBoard, BitBoard, BitBoard], white_ref_set : set[Move], black_ref_set : set[Move]):
+    board = Board()
+    board.white = init_board_tuple[0]
+    board.black = init_board_tuple[1]
+    board.pawns = init_board_tuple[2]
+
+
+    moves = set()
+    for move in board.get_legal_moves():
+        moves.add(move)
+
+    assert moves == white_ref_set
+
+    board.turn = Color.BLACK
+
+    moves = set()
+    for move in board.get_legal_moves():
+        moves.add(move)
+
+    assert moves == black_ref_set
+
 
 def test_not_attacking_moves_from_pos():
     board = Board()
@@ -896,7 +1003,6 @@ def test_not_attacking_moves_from_pos():
         Move(Color.BLACK, (BitBoard(0x00000040), BitBoard(0x00000004)), MoveType() | PROMOTION)]
     assert board.not_attacking_moves_from_pos(BitBoard(0x00000010)) == [
         Move(Color.BLACK, (BitBoard(0x00000010), BitBoard(0x00000001)), MoveType() | PROMOTION)]
-
 
 def test_attacking_moves_from_pos():
     board = Board()
@@ -1163,11 +1269,10 @@ def test_attacking_moves_from_pos():
         Move(Color.BLACK, (BitBoard(0x00000004), BitBoard(0x00000040)), MoveType())
     ]
 
-
 def test_make_move():
     board = Board()
-    board.black = BitBoard(0x00808d00)
     board.white = BitBoard(0x000840f4)
+    board.black = BitBoard(0x00808d00)
     board.pawns = BitBoard(0x0088c9f4)
 
     # x _ x _ x _ x _
@@ -1183,8 +1288,8 @@ def test_make_move():
 
     board.make_move(Move(Color.WHITE, (BitBoard(0x00080000), BitBoard(0x04000000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00800000)))
 
-    assert board.black == BitBoard(0x00008d00)
     assert board.white == BitBoard(0x040040f4)
+    assert board.black == BitBoard(0x00008d00)
     assert board.pawns == BitBoard(0x0400c9f4)
     assert board.turn == Color.BLACK
 
@@ -1327,7 +1432,6 @@ def test_make_move():
     assert board.white == BitBoard(0x40000000)
     assert board.pawns == BitBoard(0x02000000)
     assert board.turn == Color.BLACK
-
 
 def test_undo_move():
     board = Board()
