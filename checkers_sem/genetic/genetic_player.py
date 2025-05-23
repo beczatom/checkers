@@ -70,6 +70,8 @@ class GeneticPlayer:
 
         # terminal nodes
         if depth == 0 or game.get_result() is not None:
+            if len(game.moves_stack) == 0:
+                return None, self.evaluate(game)
             return game.peek(), self.evaluate(game)
 
         # white turn

@@ -138,20 +138,20 @@ class Game:
             return self.board.get_legal_moves()
         return []
 
-    def get_moves_from_mask(self) -> list[Move]:
+    def get_moves_from_mask(self) -> list[BitBoard]:
         """
         Returns all the masks of figures which can move.
 
         Returns
         -------
-        from_masks : list[Move]
+        from_masks : list[BitBoard]
             all figure masks that can move
         """
 
-        from_masks = []
+        from_masks = set()
         for move in self.board.get_legal_moves():
-            from_masks.append(move.from_mask)
-        return from_masks
+            from_masks.add(move.from_mask)
+        return list(from_masks)
 
     def get_moves_to_mask(self, from_mask: BitBoard) -> list[BitBoard]:
         """
@@ -164,7 +164,7 @@ class Game:
 
         Returns
         -------
-        to_masks : list[Move]
+        to_masks : list[BitBoard]
             masks of position where we can move to
         """
 

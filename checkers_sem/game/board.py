@@ -94,7 +94,7 @@ class Board:
         """
 
         if mask & self.pawns == 0:
-            return BitBoard(0)
+            return False
 
         return bool(target_mask & PROMOTION_ROW_WHITE) if self.turn == Color.WHITE else bool(target_mask & PROMOTION_ROW_BLACK)
 
