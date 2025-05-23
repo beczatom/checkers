@@ -5,9 +5,10 @@ from pylint.reporters import CollectingReporter
 
 from checkers_sem.game import board, game, move
 from checkers_sem.genetic import genetic, genetic_player
+from checkers_sem.player import player
 
 # I was inspired by BI-PYT homework testing
-@pytest.mark.parametrize('file', [move, board, game])
+@pytest.mark.parametrize('file', [board, game, move, genetic, genetic_player, player])
 def test_codestyle(file):
     """ Tests codestyle for given files. """
     src_file = inspect.getfile(file)
@@ -15,7 +16,6 @@ def test_codestyle(file):
     # disabled warnings:
     # 0301 line too long
     # 0103 variables name (does not like shorter than 2 chars)
-    # 0719 too general exception (needed for invalid trees without defining own exception class)
     res = Run(['--disable=C0301,C0103', '-sn', src_file], reporter=rep, exit=False)
 
     score = res.linter.stats.global_note
