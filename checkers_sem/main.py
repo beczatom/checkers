@@ -1,6 +1,7 @@
 from checkers_sem.gui.menu import Menu
-from checkers_sem.gui.utils.loader import *
+from checkers_sem.gui.utils.loader import loader
 from checkers_sem.gui.constants import SCREEN_WIDTH, SCREEN_HEIGHT, MENU_TITLE
+import pygame
 
 class Main:
     def __init__(self):

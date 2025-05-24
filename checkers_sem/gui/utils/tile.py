@@ -3,7 +3,6 @@ from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.loader import loader
 from checkers_sem.gui.constants import TILE_BACKGROUND, POSSIBLE_MOVE_IMG, BEST_TILE_IMG
 from checkers_sem.game.constants import BitBoard, Piece
-from checkers_sem.gui.utils.pos import Pos
 import pygame
 
 class Tile(Widget):

@@ -1,7 +1,6 @@
 from checkers_sem.genetic.constants import POPULATION_SIZE, GENERATIONS, MAX_TRAIN_DEPTH, CROSSOVER_PCT, MUTATION_PCT
 from checkers_sem.gui.constants import TIME
 
-
 class State:
     def __init__(self):
         self.POPULATION_SIZE = POPULATION_SIZE

@@ -2,10 +2,10 @@
 from checkers_sem.gui.utils.window import Window
 from checkers_sem.gui.utils.button import Button
 
-from checkers_sem.gui.game_setting_widget import GameSettingWidget
-from checkers_sem.gui.game_setting_ai_vs_ai import GameSettingAIVSAI
-from checkers_sem.gui.game_setting_human_vs_human import GameSettingHumanVSHuman
-from checkers_sem.gui.game_setting_human_vs_ai import GameSettingHumanVSAI
+from checkers_sem.gui.game_setting.game_setting_widget import GameSettingWidget
+from checkers_sem.gui.game_setting.game_setting_ai_vs_ai import GameSettingAIVSAI
+from checkers_sem.gui.game_setting.game_setting_human_vs_human import GameSettingHumanVSHuman
+from checkers_sem.gui.game_setting.game_setting_human_vs_ai import GameSettingHumanVSAI
 
 from checkers_sem.gui.constants import START_TRAIN_BUTTON_TEXT, HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT, BACKGROUND_COLOR
 import pygame

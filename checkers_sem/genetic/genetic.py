@@ -205,7 +205,6 @@ class Genetic:
         Does selection.
         """
 
-        print('njobs: ', N_JOBS)
         # initialize the containers
         players_q = mp.Queue()
         new_generation_q = mp.Queue()
@@ -228,10 +227,9 @@ class Genetic:
             players_q.put(None)
             processes.append(mp.Process(target=play_process, args=(players_q, new_generation_q, state)))
             processes[-1].start()
-        print('all started')
+
         # join the processes, and extend the new generations by winners
         for process in processes:
-            print('joining')
             process.join()
             new_generation.extend(new_generation_q.get())
 

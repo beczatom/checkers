@@ -6,9 +6,10 @@ from pylint.reporters import CollectingReporter
 from checkers_sem.game import board, game, move
 from checkers_sem.genetic import genetic, genetic_player
 from checkers_sem.player import player
+from checkers_sem.gui.utils import progress_bar
 
 # I was inspired by BI-PYT homework testing
-@pytest.mark.parametrize('file', [board, game, move, genetic, genetic_player, player])
+@pytest.mark.parametrize('file', [board, game, move, genetic, genetic_player, player, progress_bar])
 def test_codestyle(file):
     """ Tests codestyle for given files. """
     src_file = inspect.getfile(file)

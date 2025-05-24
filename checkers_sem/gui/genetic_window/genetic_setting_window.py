@@ -3,7 +3,7 @@ from collections.abc import Callable
 import pygame
 
 from checkers_sem.gui.utils.window import Window
-from checkers_sem.gui.genetic_window import GeneticWindow
+from checkers_sem.gui.genetic_window.genetic_window import GeneticWindow
 from checkers_sem.gui.utils.slider import Slider
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.button import Button

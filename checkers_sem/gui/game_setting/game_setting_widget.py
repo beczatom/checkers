@@ -15,6 +15,8 @@ from checkers_sem.state import state
 
 from checkers_sem.gui.utils.pos import Pos
 
+from abc import abstractmethod
+
 class GameSettingWidget(Widget):
     def __init__(self, *args):
         super().__init__(*args)
@@ -76,10 +78,11 @@ class GameSettingWidget(Widget):
             edit_texts[-1].draw()
         return edit_texts
 
-
+    @abstractmethod
     def handle_event(self, event : pygame.event.Event):
         raise NotImplementedError()
 
+    @abstractmethod
     def start_game(self, screen : pygame.Surface):
         raise NotImplementedError()
 

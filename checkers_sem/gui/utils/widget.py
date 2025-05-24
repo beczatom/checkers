@@ -3,7 +3,7 @@ import pygame
 from checkers_sem.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, FIRST_BORDER_WIDTH, BORDER_GAP, SECOND_BORDER_WIDTH
 from checkers_sem.gui.utils.pos import Pos
 from checkers_sem.helper import tuple_prod, tuple_sum
-
+from abc import abstractmethod
 
 class Widget:
     def __init__(self, surface : pygame.Surface, rel_pos : Pos, screen_left_top : tuple[int, int] = (0, 0)):
@@ -30,8 +30,9 @@ class Widget:
         self.rect_without_border = surface.get_rect()
         self.background_color = BACKGROUND_COLOR
 
+    @abstractmethod
     def draw(self):
-        raise Exception('Pure virtual method')
+        raise NotImplementedError()
 
     def colliding_event(self, event_pos : tuple[int, int]):
         return self.screen_rect.collidepoint(event_pos)

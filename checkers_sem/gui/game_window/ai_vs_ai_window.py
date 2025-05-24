@@ -1,6 +1,6 @@
 import pygame
 
-from checkers_sem.gui.game_window import GameWindow
+from checkers_sem.gui.game_window.game_window import GameWindow
 from checkers_sem.player.player import AIPlayer
 
 

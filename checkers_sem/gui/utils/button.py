@@ -1,8 +1,9 @@
 
 from checkers_sem.gui.utils.widget import Widget
-from checkers_sem.gui.utils.loader import *
+from checkers_sem.gui.utils.loader import loader
 from checkers_sem.gui.constants import (DEFAULT_FONT_SIZE, DEFAULT_FONT, BACKGROUND_COLOR, TEXT_COLOR, HOVER_TEXT_COLOR,
                                     HOVER_BACKGROUND_COLOR)
+import pygame
 
 class Button(Widget):
     def __init__(self, *args, **kwargs):
