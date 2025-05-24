@@ -1,4 +1,3 @@
-from collections.abc import Callable
 
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.loader import *
@@ -6,11 +5,8 @@ from checkers_sem.gui.constants import (DEFAULT_FONT_SIZE, DEFAULT_FONT, BACKGRO
                                     HOVER_BACKGROUND_COLOR)
 
 class Button(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], text : str,
-                 onclick : Callable[[], None], **kwargs):
-        super().__init__(surface, left_top)
-
-        self.text = text
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
 
         self.first_border = kwargs.get('first_border', False)
         self.second_border = kwargs.get('second_border', False)
@@ -23,12 +19,12 @@ class Button(Widget):
 
 
         self.font_size = kwargs.get('font_size', DEFAULT_FONT_SIZE)
-
         self.font = pygame.font.Font(DEFAULT_FONT, self.font_size)
+        self.text = kwargs.get('text', '')
+        self.onclick = kwargs.get('onclick', None)
 
         self.background_color = BACKGROUND_COLOR
         self.text_color = TEXT_COLOR
-        self.onclick = onclick
         self.is_hovered = False
 
     def hover(self):
@@ -65,11 +61,14 @@ class Button(Widget):
         self.surface.blit(text, text_rect)
 
 class ImageButton(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], background_image : str, onclick : Callable[[], None] = None):
-        super().__init__(surface, left_top)
-        self.background_image = loader.LOADED_IMAGES[background_image]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+        self.onclick = kwargs.get('onclick', None)
+
+        self.background_image = kwargs.get('background_image', '')
+        self.background_image = loader.LOADED_IMAGES[self.background_image]
         self.background_image = pygame.transform.scale(self.background_image, self.surface.get_rect().size)
-        self.onclick = onclick
+
         self.is_hovered = False
 
     def set_background_image(self, name : str):

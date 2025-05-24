@@ -4,6 +4,7 @@ from checkers_sem.gui.genetic_setting_window import GeneticSettingWindow
 from checkers_sem.gui.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT, REFRESH_RATE_MS
 import pygame
 
+from checkers_sem.gui.utils.pos import Pos
 
 class Menu:
     def __init__(self, screen):
@@ -25,21 +26,12 @@ class Menu:
 
         buttons = []
 
-        margin_x = self.screen.get_width() // 8
-        margin_y_up =  self.screen.get_height() // 2
-        padding_y = self.screen.get_height() // 24
-
-        button_width = (self.screen.get_width() - 2 * margin_x)
-        button_height = (self.screen.get_height() - margin_y_up - padding_y) // 4
-
         for i, text in enumerate([PLAY_BUTTON_TEXT, GENETIC_TEXT]):
-            top = margin_y_up + i * button_height + i * padding_y
-            left = margin_x
 
-            rect = pygame.Rect(left, top, button_width,button_height)
-
-            buttons.append(Button(self.screen.subsurface(rect), (left, top), text, actions[i],
-                                  background_color=BACKGROUND_COLOR, first_border=True, second_border=True, font_size= 25))
+            buttons.append(Button(self.screen,
+                                  Pos((0.6, 0.1), (i * 0.3, 0, 0, 0), center=True),
+                                  text=text, onclick=actions[i],background_color=BACKGROUND_COLOR,
+                                  first_border=True, second_border=True, font_size= 25))
 
             buttons[-1].draw()
 
@@ -66,4 +58,3 @@ class Menu:
                 self.__init__(self.screen)
             except StopIteration:
                 break
-

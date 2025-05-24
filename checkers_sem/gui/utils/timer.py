@@ -3,12 +3,12 @@ import time
 
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.helper import seconds_to_string
-from checkers_sem.gui.constants import DEFAULT_FONT, DEFAULT_FONT_SIZE
+from checkers_sem.gui.constants import DEFAULT_FONT, DEFAULT_FONT_SIZE, TEXT_COLOR
 from checkers_sem.state import *
 
 class Timer(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int]):
-        super().__init__(surface, left_top)
+    def __init__(self, *args):
+        super().__init__(*args)
         self.draw_border()
         self.font = pygame.font.Font(DEFAULT_FONT, DEFAULT_FONT_SIZE)
 

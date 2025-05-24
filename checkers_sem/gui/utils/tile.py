@@ -1,16 +1,19 @@
 from checkers_sem.gui.utils.button import ImageButton
 from checkers_sem.gui.utils.widget import Widget
-from collections.abc import Callable
-from checkers_sem.gui.utils.loader import *
-from checkers_sem.game.constants import BitBoard
+from checkers_sem.gui.utils.loader import loader
+from checkers_sem.gui.constants import TILE_BACKGROUND, POSSIBLE_MOVE_IMG, BEST_TILE_IMG
+from checkers_sem.game.constants import BitBoard, Piece
+from checkers_sem.gui.utils.pos import Pos
+import pygame
 
 class Tile(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], pos_mask : BitBoard, onclick : Callable[[],None]):
-        super().__init__(surface, left_top)
-        self.pos_mask = pos_mask
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+        self.pos_mask = kwargs.get('pos_mask', None)
         self.img_on_top = None
         self.best_move = False
-        self.button = ImageButton(surface, self.left_top, TILE_BACKGROUND, onclick)
+        self.button = ImageButton(*args,
+                                  background_image = TILE_BACKGROUND, onclick=kwargs.get('onclick'))
 
     def set_background_image(self, name : str):
         self.button.set_background_image(name)
@@ -23,7 +26,6 @@ class Tile(Widget):
 
     def put_best_move(self):
         self.set_background_image(BEST_TILE_IMG)
-        # self.img_on_top = loader.LOADED_IMAGES[BEST_MOVE_IMG]
 
     def clear_top(self):
         self.img_on_top = None

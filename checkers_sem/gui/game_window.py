@@ -10,9 +10,10 @@ from checkers_sem.gui.utils.move_table import MoveTable
 from checkers_sem.gui.utils.button import ImageButton
 from checkers_sem.gui.utils.result import Result
 from checkers_sem.gui.utils.checkbox import CheckBox
-from checkers_sem.state import *
+from checkers_sem.state import state
 import copy
 
+from checkers_sem.gui.utils.pos import Pos
 
 from checkers_sem.gui.constants import SHOW_BEST_MOVES_TEXT, LEFT_ARROW_IMAGE, RIGHT_ARROW_IMAGE, BACKGROUND_COLOR, RESTART_ARROW_IMAGE
 from checkers_sem.game.constants import Color, GameEnd
@@ -60,17 +61,12 @@ class GameWindow(Window):
         self.evaluation_start_hash = hash(None)
 
     def init_best_move_checkbox(self) -> tuple[Text, CheckBox]:
-        top = self.game_control_buttons[0].get_screen_bottom() + self.move_table.get_height() // 16
-        left = self.move_table.left_top[0] - self.surface.get_height() // 32
-        size_x = self.move_table.get_width()  + self.surface.get_height() // 16
-        size_y = self.game_control_buttons[0].get_height()
+        text = Text(self.surface,
+                    Pos((0.21, 0.057), (0.778, 0, 0, 0.74)),
+                    text=SHOW_BEST_MOVES_TEXT)
 
-        text_rect = pygame.Rect(left, top, size_x - size_y, size_y)
-        text = Text(self.surface.subsurface(text_rect), (left, top), SHOW_BEST_MOVES_TEXT)
-
-        left += text.get_width()
-        checkbox_rect = pygame.Rect(left, top, size_y, size_y)
-        checkbox = CheckBox(self.surface.subsurface(checkbox_rect), (left, top),
+        checkbox = CheckBox(self.surface,
+                            Pos((0.04, 0.057), (0.778, 0, 0, 0.7)),
                             on_check=self.checkbox_on_check,
                             on_uncheck=self.checkbox_on_uncheck)
         return text, checkbox
@@ -78,15 +74,13 @@ class GameWindow(Window):
     def init_eval_texts(self) -> dict[bool, Text]:
         eval_texts = {}
 
-        top = self.black_timer.left_top[1]
-        left = self.chessboard.left_top[0] + self.chessboard.get_width() // 2
-        size = self.black_timer.get_width(), self.black_timer.get_height()
-        text_rect = pygame.Rect(left, top, *size)
-        eval_texts[Color.BLACK] = Text(self.surface.subsurface(text_rect), (left, top), '')
+        eval_texts[Color.BLACK] = Text(self.surface,
+                                       Pos((0.1, 0.075), (0.067, 0.65, 0.858, 0.25), center=True),
+                                       text='')
 
-        top = self.white_timer.left_top[1]
-        text_rect = pygame.Rect(left, top, *size)
-        eval_texts[Color.WHITE] = Text(self.surface.subsurface(text_rect), (left, top), '')
+        eval_texts[Color.WHITE] = Text(self.surface,
+                                       Pos((0.1, 0.075), (0.858, 0.65, 0.067, 0.25), center=True),
+                                       text='')
 
         return eval_texts
 
@@ -126,68 +120,36 @@ class GameWindow(Window):
                 raise NotImplementedError()
 
     def init_game_control_buttons(self) -> list[ImageButton]:
-        top = self.move_table.get_screen_bottom()
-        top += self.move_table.get_height() // 16
-
-        padding_x = self.move_table.get_width() // 5
-        button_size = (self.move_table.get_width() - 2 * padding_x) // 3
-
-        left = self.move_table.get_screen_left()
-
         game_control_buttons = []
         for i, button_img in enumerate([LEFT_ARROW_IMAGE, RIGHT_ARROW_IMAGE, RESTART_ARROW_IMAGE]):
 
-            game_control_button_rect = pygame.Rect(left, top, button_size, button_size)
-            game_control_button = ImageButton(self.surface.subsurface(game_control_button_rect), (left, top),
-                                              button_img, self.get_button_control_function(i))
+            game_control_button = ImageButton(self.surface,
+                                              Pos((0.05, 0.07), (0.675, 0, 0, 0.7 + i * 0.1)),
+                                              background_image=button_img, onclick=self.get_button_control_function(i))
             game_control_buttons.append(game_control_button)
             game_control_buttons[-1].draw()
-            left += padding_x + button_size
 
         return game_control_buttons
 
     def init_move_table(self) -> MoveTable:
-        top = self.chessboard.get_screen_top()
-        bottom = 3 * self.surface.get_height() // 8
-        size_y = self.surface.get_height() - top - bottom
-
-        left = 11 * self.surface.get_width() // 16
-        right = 2 * self.surface.get_width() // 16
-        size_x = self.surface.get_width() - left - right
-
-        move_table_rect = pygame.Rect(left, top, size_x, size_y)
-
-        move_table = MoveTable(self.surface.subsurface(move_table_rect), (left, top))
+        move_table = MoveTable(self.surface,
+                               Pos((0.25, 0.5), (0.142, 0.05, 0.358, 0.7), center = True))
         move_table.draw()
         return move_table
 
     def init_timers(self) -> tuple[Timer, Timer]:
+        black_timer = Timer(self.surface,
+                            Pos((0.125, 0.075), (0.067, 0.45, 0.858, 0.425)))
 
-        height = self.chessboard.get_height() // 10
-        width = self.chessboard.get_width() // 4
-
-        top = self.chessboard.get_screen_top() - self.chessboard.get_height() // 8
-        left = self.chessboard.get_screen_left() + 3 * self.chessboard.get_width() // 4
-
-        timer_rect = pygame.Rect(left, top, width, height)
-
-        black_timer = Timer(self.surface.subsurface(timer_rect), (left, top))
-
-        top = self.chessboard.get_screen_bottom() + self.chessboard.get_height() // 8 - height
-
-        timer_rect = pygame.Rect(left, top, width, height)
-
-        white_timer = Timer(self.surface.subsurface(timer_rect), (left, top))
+        white_timer = Timer(self.surface,
+                            Pos((0.125, 0.075), (0.858, 0.45, 0.067, 0.425)))
         return white_timer, black_timer
 
     def init_chessboard(self) -> ChessBoard:
-        size = self.surface.get_width() // 2 // 8 * 8
-        top = (self.surface.get_height() - size) // 2
-        left = self.surface.get_width() // 16
 
-        chessboard_rect = pygame.Rect(left, top, size, size)
-
-        return ChessBoard(self.surface.subsurface(chessboard_rect), (left, top), self.game)
+        return ChessBoard(self.surface,
+                          Pos((0.5, 0.715), (0.142, 0.45, 0.142, 0.05), center=True),
+                          game = self.game)
 
     def start_times(self):
         if self.res is not None: return
@@ -213,7 +175,9 @@ class GameWindow(Window):
         top = self.surface.get_height() // 4
         left = self.surface.get_width() // 4
         result_rect = pygame.Rect(left, top, self.surface.get_width() // 2, self.surface.get_height() // 2)
-        return Result(self.surface.subsurface(result_rect), (left, top), self.res, self.game_end_type, self.result_onclick)
+        return Result(self.surface,
+                      Pos((0.5, 0.5), (0, 0, 0, 0), center=True),
+                      res = self.res, game_end_type = self.game_end_type, onclick = self.result_onclick)
 
     def make_move(self) -> None:
         if self.res is not None: return

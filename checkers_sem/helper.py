@@ -1,4 +1,5 @@
-from checkers_sem.game.constants import BitBoard
+from checkers_sem.game.constants import BitBoard, Color
+from checkers_sem.gui.constants import AVERAGE_GENETIC_COEFICIENTS_TEXT, FILE_NAMES
 from checkers_sem.game.move import Move
 from checkers_sem.genetic.genetic import Genetic
 from checkers_sem.state import *
@@ -106,10 +107,22 @@ def time_to_text(seconds : int) -> str:
 
     return string
 
-def tuple_sum(tuple1 : tuple[int, int], tuple2 : tuple[int, int]):
-    return tuple1[0] + tuple2[0], tuple1[1] + tuple2[1]
+def tuple_sum(*tuples) -> tuple:
+    tuples = list(tuples)
+    return tuple(map(sum, zip(*tuples)))
 
+def tuple_rev(tup : tuple) -> tuple:
+    return tup[::-1]
 
+def multiply_list(l : list[float]) -> float:
+    prod = l[0]
+    for x in l[1:]:
+        prod *= x
+    return prod
+
+def tuple_prod(*tuples) -> tuple:
+    tuples = list(tuples)
+    return tuple(map(multiply_list, zip(*tuples)))
 
 def do_one_generation_thread(genetic : Genetic):
     genetic.do_iteration()

@@ -1,13 +1,31 @@
 import pygame
 
 from checkers_sem.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, FIRST_BORDER_WIDTH, BORDER_GAP, SECOND_BORDER_WIDTH
+from checkers_sem.gui.utils.pos import Pos
+from checkers_sem.helper import tuple_prod, tuple_sum
+
 
 class Widget:
-    def __init__(self, surface : pygame.Surface, screen_left_top : tuple[int, int]):
-        self.screen_left_top = screen_left_top
-        self.left_top = screen_left_top
-        self.screen_rect = pygame.Rect(*screen_left_top, *surface.get_rect().size)
-        self.surface = surface
+    def __init__(self, surface : pygame.Surface, rel_pos : Pos, screen_left_top : tuple[int, int] = (0, 0)):
+
+        # rectangle of the surface from which we will get the subsurface, parent surface
+        surface_rect = surface.get_rect()
+
+        # left top shift from parent surface
+        self.left_top = tuple_prod(rel_pos.left_top, surface_rect.size)
+
+        # size relative to parent surface size
+        self.size = tuple_prod(rel_pos.size, surface_rect.size)
+
+        # our part of the parents surface
+        self.surface = surface.subsurface(pygame.Rect(*self.left_top, *self.size))
+
+        # there can be many parents, and we need to track the shift in respect to original left_top = (0,0)
+        self.screen_left_top = tuple_sum(screen_left_top, self.left_top)
+
+        # rectangle with shift to root (screen), used for actions only
+        self.screen_rect = pygame.Rect(*self.screen_left_top, *self.size)
+
         self.surface.fill(BACKGROUND_COLOR)
         self.rect_without_border = surface.get_rect()
         self.background_color = BACKGROUND_COLOR
@@ -15,8 +33,8 @@ class Widget:
     def draw(self):
         raise Exception('Pure virtual method')
 
-    def clicked(self, mouse_pos : tuple[int, int]):
-        return self.screen_rect.collidepoint(mouse_pos)
+    def colliding_event(self, event_pos : tuple[int, int]):
+        return self.screen_rect.collidepoint(event_pos)
 
     def draw_border(self):
         self.__draw_borders()

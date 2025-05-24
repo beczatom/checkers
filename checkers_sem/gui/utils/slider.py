@@ -1,38 +1,34 @@
-from collections.abc import Callable
 
 from checkers_sem.gui.utils.widget import Widget
 
 from checkers_sem.gui.utils.loader import *
 
 from checkers_sem.helper import tuple_sum
-from checkers_sem.gui.constants import BORDER_COLOR
+from checkers_sem.gui.constants import BORDER_COLOR, BACKGROUND_COLOR
 
 class Slider(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],
-                 min : int = 0, max : int = 100, initial : int = 50,
-                 onchange : Callable[[int], None] = None, ):
-        super().__init__(surface, left_top)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
 
-        self.min = min
-        self.max = max
-        self.value = initial
+        self.min = kwargs.get('min', 0)
+        self.max = kwargs.get('max', 100)
+        self.value = kwargs.get('initial', 50)
+        self.onchange = kwargs.get('onchange', None)
 
         self.circle_rect = self.__get_circle_rect()
 
         self.mouse_drag = False
 
-        self.onchange = onchange
-
     def handle_event(self, event : pygame.event.Event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            left_top = tuple_sum(self.left_top, (self.circle_rect.x, self.circle_rect.y))
+            left_top = tuple_sum(self.screen_left_top, (self.circle_rect.x, self.circle_rect.y))
             circle_screen_rect = pygame.Rect(*left_top, *self.circle_rect.size)
             if circle_screen_rect.collidepoint(event.pos):
                 self.mouse_drag = True
 
         if event.type == pygame.MOUSEMOTION and self.mouse_drag:
             pos_x = event.pos[0]
-            pos_on_line = pos_x - self.left_top[0] - self.circle_rect.width // 2
+            pos_on_line = pos_x - self.screen_left_top[0] - self.circle_rect.width // 2
             if pos_on_line < 0:
                 pos_on_line = 0
 

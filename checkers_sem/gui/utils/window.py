@@ -2,6 +2,7 @@ import pygame
 
 from checkers_sem.gui.constants import BACKGROUND_COLOR, LEFT_ARROW_IMAGE, REFRESH_RATE_MS
 from checkers_sem.gui.utils.button import ImageButton
+from checkers_sem.gui.utils.pos import Pos
 
 from abc import abstractmethod
 
@@ -16,20 +17,15 @@ class Window:
         self.active_thread = None
 
     def init_menu_button(self):
-        size_x = self.surface.get_width() // 16
-        size_y = self.surface.get_height() // 16
-
-        top = self.surface.get_height() // 32
-        left = self.surface.get_width() // 32
 
         def menu_button_onclick():
             if self.active_thread is not None:
                 self.active_thread.join()
             self.run = False
 
-        menu_button_rect = pygame.Rect(left, top, size_x, size_y)
-        menu_button = ImageButton(self.surface.subsurface(menu_button_rect), (left, top),
-                             LEFT_ARROW_IMAGE, menu_button_onclick)
+        menu_button = ImageButton(self.surface,
+                                  Pos((0.05, 0.05), (0.025, 0, 0, 0.025)),
+                                  background_image = LEFT_ARROW_IMAGE, onclick = menu_button_onclick)
         menu_button.draw()
         return menu_button
 

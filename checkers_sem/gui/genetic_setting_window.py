@@ -9,6 +9,7 @@ from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.gui.constants import SLIDER_PROPERTIES, AWAITED_TIME_TRAIN_TEXT, START_TRAIN_BUTTON_TEXT
 from checkers_sem.helper import get_awaited_train_time, time_to_text
+from checkers_sem.gui.utils.pos import Pos
 
 from checkers_sem.state import *
 
@@ -40,17 +41,10 @@ class GeneticSettingWindow(Window):
         state.MUTATION_PCT = self.genetic_settings[4]
 
     def init_start_button(self):
-        margin_x = 6 * self.surface.get_rect().width // 8
 
-        space_y = self.surface.get_rect().height - self.awaited_time.get_screen_bottom()
-        margin_y = self.awaited_time.get_screen_bottom() + space_y // 4
-        size_y = space_y // 3
-        size_x = margin_x // 6
-
-        button_rect = pygame.Rect(margin_x, margin_y, size_x, size_y)
-
-        button = Button(self.surface.subsurface(button_rect), (margin_x, margin_y),
-                        START_TRAIN_BUTTON_TEXT, self.start_button_onclick)
+        button = Button(self.surface,
+                        Pos((0.125, 0.075), (0.8, 0.05, 0.05, 0.8), center=True),
+                        text=START_TRAIN_BUTTON_TEXT, onclick=self.start_button_onclick)
         return button
 
     def get_time_text_from_sliders(self):
@@ -62,22 +56,13 @@ class GeneticSettingWindow(Window):
         return [slider.get_value() for slider in self.sliders]
 
     def init_awaited_time(self) -> tuple[Text, Text]:
-        margin_x = self.surface.get_rect().width // 8
-        padding_x = self.surface.get_rect().width // 14
+        header = Text(self.surface,
+                      Pos((0.3, 0.1), (0.75, 0.5, 0.15, 0.1), center=True),
+                      text = AWAITED_TIME_TRAIN_TEXT)
 
-        space_y = self.surface.get_rect().height - self.sliders[-1].get_screen_bottom()
-        margin_y = self.sliders[-1].get_screen_bottom() + space_y // 4
-        size_y = space_y // 6
-        size_x = (self.surface.get_rect().width - 2 * margin_x - padding_x) // 2
-
-        text_rect = pygame.Rect(margin_x, margin_y, size_x, size_y)
-        header = Text(self.surface.subsurface(text_rect), (margin_x, margin_y), AWAITED_TIME_TRAIN_TEXT)
-
-        margin_x += size_x + padding_x
-
-        text_rect = pygame.Rect(margin_x, margin_y, size_x, size_y)
-
-        text = Text(self.surface.subsurface(text_rect), (margin_x, margin_y), self.get_time_text_from_sliders())
+        text = Text(self.surface,
+                    Pos((0.3, 0.1), (0.75, 0.2, 0.15, 0.6), center=True),
+                    text = self.get_time_text_from_sliders())
         return header, text
 
     def init_sliders(self) -> tuple[list[Text], list[Text], list[Slider]]:
@@ -85,35 +70,20 @@ class GeneticSettingWindow(Window):
         slider_text_vals = []
         slider_headers = []
 
-        margin_x = self.surface.get_rect().width // 8
-        margin_y_top = self.surface.get_rect().height // 5
-        margin_y_bottom = self.surface.get_rect().height // 3
-
-        padding_between = (self.surface.get_rect().height - margin_y_top - margin_y_bottom) // 10
-
-        size_x = self.surface.get_rect().width - 2 * margin_x
-        size_y = (self.surface.get_rect().height -  margin_y_top - margin_y_bottom - 4 * padding_between) // 5
-
         for i in range(5):
             text, min_val, max_val, initial_val = SLIDER_PROPERTIES[i]
-            top = margin_y_top + i * padding_between + i * size_y
-            padding_x = size_x // 10
 
-            left = margin_x
+            slider_headers.append(Text(self.surface,
+                                       Pos((0.3, 0.05), (0.2 + i * 0.1, 0.5, 0.75 - i * 0.1, 0.1)),
+                                       text = text))
 
-            text_rect = pygame.Rect(margin_x, top, 6 * (size_x - 2 * padding_x) // 16, size_y)
-            slider_headers.append(Text(self.surface.subsurface(text_rect), (margin_x, top), text))
+            slider_text_vals.append(Text(self.surface,
+                                         Pos((0.1, 0.05), (0.2 + i * 0.1, 0.5, 0.75 - i * 0.1, 0.4)),
+                                         text = initial_val))
 
-            left += text_rect.width + padding_x
-
-            slider_text_rect = pygame.Rect(left, top, (size_x - 2 * padding_x) // 16, size_y)
-            slider_text_vals.append(Text(self.surface.subsurface(slider_text_rect), (left, top), initial_val))
-
-            left += slider_text_rect.width + padding_x
-
-            slider_rect = pygame.Rect(left, top, 9 * (size_x - 2 * padding_x) // 16, size_y)
-            sliders.append(Slider(self.surface.subsurface(slider_rect), (left, top), min_val, max_val, initial_val,
-                                  self.get_setting_function(i)))
+            sliders.append(Slider(self.surface,
+                                  Pos((0.3, 0.05), (0.2 + i * 0.1, 0.5, 0.75 - i * 0.1, 0.6)),
+                                  min = min_val, max = max_val, initial = initial_val, onchange = self.get_setting_function(i)))
 
         return slider_headers, slider_text_vals, sliders
 
@@ -134,5 +104,6 @@ class GeneticSettingWindow(Window):
             self.slider_headers[i].draw()
             self.slider_text_vals[i].draw()
             self.sliders[i].draw()
+        self.awaited_time_header.draw()
         self.awaited_time.draw()
         self.start_button.draw()

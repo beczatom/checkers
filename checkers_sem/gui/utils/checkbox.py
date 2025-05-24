@@ -4,8 +4,8 @@ from checkers_sem.gui.constants import BACKGROUND_COLOR, CHECKED_CHECKBOX_BACKGR
 from checkers_sem.gui.utils.widget import Widget
 
 class CheckBox(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], **kwargs):
-        super().__init__(surface, left_top)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
 
         self.draw_border()
         self.background_color = BACKGROUND_COLOR

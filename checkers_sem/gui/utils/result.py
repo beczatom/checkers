@@ -1,61 +1,52 @@
-from collections.abc import Callable
 
 from checkers_sem.gui.utils.widget import Widget
 
-from checkers_sem.gui.utils.loader import *
+import pygame
 
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.gui.utils.text import Text
 
 from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, WIN_TEXT, GAME_END_TYPE_TEXT, OK_TEXT
-from checkers_sem.helper import tuple_sum
+
+from checkers_sem.gui.utils.pos import Pos
 
 class Result(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],
-                 res : int, game_end_type : int,
-                 onclick : Callable[[], None] = None, ):
-        super().__init__(surface, left_top)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
 
         self.draw_border()
 
-        self.res = res
-        self.game_end_type = game_end_type
+        self.res = kwargs.get('res', None)
+        self.game_end_type = kwargs.get('game_end_type', None)
+        self.onclick = kwargs.get('onclick', None)
 
         self.init_res_text()
         self.init_game_end_type_text()
 
-        self.onclick = onclick
+
         self.ok_button = self.init_ok_button()
 
     def init_res_text(self):
-        top = self.rect_without_border.height // 8
-        left = self.rect_without_border.x
-        font_size = 2 * DEFAULT_FONT_SIZE
-        text_rect = pygame.Rect(left, top, self.rect_without_border.width, font_size * 2)
+        text = WIN_TEXT[self.res]
 
-        string = WIN_TEXT[self.res]
-        Text(self.surface.subsurface(text_rect), tuple_sum(self.screen_left_top, (left, top)),
-             string, font_size= font_size).draw()
+        Text(self.surface,
+             Pos((0.8, 0.2), (0.15, 0, 0.65, 0), center=True),
+             self.screen_left_top,
+             text = text, font_size = 2 * DEFAULT_FONT_SIZE).draw()
 
     def init_game_end_type_text(self):
-        top = self.rect_without_border.height // 3
-        left = self.rect_without_border.x
-        font_size = DEFAULT_FONT_SIZE
-        text_rect = pygame.Rect(left, top, self.rect_without_border.width, font_size * 2)
 
-        string = GAME_END_TYPE_TEXT[self.game_end_type]
-        Text(self.surface.subsurface(text_rect), tuple_sum(self.screen_left_top, (left, top)),
-             string, font_size=font_size).draw()
+        text = GAME_END_TYPE_TEXT[self.game_end_type]
+        Text(self.surface,
+             Pos((0.8, 0.2), (0.3, 0, 0.5, 0), center = True),
+             self.screen_left_top,
+             text = text).draw()
 
     def init_ok_button(self) -> Button:
-        top = 3 * self.rect_without_border.height // 4
-        font_size = DEFAULT_FONT_SIZE
-
-        left = self.rect_without_border.width // 3
-        button_rect = pygame.Rect(left, top, self.rect_without_border.width // 3, font_size * 2)
-
-        button = Button(self.surface.subsurface(button_rect), tuple_sum(self.screen_left_top, (left, top)),
-               OK_TEXT, self.onclick, font_size=font_size)
+        button = Button(self.surface,
+                        Pos((0.3, 0.2), (0.7, 0, 0.1, 0), center=True),
+                        self.screen_left_top,
+               text=OK_TEXT, onclick=self.onclick)
 
         button.draw()
         return button

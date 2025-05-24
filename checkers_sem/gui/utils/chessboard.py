@@ -4,17 +4,17 @@ from checkers_sem.game.game import Game
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.tile import Tile
 from checkers_sem.game.constants import BitBoard, Piece, Color
-from checkers_sem.helper import tuple_sum, coords_to_bitboard_mask, bitboard_to_bool_board, bitboard_to_idx
-
+from checkers_sem.helper import coords_to_bitboard_mask, bitboard_to_bool_board, bitboard_to_idx
+from checkers_sem.gui.utils.pos import Pos
 
 class ChessBoard(Widget):
-    def __init__(self, surface : pygame.surface, left_top : tuple[int, int],  game : Game):
-        super().__init__(surface, left_top)
+    def __init__(self, *args,  **kwargs):
+        super().__init__(*args)
         self.draw_border()
         self.tiles = self.tiles_init()
         self.possible_moves = []
         self.best_move = None, None
-        self.game = game
+        self.game = kwargs.get('game', None)
         self.clicked_mask = None
         self.clicked = False
 
@@ -25,21 +25,24 @@ class ChessBoard(Widget):
         return tile_onclick
 
     def tiles_init(self) -> list[Tile]:
-        square_size = self.rect_without_border.width / 8
+        # square_size = self.rect_without_border.width / 8
+        square_size = 1 / 8
 
         tiles = []
         for i in range(8):
-            top = self.rect_without_border.topleft[0] + i * square_size
-            left = self.rect_without_border.topleft[1]
+            top = i * square_size
+            left = 0
             left += square_size if i % 2 == 0 else 0
             for j in range(4):
 
-                rect = pygame.Rect(left, top, square_size, square_size)
-                screen_left_top = tuple_sum(self.left_top, (left, top))
+                # rect = pygame.Rect(left, top, square_size, square_size)
+                # screen_left_top = tuple_sum(self.left_top, (left, top))
 
                 mask = coords_to_bitboard_mask((i, j))
-                tiles.append(Tile(self.surface.subsurface(rect), screen_left_top,
-                                      mask, self.generate_tile_onclick(mask)))
+                tiles.append(Tile(self.surface.subsurface(self.rect_without_border),
+                                  Pos((1 / 8, 1 / 8), (top, 0, 0, left)),
+                                  self.screen_left_top,
+                                  pos_mask = mask, onclick = self.generate_tile_onclick(mask)))
 
                 left += 2 * square_size
                 tiles[-1].draw()

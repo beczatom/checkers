@@ -4,10 +4,10 @@ from checkers_sem.gui.constants import BACKGROUND_COLOR, BAR_IMAGE
 from checkers_sem.gui.utils.widget import Widget
 
 class Bar(Widget):
-    def __init__(self, surface : pygame.Surface, left_top : tuple[int, int], value : float = 0):
-        super().__init__(surface, left_top)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
 
-        self.value = value
+        self.value = kwargs.get('value', 0)
 
         self.draw_border()
 

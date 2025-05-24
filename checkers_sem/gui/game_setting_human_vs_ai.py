@@ -6,31 +6,22 @@ import pygame
 
 from checkers_sem.state import *
 from checkers_sem.gui.game_setting_widget import GameSettingWidget
-from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX
+from checkers_sem.gui.constants import DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX
 from checkers_sem.genetic.constants import AI_COEFS
 
 class GameSettingHumanVSAI(GameSettingWidget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int]):
         super().__init__(surface, left_top)
 
-        top = self.time_slider.get_height() + 3 * DEFAULT_FONT_SIZE // 2
-
         self.depth_header, self.depth_text_val, self.depth_slider = self.init_slider(
-            top, self.depth_slider_onclick, (DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX, state.DEPTH_BLACK))
+            0.1, self.depth_slider_onclick,
+            (DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX, state.DEPTH_BLACK))
 
-        top += self.depth_slider.get_height() + DEFAULT_FONT_SIZE // 2
+        self.coefs_header = self.init_coefs_header(0.25)
 
-        self.coefs_header = self.init_coefs_header(top)
+        self.coefs_edit_texts_headers = self.init_coefs_texts(0.325, 0.3)
 
-        top += 2 * DEFAULT_FONT_SIZE
-
-        coefs_text_width = 10 * self.surface.get_width() // 16
-
-        self.coefs_edit_texts_headers = self.init_coefs_texts(top, coefs_text_width)
-
-        coefs_edit_text_width = 6 * self.surface.get_width() // 16
-
-        self.coefs_edit_texts = self.init_edit_texts(top, coefs_text_width, coefs_edit_text_width)
+        self.coefs_edit_texts = self.init_edit_texts(0.325, 0.5, 0.15)
 
 
     def depth_slider_onclick(self, val : int):
