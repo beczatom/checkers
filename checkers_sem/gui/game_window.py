@@ -13,6 +13,10 @@ from checkers_sem.gui.utils.checkbox import CheckBox
 from checkers_sem.state import *
 import copy
 
+
+from checkers_sem.gui.constants import SHOW_BEST_MOVES_TEXT, LEFT_ARROW_IMAGE, RIGHT_ARROW_IMAGE, BACKGROUND_COLOR, RESTART_ARROW_IMAGE
+from checkers_sem.game.constants import Color, GameEnd
+
 from threading import Thread
 
 

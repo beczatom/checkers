@@ -1,6 +1,6 @@
 import pygame
 
-from checkers_sem.constants import BACKGROUND_COLOR, BORDER_COLOR, FIRST_BORDER_WIDTH, BORDER_GAP, SECOND_BORDER_WIDTH
+from checkers_sem.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, FIRST_BORDER_WIDTH, BORDER_GAP, SECOND_BORDER_WIDTH
 
 class Widget:
     def __init__(self, surface : pygame.Surface, screen_left_top : tuple[int, int]):

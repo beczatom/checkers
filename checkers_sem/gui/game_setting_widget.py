@@ -6,7 +6,10 @@ from checkers_sem.gui.utils.slider import Slider
 from checkers_sem.gui.utils.edit_text import EditText
 import pygame
 
-from checkers_sem.helper import *
+from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, TIME_SLIDER_TEXT, TIME_SLIDER_MIN, TIME_SLIDER_MAX, STAT_TEXTS, COEFICIENTS_TEXT
+from checkers_sem.genetic.constants import AI_COEFS
+
+from checkers_sem.helper import tuple_sum, seconds_to_min_sec
 
 from checkers_sem.state import *
 

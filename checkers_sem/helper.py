@@ -1,4 +1,4 @@
-from checkers_sem.constants import *
+from checkers_sem.game.constants import BitBoard
 from checkers_sem.game.move import Move
 from checkers_sem.genetic.genetic import Genetic
 from checkers_sem.state import *

@@ -1,6 +1,6 @@
 import pygame
 
-from checkers_sem.constants import (TILE_BACKGROUND, LEFT_ARROW_IMAGE, RIGHT_ARROW_IMAGE, RESTART_ARROW_IMAGE,
+from checkers_sem.gui.constants import (TILE_BACKGROUND, LEFT_ARROW_IMAGE, RIGHT_ARROW_IMAGE, RESTART_ARROW_IMAGE,
                                     POSSIBLE_MOVE_IMG, SLIDER_CIRCLE, BEST_TILE_IMG, Piece, Color, PIECE_IMAGES)
 
 

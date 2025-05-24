@@ -6,7 +6,7 @@ from collections import deque
 
 from checkers_sem.game.board import Board
 from checkers_sem.game.move import Move
-from checkers_sem.constants import BitBoard, TAKE, GameEnd, MoveType, Color, Piece, PROMOTION
+from checkers_sem.game.constants import BitBoard, TAKE, GameEnd, MoveType, Color, Piece, PROMOTION
 
 @pytest.mark.parametrize('move_stack, repetition', [
     (deque([]), False),

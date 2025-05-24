@@ -4,6 +4,9 @@ from checkers_sem.gui.game_setting_widget import GameSettingWidget
 from checkers_sem.gui.human_vs_human_window import HumanVsHumanWindow
 from checkers_sem.player.player import HumanPlayer
 from checkers_sem.state import *
+from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX
+from checkers_sem.genetic.constants import AI_COEFS
+
 
 class GameSettingHumanVSHuman(GameSettingWidget):
     def __init__(self, surface: pygame.Surface, left_top: tuple[int, int]):

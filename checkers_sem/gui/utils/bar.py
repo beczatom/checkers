@@ -1,6 +1,6 @@
 import pygame
 
-from checkers_sem.constants import BACKGROUND_COLOR, BAR_IMAGE
+from checkers_sem.gui.constants import BACKGROUND_COLOR, BAR_IMAGE
 from checkers_sem.gui.utils.widget import Widget
 
 class Bar(Widget):

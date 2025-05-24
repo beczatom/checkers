@@ -6,7 +6,8 @@ import pygame
 
 from checkers_sem.state import *
 from checkers_sem.gui.game_setting_widget import GameSettingWidget
-
+from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX
+from checkers_sem.genetic.constants import AI_COEFS
 
 class GameSettingHumanVSAI(GameSettingWidget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int]):

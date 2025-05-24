@@ -5,7 +5,7 @@ import numpy as np
 
 from checkers_sem.game.board import Board, make_gen, is_color
 from checkers_sem.game.move import Move
-from checkers_sem.constants import BitBoard, Color, MoveType, PROMOTION, Piece, EVEN_ROW, TAKE
+from checkers_sem.game.constants import BitBoard, Color, MoveType, PROMOTION, Piece, EVEN_ROW, TAKE
 
 def dummy_fun_make_gen_test(bitboard : BitBoard) -> list[int] :
 

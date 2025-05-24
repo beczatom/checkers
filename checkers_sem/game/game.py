@@ -9,7 +9,7 @@ from collections.abc import Iterator
 
 from checkers_sem.game.board import Board
 from checkers_sem.game.move import Move
-from checkers_sem.constants import BitBoard, TAKE, GameEnd, MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW, \
+from checkers_sem.game.constants import BitBoard, TAKE, GameEnd, MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW, \
     MOVES_WITHOUT_TAKE_TO_CLAIM_DRAW_TRAIN
 
 

@@ -9,7 +9,7 @@ from collections.abc import Iterable, Callable, Iterator
 import numpy as np
 
 from checkers_sem.game.move import Move
-from checkers_sem.constants import BitBoard, INITIAL_WHITE, INITIAL_BLACK, Color, TAKE, PROMOTION, \
+from checkers_sem.game.constants import BitBoard, INITIAL_WHITE, INITIAL_BLACK, Color, TAKE, PROMOTION, \
     PROMOTION_ROW_WHITE, PROMOTION_ROW_BLACK, MoveType, Piece, EVEN_ROW, TOP_NEXT_PROM_EDGE, \
     BOTTOM_NEXT_PROM_EDGE, HORIZONTAL_EDGE, TOP_ROW, BOTTOM_ROW, CENTER, BOARD_LEFT_TOP
 

@@ -6,7 +6,8 @@ import numpy as np
 
 from checkers_sem.game.game import Game
 from checkers_sem.game.move import Move
-from checkers_sem.constants import MAX_TRAIN_DEPTH, Color
+from checkers_sem.genetic.constants import MAX_TRAIN_DEPTH
+from checkers_sem.game.constants import Color
 
 
 class GeneticPlayer:

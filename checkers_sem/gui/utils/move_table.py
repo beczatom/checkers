@@ -2,7 +2,9 @@ import pygame
 
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.text import Text
-from checkers_sem.helper import *
+from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, DEFAULT_FONT, BACKGROUND_COLOR
+from checkers_sem.game.move import Move
+from checkers_sem.helper import move_to_display_string
 
 class MoveTable(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int]):

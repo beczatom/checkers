@@ -3,7 +3,8 @@ import numpy as np
 
 from checkers_sem.game.game import Game
 from checkers_sem.game.move import Move
-from checkers_sem.constants import Color, BitBoard, MoveType, TAKE, Piece, STATS_SIZE
+from checkers_sem.game.constants import Color, BitBoard, MoveType, TAKE, Piece
+from checkers_sem.genetic.constants import STATS_SIZE
 from checkers_sem.game.board import Board
 from checkers_sem.genetic.genetic_player import GeneticPlayer, play
 

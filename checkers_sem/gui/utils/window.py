@@ -1,6 +1,6 @@
 import pygame
 
-from checkers_sem.constants import BACKGROUND_COLOR, LEFT_ARROW_IMAGE, REFRESH_RATE_MS
+from checkers_sem.gui.constants import BACKGROUND_COLOR, LEFT_ARROW_IMAGE, REFRESH_RATE_MS
 from checkers_sem.gui.utils.button import ImageButton
 
 from abc import abstractmethod

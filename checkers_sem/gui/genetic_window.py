@@ -4,8 +4,11 @@ from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.bar import Bar
 from checkers_sem.state import *
 from threading import Thread
-from checkers_sem.helper import *
-from checkers_sem.genetic.genetic_player import GeneticPlayer
+from checkers_sem.helper import do_one_generation_thread, get_coefs_header_text, get_genetic_completion, choose_best_thread
+from checkers_sem.genetic.genetic import Genetic
+import queue
+
+from checkers_sem.gui.constants import BEST_GENETIC_COEFICIENTS_TEXT, AVERAGE_GENETIC_COEFICIENTS_TEXT, DEFAULT_FONT_SIZE, STAT_TEXTS, GENETIC_SETTINGS_TEXT, SLIDER_PROPERTIES
 
 class GeneticWindow(Window):
     def __init__(self, surface : pygame.surface):

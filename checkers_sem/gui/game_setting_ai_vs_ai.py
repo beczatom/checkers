@@ -5,6 +5,8 @@ from checkers_sem.gui.game_setting_widget import GameSettingWidget
 from checkers_sem.helper import *
 
 from checkers_sem.player.player import AIPlayer
+from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, DEPTH_WHITE_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX, DEPTH_BLACK_TEXT
+from checkers_sem.genetic.constants import AI_COEFS
 
 class GameSettingAIVSAI(GameSettingWidget):
     def __init__(self, surface: pygame.Surface, left_top: tuple[int, int]):

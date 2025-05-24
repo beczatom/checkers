@@ -1,4 +1,5 @@
-from checkers_sem.constants import *
+from checkers_sem.genetic.constants import POPULATION_SIZE, GENERATIONS, MAX_TRAIN_DEPTH, CROSSOVER_PCT, MUTATION_PCT
+from checkers_sem.gui.constants import TIME
 
 
 class State:

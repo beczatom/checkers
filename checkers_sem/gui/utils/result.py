@@ -4,10 +4,11 @@ from checkers_sem.gui.utils.widget import Widget
 
 from checkers_sem.gui.utils.loader import *
 
-from checkers_sem.helper import *
-
 from checkers_sem.gui.utils.button import Button
 from checkers_sem.gui.utils.text import Text
+
+from checkers_sem.gui.constants import DEFAULT_FONT_SIZE, WIN_TEXT, GAME_END_TYPE_TEXT, OK_TEXT
+from checkers_sem.helper import tuple_sum
 
 class Result(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],

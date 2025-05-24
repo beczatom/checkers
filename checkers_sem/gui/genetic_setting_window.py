@@ -7,8 +7,8 @@ from checkers_sem.gui.genetic_window import GeneticWindow
 from checkers_sem.gui.utils.slider import Slider
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.button import Button
-from checkers_sem.constants import SLIDER_PROPERTIES
-from checkers_sem.helper import *
+from checkers_sem.gui.constants import SLIDER_PROPERTIES, AWAITED_TIME_TRAIN_TEXT, START_TRAIN_BUTTON_TEXT
+from checkers_sem.helper import get_awaited_train_time, time_to_text
 
 from checkers_sem.state import *
 

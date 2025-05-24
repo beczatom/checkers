@@ -4,7 +4,8 @@ from checkers_sem.gui.utils.widget import Widget
 
 from checkers_sem.gui.utils.loader import *
 
-from checkers_sem.helper import *
+from checkers_sem.helper import tuple_sum
+from checkers_sem.gui.constants import BORDER_COLOR
 
 class Slider(Widget):
     def __init__(self, surface : pygame.Surface, left_top : tuple[int, int],

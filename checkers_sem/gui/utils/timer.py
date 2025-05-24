@@ -2,7 +2,8 @@ import pygame
 import time
 
 from checkers_sem.gui.utils.widget import Widget
-from checkers_sem.helper import *
+from checkers_sem.helper import seconds_to_string
+from checkers_sem.gui.constants import DEFAULT_FONT, DEFAULT_FONT_SIZE
 from checkers_sem.state import *
 
 class Timer(Widget):

@@ -3,7 +3,8 @@ import pygame
 from checkers_sem.game.game import Game
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.gui.utils.tile import Tile
-from checkers_sem.helper import *
+from checkers_sem.game.constants import BitBoard, Piece, Color
+from checkers_sem.helper import tuple_sum, coords_to_bitboard_mask, bitboard_to_bool_board, bitboard_to_idx
 
 
 class ChessBoard(Widget):

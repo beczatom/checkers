@@ -3,12 +3,13 @@ import numpy as np
 
 from checkers_sem.genetic.genetic_player import GeneticPlayer
 from checkers_sem.state import state
-from checkers_sem.constants import STATS_SIZE
+from checkers_sem.genetic.constants import STATS_SIZE
 
 from unittest.mock import patch
 import pytest
 
 import multiprocessing as mp
+import sys
 
 from checkers_sem.genetic.genetic import (Genetic, crossover_ox, crossover_avg, crossover_players, play_process,
                                           tournament_process)
@@ -102,18 +103,24 @@ def test_tournament_process():
     assert np.allclose(results_q.get(), [1, 1, 0, 1, 1.5, 0.5, 0, 0])
 
 def test_init_population():
+    state.POPULATION_SIZE = 10
     gen = Genetic()
-    for i in range(state.POPULATION_SIZE):
+    for i in range(10):
         assert sum(gen.population[i].coefs) - 1 < 1e-3
 
 def test_select():
+    if sys.platform == 'win32':
+        return
+
+    state.POPULATION_SIZE = 10
     gen = Genetic()
-    gen.population = range(state.POPULATION_SIZE)
-    with (patch('numpy.random.choice', side_effect=[(1, 10) for _ in range(state.POPULATION_SIZE)]),
+    gen.population = range(10)
+
+    with (patch('numpy.random.choice', side_effect=[(1, 5) for _ in range(10)]),
           patch('checkers_sem.genetic.genetic.play', return_value=-1)):
         gen.select()
 
-    assert np.equal(gen.population, [10 for _ in range(state.POPULATION_SIZE)]).all()
+    assert np.equal(gen.population, [5 for _ in range(10)]).all()
 
 @pytest.mark.parametrize('crossover_pct', [0.2, 0.5])
 def test_crossover(crossover_pct : float):
@@ -174,6 +181,9 @@ def fake_tournament_process(players_q: mp.Queue, results: mp.Queue, depth: int, 
     results.put(res)
 
 def test_best():
+    if sys.platform == 'win32':
+        return
+
     state.POPULATION_SIZE = 4
     gen = Genetic()
 

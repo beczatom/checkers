@@ -7,7 +7,6 @@ from checkers_sem.gui.game_setting_ai_vs_ai import GameSettingAIVSAI
 from checkers_sem.gui.game_setting_human_vs_human import GameSettingHumanVSHuman
 from checkers_sem.gui.game_setting_human_vs_ai import GameSettingHumanVSAI
 
-from checkers_sem.helper import *
 
 import pygame
 

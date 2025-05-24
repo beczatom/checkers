@@ -2,7 +2,7 @@
 This module takes care of elementary unit of a game - move.
 """
 
-from checkers_sem.constants import BitBoard, MoveType, TAKE, PROMOTION
+from checkers_sem.game.constants import BitBoard, MoveType, TAKE, PROMOTION
 
 
 class Move:
