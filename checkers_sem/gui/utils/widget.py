@@ -1,13 +1,41 @@
-import pygame
+"""
+This module is probably the most important in all GUI classes.
+It defines the positioning of widget, provides user-friendly way to initialize widgets,
+also takes care of basic interface to interact with various widgets.
+"""
 
-from checkers_sem.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, FIRST_BORDER_WIDTH, BORDER_GAP, SECOND_BORDER_WIDTH
-from checkers_sem.gui.utils.pos import Pos
-from checkers_sem.helper import tuple_prod, tuple_sum
 from abc import abstractmethod
 
-class Widget:
-    def __init__(self, surface : pygame.Surface, rel_pos : Pos, screen_left_top : tuple[int, int] = (0, 0)):
+import pygame
 
+from checkers_sem.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, FIRST_BORDER_WIDTH, BORDER_GAP, \
+    SECOND_BORDER_WIDTH
+from checkers_sem.gui.utils.pos import Pos
+from checkers_sem.helper import tuple_prod, tuple_sum
+
+
+class Widget:
+    """
+    This class represents a parent class to all the widgets.
+    """
+
+    def __init__(self, surface: pygame.Surface, rel_pos: Pos, screen_left_top: tuple[int, int] = (0, 0)):
+        """
+        Initializes the widget.
+        Parameters
+        ----------
+        surface : pygame.Surface
+            The surface from where we will take our drawing area.
+        rel_pos : Pos
+            The position and size of the widget relative to the screen.
+        screen_left_top : tuple[int, int]
+            Very important!
+            The widgets somehow shifted from original screen startpoint (0, 0)
+            can also have "child" widgets in a meaning they can create them
+            and let them print to their surface.
+            So it is absolutely crucial to know the shift to the origin of the screen,
+            because otherwise we wouldn't know if the event happened inside our rectangle.
+        """
         # rectangle of the surface from which we will get the subsurface, parent surface
         surface_rect = surface.get_rect()
 
@@ -31,42 +59,77 @@ class Widget:
         self.background_color = BACKGROUND_COLOR
 
     @abstractmethod
-    def draw(self):
+    def draw(self) -> None:
+        """
+        Abstract method to draw the widget.
+
+        Raises
+        ------
+        error : NotImplementedError
+            If the child doesn't implement this method.
+        """
         raise NotImplementedError()
 
-    def colliding_event(self, event_pos : tuple[int, int]):
-        return self.screen_rect.collidepoint(event_pos)
+    @abstractmethod
+    def handle_event(self, event: pygame.event.Event):
+        """
+        Abstract method to handle event.
 
-    def draw_border(self):
-        self.__draw_borders()
+        Parameters
+        ----------
+        event : pygame.event.Event
+            The event to handle.
 
-    def draw_one_border(self, rect: pygame.Rect, border_width: int, border_gap: int):
+        Raises
+        ------
+        error : NotImplementedError
+            If the child doesn't implement this method.
+        """
+        raise NotImplementedError()
+
+    def draw_one_border(self, rect: pygame.Rect, border_width: int, border_gap: int) -> None:
+        """
+        Draws one border around the widget.
+        Parameters
+        ----------
+        rect : pygame.Rect
+            The original rectangle to which we draw the border (inside).
+        border_width : int
+            The border width.
+        border_gap : int
+            The gap from border (of the inside rectangle).
+        """
         pygame.draw.rect(self.surface, BORDER_COLOR, rect)
         rect = pygame.Rect(rect.x + border_width, rect.y + border_width,
                            rect.width - 2 * border_width, rect.height - 2 * border_width)
         pygame.draw.rect(self.surface, BACKGROUND_COLOR, rect)
         self.rect_without_border = pygame.Rect(rect.x + border_gap, rect.y + border_gap,
-                           rect.width - 2 * border_gap, rect.height - 2 * border_gap)
+                                               rect.width - 2 * border_gap, rect.height - 2 * border_gap)
 
-    def __draw_borders(self):
+    def draw_borders(self) -> None:
+        """
+        Draws borders around the widget.
+        """
         self.draw_one_border(self.surface.get_rect(), FIRST_BORDER_WIDTH, BORDER_GAP)
         self.draw_one_border(self.rect_without_border, SECOND_BORDER_WIDTH, 0)
         pygame.draw.rect(self.surface, self.background_color, self.rect_without_border)
 
     def get_height(self):
+        """
+        Gets height of the widget.
+        Returns
+        -------
+        height : int
+            The height of the widget.
+        """
         return self.surface.get_height()
 
     def get_width(self):
+        """
+        Gets width of the widget.
+        Returns
+        -------
+        width : int
+            The width of the widget.
+        """
         return self.surface.get_width()
-
-    def get_screen_top(self):
-        return self.screen_left_top[1]
-
-    def get_screen_left(self):
-        return self.screen_left_top[0]
-
-    def get_screen_bottom(self):
-        return self.get_screen_top() + self.get_height()
-
-    def handle_event(self, event : pygame.event.Event):
-        pass
