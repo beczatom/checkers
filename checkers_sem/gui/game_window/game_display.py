@@ -1,5 +1,5 @@
 """
-This submodule helps GameWindow with taking care of chessboard, timers and evaluation.
+This module helps GameWindow with taking care of chessboard, timers and evaluation.
 """
 
 from threading import Thread

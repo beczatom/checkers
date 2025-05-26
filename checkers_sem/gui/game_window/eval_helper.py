@@ -1,5 +1,5 @@
 """
-This submodule does the evaluation of the game and displays it.
+This module does the evaluation of the game and displays it.
 """
 
 import copy
