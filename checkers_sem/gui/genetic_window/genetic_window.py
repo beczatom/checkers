@@ -21,6 +21,13 @@ class GeneticWindow(Window):
     """
 
     def __init__(self, surface: pygame.surface):
+        """
+        Initializes the window
+        Parameters
+        ----------
+        surface : pygame.surface
+            the window surface
+        """
         super().__init__(surface)
         self.surface.fill(BACKGROUND_COLOR)
         pygame.display.flip()

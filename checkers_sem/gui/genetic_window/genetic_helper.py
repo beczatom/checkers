@@ -58,9 +58,12 @@ class GeneticHelper:
 
         # we are done or we are working -> don't disturb us
         if self.best_player or self.genetic_thread.is_alive():
+            if self.best_player is not None:
+                self.genetic_thread = None
             return
 
         self.genetic_thread.join()
+        self.genetic_thread = None
 
         # we were choosing best
         if self.current_generation == state.GENERATIONS:

@@ -60,7 +60,7 @@ class GeneticSettingWindow(Window):
 
         return set_genetic_setting
 
-    def set_global_genetic_settings(self):
+    def set_global_genetic_settings(self) -> None:
         """
         Sets genetic settings to global state
         """
@@ -70,9 +70,13 @@ class GeneticSettingWindow(Window):
         state.CROSSOVER_PCT = self.genetic_settings[3]
         state.MUTATION_PCT = self.genetic_settings[4]
 
-    def init_start_button(self):
+    def init_start_button(self) -> Button:
         """
         Initializes the training start button
+        Returns
+        -------
+        start_button : Button
+            the genetic starting button
         """
         button = Button(self.surface,
                         Pos((0.125, 0.075), (0.8, 0.05, 0.05, 0.8), center=True),
