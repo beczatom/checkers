@@ -32,7 +32,7 @@ class ChessBoard(Widget):
         self.draw_borders()
         self.tiles = self.tiles_init()
         self.possible_moves = []
-        self.best_move = None, None
+        self.best_move = None
         self.game = kwargs.get('game', None)
         self.clicked_mask = None
         self.clicked = False
@@ -181,7 +181,7 @@ class ChessBoard(Widget):
             self.tiles[idx].put_possible_move()
             self.tiles[idx].draw()
 
-    def set_best_move(self, best_move: tuple[BitBoard, BitBoard]) -> None:
+    def set_best_move(self, best_move: tuple[BitBoard, BitBoard] | None) -> None:
         """
         Notifies tile that is best move.
         Parameters
@@ -189,6 +189,9 @@ class ChessBoard(Widget):
         best_move : tuple[BitBoard, BitBoard]
             from and to position
         """
+        if best_move is None:
+            self.best_move = None
+            return
         self.best_move = (bitboard_to_idx(best_move[0]), bitboard_to_idx(best_move[1]))
 
     def reset_best_move(self) -> None:

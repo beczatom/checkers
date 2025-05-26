@@ -354,8 +354,11 @@ def get_coefs_header_text(generations: int) -> str:
     text : str
         text to display
     """
+
     string = AVERAGE_GENETIC_COEFICIENTS_TEXT
-    if generations == 1:
+    if generations == 0:
+        string += ' pri inicializácii'
+    elif generations == 1:
         string += ' po 1 generácii'
     else:
         string += f' po {generations} generáciách'

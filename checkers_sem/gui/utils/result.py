@@ -30,8 +30,7 @@ class Result(Widget):
 
         self.draw_borders()
 
-        self.res = kwargs.get('res', None)
-        self.game_end_type = kwargs.get('game_end_type', None)
+        self.res, self.game_end_type = kwargs.get('res')
         self.onclick = kwargs.get('onclick', None)
 
         self.init_res_text()
