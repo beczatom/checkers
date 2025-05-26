@@ -31,13 +31,6 @@ class Button(Widget):
         super().__init__(*args)
 
         # borders
-        # self.first_border = kwargs.get('first_border', False)
-        # self.second_border = kwargs.get('second_border', False)
-        #
-        # if not self.first_border and self.second_border:
-        #     raise AttributeError('second_border cannot be True if first_border is False')
-        #
-        # if self.first_border:
         self.draw_borders()
 
         # text
