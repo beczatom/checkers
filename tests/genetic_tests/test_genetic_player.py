@@ -51,8 +51,6 @@ class CallCounter:
      Move(Color.BLACK, (BitBoard(0x00020000), BitBoard(0x00000400)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00004000)), 1),
 ])
 def test_alpha_beta(board_init : tuple[BitBoard, BitBoard, BitBoard], coefs : np.array, turn : bool, ref_best_move : Move, ref_eval_count : int):
-    # TODO domysliet testy
-
     board = Board()
     board.white = board_init[0]
     board.black = board_init[1]

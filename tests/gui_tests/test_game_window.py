@@ -2,13 +2,10 @@
 This module tests the game windows.
 """
 
-import copy
-from threading import Thread
-
 import pygame
 
 from checkers_sem.game.game import Game
-from checkers_sem.player.player import AIPlayer
+from checkers_sem.player.player import AIPlayer, HumanPlayer
 from checkers_sem.gui.utils.chessboard import ChessBoard
 from checkers_sem.gui.utils.text import Text
 from checkers_sem.gui.utils.pos import Pos
@@ -18,6 +15,9 @@ from checkers_sem.gui.constants import BACKGROUND_COLOR
 from checkers_sem.gui.game_window.eval_helper import EvalHelper
 from checkers_sem.gui.game_window.game_window import GameWindow
 from checkers_sem.gui.game_window.game_display import GameDisplay
+from checkers_sem.gui.game_window.ai_vs_ai_window import AIVSAIWindow
+from checkers_sem.gui.game_window.human_vs_human_window import HumanVsHumanWindow
+from checkers_sem.gui.game_window.human_vs_ai_window import HumanVSAIWindow
 from checkers_sem.genetic.constants import AI_COEFS
 
 
@@ -29,7 +29,7 @@ def test_eval_helper():
     surface = pygame.Surface((800, 800))
     surface.fill(BACKGROUND_COLOR)
 
-    texts = {Color.WHITE : None, Color.BLACK : None}
+    texts = {Color.WHITE: None, Color.BLACK: None}
     pos = Pos((1, 0.1), (0, 0, 0.9, 0))
     texts[Color.BLACK] = Text(surface, pos)
     pos = Pos((1, 0.1), (0.9, 0, 0, 0))
@@ -37,7 +37,7 @@ def test_eval_helper():
 
     game = Game()
     pos = Pos((1, 0.8), (0.1, 0, 0.1, 0))
-    chessboard = ChessBoard(surface, pos, game = game)
+    chessboard = ChessBoard(surface, pos, game=game)
 
     eval_helper = EvalHelper(chessboard, texts)
 
@@ -77,6 +77,7 @@ def test_eval_helper():
     assert eval_helper.eval_values[Color.WHITE] == evaluation
     assert eval_helper.eval_values[Color.BLACK] is not None
 
+
 def test_game_display():
     """
     Test game display.
@@ -88,7 +89,7 @@ def test_game_display():
     players = (AIPlayer(AI_COEFS), AIPlayer(AI_COEFS))
     state.DEPTH_BLACK = 1
     state.DEPTH_WHITE = 1
-    game_display = GameDisplay(surface, pos, players = players)
+    game_display = GameDisplay(surface, pos, players=players)
 
     assert game_display.chessboard is not None
     assert game_display.players == players
@@ -116,3 +117,145 @@ def test_game_display():
     assert game_display.res[0] is not None
     assert game_display.res[1] is not None
     assert game_display.active_thread is None
+
+
+def test_game_window() -> None:
+    """
+    Test game window.
+    """
+
+    surface = pygame.Surface((800, 800))
+    surface.fill(BACKGROUND_COLOR)
+
+    state.DEPTH_BLACK = 1
+    state.DEPTH_WHITE = 1
+    players = (AIPlayer(AI_COEFS), AIPlayer(AI_COEFS))
+    game_window = GameWindow(surface, players)
+
+    assert game_window.surface == surface
+
+    assert game_window.players == players
+    assert game_window.game_display is not None
+    assert len(game_window.move_table.move_texts) == 0
+    assert len(game_window.game_control_buttons) == 3
+
+    assert game_window.res_window is None
+    assert not game_window.res_window_showed
+
+    game_window.check_game_end()
+
+    assert game_window.res_window is None
+    assert not game_window.res_window_showed
+
+
+def test_ai_vs_ai_window():
+    """
+    Test AI vs AI window.
+    """
+
+    surface = pygame.Surface((800, 800))
+    surface.fill(BACKGROUND_COLOR)
+
+    state.DEPTH_BLACK = 1
+    state.DEPTH_WHITE = 1
+    players = (AIPlayer(AI_COEFS), AIPlayer(AI_COEFS))
+    ai_vs_ai_window = AIVSAIWindow(surface, players)
+
+    assert ai_vs_ai_window.surface == surface
+
+    for _ in range(2):
+        assert ai_vs_ai_window.players == players
+        assert ai_vs_ai_window.game_display is not None
+        assert len(ai_vs_ai_window.move_table.move_texts) == 0
+        assert len(ai_vs_ai_window.game_control_buttons) == 3
+        assert ai_vs_ai_window.res_window is None
+        assert not ai_vs_ai_window.res_window_showed
+
+        ai_vs_ai_window.check_game_end()
+
+        assert ai_vs_ai_window.res_window is None
+        assert not ai_vs_ai_window.res_window_showed
+
+        while ai_vs_ai_window.game_display.res == (None, None):
+            ai_vs_ai_window.refresh()
+
+        assert len(ai_vs_ai_window.move_table.move_texts) != 0
+        assert len(ai_vs_ai_window.game_control_buttons) == 3
+        assert ai_vs_ai_window.res_window is not None
+        assert ai_vs_ai_window.res_window_showed
+
+        ai_vs_ai_window.result_onclick()
+
+        assert ai_vs_ai_window.res_window is None
+        assert ai_vs_ai_window.res_window_showed
+
+        before_moves = ai_vs_ai_window.move_table.move_texts
+
+        # back move
+        ai_vs_ai_window.get_button_control_function(0)()
+
+        assert ai_vs_ai_window.move_table.move_texts == before_moves[:-1]
+
+        # move forward
+        ai_vs_ai_window.get_button_control_function(1)()
+
+        assert ai_vs_ai_window.move_table.move_texts == before_moves
+
+        # reset game
+        ai_vs_ai_window.get_button_control_function(2)()
+
+
+def test_human_vs_human_window():
+    """
+    Test Human vs Human window.
+    """
+
+    surface = pygame.Surface((800, 800))
+    surface.fill(BACKGROUND_COLOR)
+
+    state.DEPTH_BLACK = 1
+    state.DEPTH_WHITE = 1
+    players = (HumanPlayer(), HumanPlayer())
+    human_vs_human_window = HumanVsHumanWindow(surface, players)
+
+    assert human_vs_human_window.surface == surface
+
+    assert human_vs_human_window.players == players
+    assert human_vs_human_window.game_display is not None
+    assert len(human_vs_human_window.move_table.move_texts) == 0
+    assert len(human_vs_human_window.game_control_buttons) == 3
+    assert human_vs_human_window.res_window is None
+    assert not human_vs_human_window.res_window_showed
+
+    human_vs_human_window.check_game_end()
+
+    assert human_vs_human_window.res_window is None
+    assert not human_vs_human_window.res_window_showed
+
+
+def test_human_vs_ai_window():
+    """
+    Test Human vs Human window.
+    """
+
+    surface = pygame.Surface((800, 800))
+    surface.fill(BACKGROUND_COLOR)
+
+    state.DEPTH_BLACK = 1
+    state.DEPTH_WHITE = 1
+    players = (HumanPlayer(), AIPlayer(AI_COEFS))
+    human_vs_human_window = HumanVSAIWindow(surface, players)
+
+    assert human_vs_human_window.surface == surface
+
+    assert human_vs_human_window.players == players
+    assert human_vs_human_window.game_display is not None
+    assert len(human_vs_human_window.move_table.move_texts) == 0
+    assert len(human_vs_human_window.game_control_buttons) == 3
+    assert human_vs_human_window.res_window is None
+    assert not human_vs_human_window.res_window_showed
+
+    human_vs_human_window.check_game_end()
+
+    assert human_vs_human_window.res_window is None
+    assert not human_vs_human_window.res_window_showed

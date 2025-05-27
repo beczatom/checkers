@@ -1,13 +1,59 @@
+import pygame
 
-from checkers_sem.genetic.genetic_player import GeneticPlayer
+from unittest.mock import patch
+
 from checkers_sem.gui.utils.chessboard import ChessBoard
 from checkers_sem.genetic.constants import AI_COEFS
-from checkers_sem.genetic.constants import MAX_TRAIN_DEPTH
-from checkers_sem.game.move import Move
 from checkers_sem.game.game import Game
+from checkers_sem.gui.utils.pos import Pos
+from checkers_sem.game.constants import BitBoard, Color
+from checkers_sem.gui.constants import BACKGROUND_COLOR
+from checkers_sem.player.player import AIPlayer, HumanPlayer
+
 
 def test_move_ai_player():
-    pass
+    surface = pygame.Surface((800, 800))
+    surface.fill(BACKGROUND_COLOR)
+    game = Game()
+    pos = Pos((1, 1), (0, 0, 0, 0))
+    chessboard = ChessBoard(surface, pos, game=game)
+
+    board_before = hash(game.board)
+    ai_player = AIPlayer(AI_COEFS, chessboard)
+    no_moves, performed, best = ai_player.move()
+
+    assert performed
+    assert best is not None
+    assert not no_moves
+
+    assert board_before != hash(game.board)
+
 
 def test_move_human_player():
-    pass
+    surface = pygame.Surface((800, 800))
+    surface.fill(BACKGROUND_COLOR)
+    game = Game()
+    pos = Pos((1, 1), (0, 0, 0, 0))
+    chessboard = ChessBoard(surface, pos, game=game)
+
+    board_before = hash(game.board)
+    human_player = HumanPlayer(chessboard)
+
+    performed = False
+    best = None
+    no_moves = True
+
+    with patch('checkers_sem.gui.utils.chessboard.ChessBoard.get_clicked_mask',
+               side_effect=[BitBoard(0x00000100), BitBoard(0x00001000)]):
+        for _ in range(2):
+            no_moves, performed, best = human_player.move()
+
+    assert performed
+    assert best is None
+    assert not no_moves
+
+    assert board_before != hash(game.board)
+    assert game.board.turn == Color.BLACK
+    assert game.board.white == BitBoard(0x00001eff)
+    assert game.board.black == BitBoard(0xfff00000)
+    assert game.board.pawns == BitBoard(0xfff01eff)

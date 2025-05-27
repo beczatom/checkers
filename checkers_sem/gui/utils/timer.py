@@ -61,6 +61,8 @@ class Timer(Widget):
         time : float
             The time left in seconds.
         """
+        if self.last_start is None:
+            return self.time_left
         return max(0, self.time_left - (time.time() - self.last_start) if self.last_start else self.time_left)
 
     def time_is_over(self) -> bool:

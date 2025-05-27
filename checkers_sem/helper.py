@@ -226,6 +226,9 @@ def time_to_text(seconds: int | float) -> str:
     elif 5 <= seconds:
         string += f'{seconds} sekúnd'
 
+    if string[-1] == ' ':
+        string = string[:-1]
+
     return string
 
 

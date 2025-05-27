@@ -1,44 +1,122 @@
-from checkers_sem.game.constants import BitBoard, Color
+from checkers_sem.game.constants import BitBoard, Color, Piece
 from checkers_sem.gui.constants import AVERAGE_GENETIC_COEFICIENTS_TEXT, FILE_NAMES
-from checkers_sem.game.move import Move
+from checkers_sem.game.move import Move, TAKE, PROMOTION, MoveType
 from checkers_sem.genetic.genetic import Genetic
 from checkers_sem.state import *
 from checkers_sem.genetic.genetic_player import GeneticPlayer
 import queue
 
-from checkers_sem.helper import tuple_sum, tuple_prod, tuple_rev, multiply_list
+from checkers_sem.helper import (seconds_to_string, coords_to_bitboard_mask, bitboard_to_coords,
+                                 bitboard_to_idx, bitboard_to_bool_board, bitboard_to_pos, move_to_display_string,
+                                 tuple_sum, tuple_prod, tuple_rev, multiply_list,
+                                 time_to_text, do_one_generation_thread, choose_best_thread, get_genetic_completion, get_coefs_header_text)
 
 import pytest
 
-def test_seconds_to_string():
-    pass
 
-def test_coords_to_bitboard_mask():
-    pass
+@pytest.mark.parametrize('seconds, ref_text', [
+    (0, '00 : 00'),
+    (60, '01 : 00'),
+    (12, '00 : 12'),
+    (78, '01 : 18'),
+    (3501, '58 : 21')
+])
+def test_seconds_to_string(seconds: int, ref_text: str):
+    """
+    Tests seconds to string
+    Parameters
+    ----------
+    seconds : int
+    ref_text : str
+    """
+    assert seconds_to_string(seconds) == ref_text
 
-def test_bitboard_to_coords():
-    pass
 
-def test_bitboard_to_idx():
-    pass
+@pytest.mark.parametrize('coords, ref_mask', [
+    ((0, 0), BitBoard(0x80000000)),
+    ((7, 3), BitBoard(0x00000001)),
+    ((6, 1), BitBoard(0x00000040)),
+    ((1, 2), BitBoard(0x02000000)),
+    ((3, 1), BitBoard(0x00040000))
+])
+def test_coords_to_bitboard_mask(coords: tuple[int, int], ref_mask: BitBoard):
+    """
+    Tests coords to bitboard mask
+    Parameters
+    ----------
+    coords : tuple[int, int]
+    ref_mask : BitBoard
+    """
+    assert coords_to_bitboard_mask(coords) == ref_mask
 
-def test_bitboard_to_bool_board():
-    pass
 
-def test_bitboard_to_pos():
-    pass
+@pytest.mark.parametrize('mask, ref_coords', [
+    (BitBoard(0x80000000), (0, 1)),
+    (BitBoard(0x00000001), (7, 6)),
+    (BitBoard(0x00000040), (6, 3)),
+    (BitBoard(0x02000000), (1, 4)),
+    (BitBoard(0x00040000), (3, 2))
+])
+def test_bitboard_to_coords(mask: BitBoard, ref_coords: tuple[int, int]):
+    """
+    Tests bitboard to coords
+    Parameters
+    ----------
+    mask : BitBoard
+    ref_coords : tuple[int, int]
+    """
+    assert bitboard_to_coords(mask) == ref_coords
 
-def test_move_to_display_string():
-    pass
+@pytest.mark.parametrize('mask, ref_idx', [
+    (BitBoard(0x80000000), 0),
+    (BitBoard(0x00000001), 31),
+    (BitBoard(0x00000040), 25),
+    (BitBoard(0x02000000), 6),
+    (BitBoard(0x00040000), 13)
+])
+def test_bitboard_to_idx(mask : BitBoard, ref_idx : int):
+    assert bitboard_to_idx(mask) == ref_idx
 
-def test_get_awaited_train_time():
-    pass
+@pytest.mark.parametrize('mask, ref_bool_board', [
+    (BitBoard(0x80000000), [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    (BitBoard(0x00000001), [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]),
+    (BitBoard(0x00000040), [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]),
+    (BitBoard(0x02000000), [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    (BitBoard(0x00040000), [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+])
+def test_bitboard_to_bool_board(mask : BitBoard, ref_bool_board: list[bool]):
+    assert bitboard_to_bool_board(mask) == ref_bool_board
 
-def test_seconds_to_min_sec():
-    pass
+@pytest.mark.parametrize('mask, ref_coords', [
+    (BitBoard(0x80000000), (8, 1)),
+    (BitBoard(0x00000001), (1, 6)),
+    (BitBoard(0x00000040), (2, 3)),
+    (BitBoard(0x02000000), (7, 4)),
+    (BitBoard(0x00040000), (5, 2))
+])
+def test_bitboard_to_pos(mask : BitBoard, ref_coords: tuple[int, int]):
+    assert bitboard_to_pos(mask) == ref_coords
 
-def test_time_to_text():
-    pass
+@pytest.mark.parametrize('move, ref_text', [
+    (Move(Color.WHITE, (BitBoard(0x00000001), BitBoard(0x00000010)), MoveType()), 'B g1 - h2'),
+    (Move(Color.BLACK, (BitBoard(0x80000000), BitBoard(0x08000000)), MoveType()), 'Č b8 - a7'),
+    (Move(Color.WHITE, (BitBoard(0x00008000), BitBoard(0x00400000)), MoveType() | TAKE | Piece.PAWN, BitBoard(0x00040000)), 'B b4 x c5'),
+    (Move(Color.BLACK, (BitBoard(0x00000010), BitBoard(0x00000001)), MoveType() | PROMOTION), 'Č h2 - g1+'),
+    (Move(Color.WHITE, (BitBoard(0x00200000), BitBoard(0x10000000)), MoveType() | PROMOTION | TAKE | Piece.KING, BitBoard(0x01000000)), 'B f6 x g7+'),
+])
+def test_move_to_display_string(move: Move, ref_text: str):
+    assert move_to_display_string(move) == ref_text
+
+@pytest.mark.parametrize('seconds, ref_text', [
+    (0, '< 1 sekunda'),
+    (60, '1 minúta'),
+    (12, '12 sekúnd'),
+    (64, '1 minúta 4 sekundy'),
+    (11282, '3 hodiny 8 minút 2 sekundy')
+])
+def test_time_to_text(seconds: int, ref_text: str):
+    assert time_to_text(seconds) == ref_text
+
 
 @pytest.mark.parametrize('tuples, ref', [
     (((0, 0, 0, 0), (1, 2, 3, 4)), (1, 2, 3, 4)),
@@ -46,8 +124,9 @@ def test_time_to_text():
     (((-1, -3.5, -5, -6), (0, 5, 0, 0)), (-1, 1.5, -5, -6)),
     (((-1, -2, -3), (4, 5, 6)), (3, 3, 3)),
 ])
-def test_tuple_sum(tuples, ref : tuple):
+def test_tuple_sum(tuples, ref: tuple):
     assert tuple_sum(*tuples) == ref
+
 
 @pytest.mark.parametrize('tup, ref', [
     ((0, 0, 0, 0), (0, 0, 0, 0)),
@@ -56,8 +135,9 @@ def test_tuple_sum(tuples, ref : tuple):
     ((0, 5, 0, 0), (0, 0, 5, 0)),
     ((1, 2, 3), (3, 2, 1)),
 ])
-def test_tuple_rev(tup : tuple, ref : tuple):
+def test_tuple_rev(tup: tuple, ref: tuple):
     assert tuple_rev(tup) == ref
+
 
 @pytest.mark.parametrize('l, ref', [
     ([0, 0, 0, 0], 0),
@@ -67,8 +147,9 @@ def test_tuple_rev(tup : tuple, ref : tuple):
     ([0, 5, 0, 0], 0),
     ([-1, -2, -3, 4, 5], -120),
 ])
-def test_multiply_list(l : list[float], ref : float):
+def test_multiply_list(l: list[float], ref: float):
     assert multiply_list(l) == ref
+
 
 @pytest.mark.parametrize('tuples, ref', [
     (((0, 0, 0, 0), (1, 2, 3, 4)), (0, 0, 0, 0)),
@@ -78,17 +159,28 @@ def test_multiply_list(l : list[float], ref : float):
     (((-1, -3.5, -5, -6), (0, 5, 0, 0)), (0, -17.5, 0, 0)),
     (((-1, -2, -3), (4, 5, 6)), (-4, -10, -18)),
 ])
-def test_tuple_prod(tuples, ref : tuple):
+def test_tuple_prod(tuples, ref: tuple):
     assert tuple_prod(*tuples) == ref
 
+
 def test_do_one_generation_thread():
-    pass
+    state.GENERATIONS = 3
+    state.MAX_TRAIN_DEPTH = 2
+    state.POPULATION_SIZE = 8
+    state.CROSSOVER_PCT = 1
+    state.MUTATION_PCT = 1
+    gen = Genetic()
+    array_before = gen.population.copy()
+    do_one_generation_thread(gen)
+    assert array_before != gen.population
+
 
 def test_choose_best_thread():
-    pass
+    state.GENERATIONS = 3
+    state.MAX_TRAIN_DEPTH = 2
+    state.POPULATION_SIZE = 8
+    gen = Genetic()
+    q = queue.Queue()
+    choose_best_thread(gen, q)
+    assert q.qsize() == 1
 
-def test_get_genetic_completion() -> int:
-    pass
-
-def test_get_coefs_header_text():
-    pass
