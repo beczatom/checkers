@@ -16,7 +16,7 @@ Vďaka tomu vie byť hra rýchla a následne trénovanie tiež.
 Keďže som chcel nechať populáciu nech si sama nájde ideálne koeficienty,
 nepoužívam žiadne externé enginy 
 (v šachu napr. Stockfish 🚫🐟, v dáme sa však ajtak len ťažko nachádzajú).
-Algoritmus je teda bez fitness funkcie a na porovnávanie jednotlivých
+Algoritmus je teda bez evaluačnej funkcie a na porovnávanie jednotlivých
 hráčov sa používa výhradne výsledok ich vzájomnej hry.
 
 
@@ -29,15 +29,6 @@ Navyše s možnosťou si zvoliť vlastné koeficienty, a teda štýl hry.
 Takisto autor si plne uvedomuje, že rekurentné neurónové siete 🧠
 by vedeli robiť lepšie ťahy. 
 Avšak projekt predstavuje netradičnejší pohľad na hľadanie najlepších ťahov.
-
-## ❗ Dôležité poznámky ❗
-
-- GUI je v procese prípravy, a preto sa môžu vyskytnúť rôzne chyby.
-
-
-- Každopádne pre semestrálnu prácu z **BI-ZUM** bude hlavnou časťou ajtak
-genetické programovanie, generovanie ťahov a výber najlepšieho.
-Všetky tieto funkcionality sú v **game** a **genetic** moduloch. 
 
 ## 🔍 Používanie
 
@@ -64,16 +55,16 @@ V pracovnom adresári `semestral` je treba pre:
 
 
 ```bash
-  python -m checkers_sem.main
+  python -m app.main
 ```
 
 
-- 🔬 spustenie genetického algoritmu s nastavením v `checkers_sem/constants.py`
-na riadkoch 53 - 59 spustiť
+- 🔬 spustenie genetického algoritmu s nastavením v `app/genetic/constants.py`
+na riadkoch 5 - 9 spustiť
 
 
 ```bash
-  python -m checkers_sem.genetic.genetic
+  python -m app.genetic.genetic
 ```
 
 
@@ -82,11 +73,8 @@ každopádne to bude trvať dlhšie (výpočet síce prebieha na viacerých proc
 ale tie volá vlákno, ktoré sú v Pythone pomalé).
 
 
-- ✅ Testy codestyle pre **genetic** a **game** a
-  (bude doplnené v priebehu dnešného dňa, niežeby neboli, 
-avšak pytest sa chová k nim trošku zvláštne) 
-testy ich funkcionality
+- ✅ Testy codestyle a testy funkcionality
 
 ```bash
-  pytest tests/
+  pytest
 ```
