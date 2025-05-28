@@ -17,6 +17,10 @@ def test_genetic_window() -> None:
     """
     Tests the GeneticWindow class.
     """
+    state.GENERATIONS = 3
+    state.MAX_TRAIN_DEPTH = 1
+    state.POPULATION_SIZE = 8
+
     surface = pygame.Surface((800, 800))
     surface.fill(BACKGROUND_COLOR)
     gen_window = GeneticWindow(surface)

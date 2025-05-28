@@ -3,15 +3,14 @@ This module implements a chessboard timer.
 """
 
 import time
+from threading import Lock
 
 import pygame
-
 
 from checkers_sem.gui.utils.widget import Widget
 from checkers_sem.helper import seconds_to_string
 from checkers_sem.gui.constants import DEFAULT_FONT, DEFAULT_FONT_SIZE, TEXT_COLOR
 from checkers_sem.state import state
-
 
 class Timer(Widget):
     """
@@ -34,13 +33,18 @@ class Timer(Widget):
         self.last_start = None
         self.time_going = False
 
+        self.lock = Lock()
+
     def time_start(self) -> None:
         """
         Starts the timer.
         """
         if self.time_going:
             return
-        self.last_start = time.time()
+
+        with self.lock:
+            self.last_start = time.time()
+
         self.time_going = True
 
     def time_stop(self) -> None:
@@ -50,7 +54,10 @@ class Timer(Widget):
         if not self.time_going:
             return
         self.time_left = self.get_time_left()
-        self.last_start = None
+
+        with self.lock:
+            self.last_start = None
+
         self.time_going = False
 
     def get_time_left(self) -> float:
@@ -61,9 +68,11 @@ class Timer(Widget):
         time : float
             The time left in seconds.
         """
-        if self.last_start is None:
-            return self.time_left
-        return max(0, self.time_left - (time.time() - self.last_start) if self.last_start else self.time_left)
+        with self.lock:
+            if self.last_start is None:
+                return self.time_left
+
+            return max(0, self.time_left - (time.time() - self.last_start))
 
     def time_is_over(self) -> bool:
         """

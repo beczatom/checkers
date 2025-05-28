@@ -10,7 +10,6 @@ from checkers_sem.gui.game_setting.game_setting_human_vs_human import GameSettin
 from checkers_sem.gui.game_setting.game_setting_human_vs_ai import GameSettingHumanVSAI
 from checkers_sem.gui.constants import START_TRAIN_BUTTON_TEXT, HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT, \
     BACKGROUND_COLOR, TIME_SLIDER_TEXT, DEPTH_BLACK_TEXT, DEPTH_WHITE_TEXT, COEFICIENTS_TEXT, STAT_TEXTS
-from checkers_sem.genetic.constants import AI_COEFS
 from checkers_sem.gui.utils.pos import Pos
 from checkers_sem.state import state
 
@@ -67,7 +66,7 @@ def test_game_setting_human_vs_human() -> None:
     for i, text in enumerate(STAT_TEXTS):
         assert game_setting_human_vs_human.coefs_edit_texts_headers[i].text == text
 
-    for i, value in enumerate(AI_COEFS):
+    for i, value in enumerate(state.COEFS_BLACK):
         assert game_setting_human_vs_human.coefs_edit_texts[i].get_string() == str(value)
 
 def test_game_setting_human_vs_ai() -> None:
@@ -92,7 +91,7 @@ def test_game_setting_human_vs_ai() -> None:
     for i, text in enumerate(STAT_TEXTS):
         assert game_setting_human_vs_ai.coefs_edit_texts_headers[i].text == text
 
-    for i, value in enumerate(AI_COEFS):
+    for i, value in enumerate(state.COEFS_BLACK):
         assert game_setting_human_vs_ai.coefs_edit_texts[i].get_string() == str(value)
 
 def test_game_setting_ai_vs_ai() -> None:
@@ -121,6 +120,6 @@ def test_game_setting_ai_vs_ai() -> None:
     for i, text in enumerate(STAT_TEXTS):
         assert game_setting_ai_vs_ai.coefs_edit_texts_headers[i].text == text
 
-    for i, value in enumerate(AI_COEFS):
-        assert game_setting_ai_vs_ai.coefs_white_edit_texts[i].get_string() == str(value)
+    for i, value in enumerate(state.COEFS_BLACK):
+        assert game_setting_ai_vs_ai.coefs_white_edit_texts[i].get_string() == str(state.COEFS_WHITE[i])
         assert game_setting_ai_vs_ai.coefs_black_edit_texts[i].get_string() == str(value)

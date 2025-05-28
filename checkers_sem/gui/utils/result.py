@@ -45,7 +45,7 @@ class Result(Widget):
         text = WIN_TEXT[self.res]
 
         Text(self.surface,
-             Pos((0.8, 0.2), (0.15, 0, 0.65, 0), center=True),
+             Pos((0.8, 0.3), (0.15, 0, 0.55, 0), center=True),
              self.screen_left_top,
              text=text, font_size=2 * DEFAULT_FONT_SIZE).draw()
 
@@ -56,7 +56,7 @@ class Result(Widget):
 
         text = GAME_END_TYPE_TEXT[self.game_end_type]
         Text(self.surface,
-             Pos((0.8, 0.2), (0.3, 0, 0.5, 0), center=True),
+             Pos((0.8, 0.2), (0.45, 0, 0.35, 0), center=True),
              self.screen_left_top,
              text=text).draw()
 

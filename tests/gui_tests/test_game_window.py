@@ -1,6 +1,7 @@
 """
 This module tests the game windows.
 """
+import time
 
 import pygame
 
@@ -105,7 +106,7 @@ def test_game_display():
     assert not game_display.timers[Color.WHITE].time_going
     assert game_display.timers[Color.BLACK].time_going
 
-    while game_display.res == (None, None):
+    while game_display.res == (None, None) or game_display.active_thread:
         game_display.move_ai()
         game_display.check_game_end()
 
@@ -176,7 +177,7 @@ def test_ai_vs_ai_window():
         assert ai_vs_ai_window.res_window is None
         assert not ai_vs_ai_window.res_window_showed
 
-        while ai_vs_ai_window.game_display.res == (None, None):
+        while ai_vs_ai_window.game_display.res == (None, None) or ai_vs_ai_window.game_display.active_thread:
             ai_vs_ai_window.refresh()
 
         assert len(ai_vs_ai_window.move_table.move_texts) != 0
@@ -188,6 +189,8 @@ def test_ai_vs_ai_window():
 
         assert ai_vs_ai_window.res_window is None
         assert ai_vs_ai_window.res_window_showed
+
+        # time.sleep(1)
 
         before_moves = ai_vs_ai_window.move_table.move_texts
 

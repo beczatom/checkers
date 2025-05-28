@@ -183,7 +183,7 @@ class GameWindow(Window):
         Checks if game is over and does corresponding actions.
         """
         self.game_display.check_game_end()
-        if self.res_window_showed or self.game_display.res == (None, None):
+        if self.res_window_showed or self.game_display.res == (None, None) or self.game_display.active_thread:
             return
         self.res_window = self.init_result_window()
 

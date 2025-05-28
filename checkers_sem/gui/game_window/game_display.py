@@ -81,8 +81,12 @@ class GameDisplay(Widget):
         """
         if self.active_thread is not None:
             return
+
+        self.time_over_check()
+
         if self.res == (None, None):
             self.res = (self.chessboard.game.get_result(), self.chessboard.game.get_end_type())
+
         if self.res != (None, None):
             self.chessboard.reset_best_move()
             self.timers[Color.WHITE].time_stop()
@@ -103,11 +107,11 @@ class GameDisplay(Widget):
         if self.active_thread is not None and not self.active_thread.is_alive():
             self.active_thread.join()
             self.turn = self.chessboard.game.board.turn
-            if self.res != (None, None):
+            if self.res[1] == GameEnd.NO_TIME:
                 self.chessboard.game.pop()
 
-            if self.res == (None, None):
-                self.chessboard.draw()
+            # if self.res == (None, None):
+            self.chessboard.draw()
             self.active_thread = None
             return True
         return False

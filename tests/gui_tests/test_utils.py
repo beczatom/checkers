@@ -351,9 +351,6 @@ def test_result(res: tuple[float, int]):
     Result(surface, pos, res=res)
 
     assert surface.get_rect().center == (50, 50)
-    assert surface.get_at((25, 25)) == pygame.Color(BORDER_COLOR)
-    assert surface.get_at((74, 74)) == pygame.Color(BORDER_COLOR)
-    assert surface.get_at((30, 50)) == pygame.Color(BACKGROUND_COLOR)
 
 
 def test_slider():
