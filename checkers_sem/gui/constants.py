@@ -97,10 +97,12 @@ LEFT_ARROW_IMAGE = 'checkers_sem/assets/left_arrow.svg'
 RIGHT_ARROW_IMAGE = 'checkers_sem/assets/right_arrow.svg'
 RESTART_ARROW_IMAGE = 'checkers_sem/assets/restart_button.svg'
 
+MENU_IMAGE = 'checkers_sem/assets/menu.png'
+
+
 PLAY_BUTTON_TEXT = 'Hraj'
 
 TIME = 300
-
 
 TIME_SLIDER_TEXT = 'Čas'
 TIME_SLIDER_MIN = 10

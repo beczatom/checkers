@@ -4,10 +4,10 @@ This module defines the menu window
 
 import pygame
 
-from checkers_sem.gui.utils.button import Button
+from checkers_sem.gui.utils.button import Button, ImageButton
 from checkers_sem.gui.game_setting.game_setting_window import GameSettingWindow
 from checkers_sem.gui.genetic_window.genetic_setting_window import GeneticSettingWindow
-from checkers_sem.gui.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT, REFRESH_RATE_MS
+from checkers_sem.gui.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT, REFRESH_RATE_MS, MENU_IMAGE
 from checkers_sem.gui.utils.pos import Pos
 
 class Menu:
@@ -27,6 +27,7 @@ class Menu:
         pygame.display.flip()
         self.buttons = self.buttons_init()
         self.next_window = None
+        self.image = self.image_init()
 
     def reset(self) -> None:
         """
@@ -36,6 +37,16 @@ class Menu:
         pygame.display.flip()
         self.buttons = self.buttons_init()
         self.next_window = None
+        self.image.draw()
+
+    def image_init(self) -> ImageButton:
+        """
+        Initialize menu main image.
+        """
+        pos = Pos((0.35, 0.5), (0.1, 0, 0.4, 0), center=True)
+        image = ImageButton(self.screen, pos, background_image=MENU_IMAGE)
+        image.draw()
+        return image
 
     def buttons_init(self) -> list[Button]:
         """
@@ -58,7 +69,7 @@ class Menu:
 
         for i, text in enumerate([PLAY_BUTTON_TEXT, GENETIC_TEXT]):
             buttons.append(Button(self.screen,
-                                  Pos((0.6, 0.1), (i * 0.3, 0, 0, 0), center=True),
+                                  Pos((0.6, 0.1), (0.5 + i * 0.25, 0, 0, 0), center=True),
                                   text=text, onclick=actions[i], background_color=BACKGROUND_COLOR,
                                   font_size= 25))
             buttons[-1].draw()
