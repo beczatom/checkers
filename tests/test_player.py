@@ -2,13 +2,13 @@ import pygame
 
 from unittest.mock import patch
 
-from checkers_sem.gui.utils.chessboard import ChessBoard
-from checkers_sem.genetic.constants import AI_COEFS
-from checkers_sem.game.game import Game
-from checkers_sem.gui.utils.pos import Pos
-from checkers_sem.game.constants import BitBoard, Color
-from checkers_sem.gui.constants import BACKGROUND_COLOR
-from checkers_sem.player.player import AIPlayer, HumanPlayer
+from app.gui.utils.chessboard import ChessBoard
+from app.genetic.constants import AI_COEFS
+from app.game.game import Game
+from app.gui.utils.pos import Pos
+from app.game.constants import BitBoard, Color
+from app.gui.constants import BACKGROUND_COLOR
+from app.player.player import AIPlayer, HumanPlayer
 
 
 def test_move_ai_player():
@@ -43,7 +43,7 @@ def test_move_human_player():
     best = None
     no_moves = True
 
-    with patch('checkers_sem.gui.utils.chessboard.ChessBoard.get_clicked_mask',
+    with patch('app.gui.utils.chessboard.ChessBoard.get_clicked_mask',
                side_effect=[BitBoard(0x00000100), BitBoard(0x00001000)]):
         for _ in range(2):
             no_moves, performed, best = human_player.move()

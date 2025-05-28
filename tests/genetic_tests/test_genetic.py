@@ -1,9 +1,9 @@
 
 import numpy as np
 
-from checkers_sem.genetic.genetic_player import GeneticPlayer
-from checkers_sem.state import state
-from checkers_sem.genetic.constants import STATS_SIZE
+from app.genetic.genetic_player import GeneticPlayer
+from app.state import state
+from app.genetic.constants import STATS_SIZE
 
 from unittest.mock import patch
 import pytest
@@ -11,8 +11,8 @@ import pytest
 import multiprocessing as mp
 import sys
 
-from checkers_sem.genetic.genetic import (Genetic, crossover_ox, crossover_avg, crossover_players, play_process,
-                                          tournament_process)
+from app.genetic.genetic import (Genetic, crossover_ox, crossover_avg, crossover_players, play_process,
+                                 tournament_process)
 
 import copy
 from networkx import NetworkXError
@@ -64,8 +64,8 @@ def test_crossover_players():
         fake_prob_output = np.linspace(0, 1, children_num)
 
         with (patch('numpy.random.rand', side_effect=fake_prob_output),
-              patch('checkers_sem.genetic.genetic.crossover_ox', return_value=1),
-              patch('checkers_sem.genetic.genetic.crossover_avg', return_value=2)):
+              patch('app.genetic.genetic.crossover_ox', return_value=1),
+              patch('app.genetic.genetic.crossover_avg', return_value=2)):
             fake_children = crossover_players(first, second, children_num)
 
         for i in range(children_num):
@@ -82,7 +82,7 @@ def test_play_process():
     results_q = mp.Queue()
 
     with (patch('numpy.random.rand', return_value=1),
-          patch('checkers_sem.genetic.genetic.play', side_effect=[1, 1, -1, -1, 0])):
+          patch('app.genetic.genetic.play', side_effect=[1, 1, -1, -1, 0])):
         play_process(players_q, results_q, state)
 
     assert results_q.get() == [1, 1, 2, 2, 1]
@@ -97,7 +97,7 @@ def test_tournament_process():
     results_q = mp.Queue()
 
     with (patch('numpy.random.rand', return_value=1),
-          patch('checkers_sem.genetic.genetic.play', side_effect=[1, 1, -1, -1, 0])):
+          patch('app.genetic.genetic.play', side_effect=[1, 1, -1, -1, 0])):
         tournament_process(players_q, results_q, state.MAX_TRAIN_DEPTH, 8)
 
     assert np.allclose(results_q.get(), [1, 1, 0, 1, 1.5, 0.5, 0, 0])
@@ -117,7 +117,7 @@ def test_select():
     gen.population = range(10)
 
     with (patch('numpy.random.choice', side_effect=[(1, 5) for _ in range(10)]),
-          patch('checkers_sem.genetic.genetic.play', return_value=-1)):
+          patch('app.genetic.genetic.play', return_value=-1)):
         gen.select()
 
     assert np.equal(gen.population, [5 for _ in range(10)]).all()
@@ -129,7 +129,7 @@ def test_crossover(crossover_pct : float):
     gen.population = range(state.POPULATION_SIZE)
     with (patch('numpy.random.rand', return_value= 0.4),
           patch('numpy.random.randint', return_value= 5),
-          patch('checkers_sem.genetic.genetic.crossover_players', return_value=[1, 1])):
+          patch('app.genetic.genetic.crossover_players', return_value=[1, 1])):
         gen.crossover()
 
     if 0.4 < crossover_pct:
@@ -189,7 +189,7 @@ def test_best():
 
     known_best = gen.population[0]
 
-    with patch('checkers_sem.genetic.genetic.tournament_process', side_effect=fake_tournament_process):
+    with patch('app.genetic.genetic.tournament_process', side_effect=fake_tournament_process):
         best = gen.best()
 
     assert best == known_best
@@ -197,7 +197,7 @@ def test_best():
 def test_do_iteration():
     gen = Genetic()
     population_size = len(gen.population)
-    with patch('checkers_sem.genetic.genetic.Genetic.select', return_value=None):
+    with patch('app.genetic.genetic.Genetic.select', return_value=None):
         gen.do_iteration()
     assert len(gen.population) == population_size
 

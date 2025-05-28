@@ -1,6 +1,6 @@
 import pytest
-from checkers_sem.game.move import Move
-from checkers_sem.game.constants import TAKE, PROMOTION, BitBoard, MoveType, Color, Piece
+from app.game.move import Move
+from app.game.constants import TAKE, PROMOTION, BitBoard, MoveType, Color, Piece
 
 
 tested_moves = [

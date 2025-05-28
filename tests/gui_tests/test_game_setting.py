@@ -4,16 +4,16 @@ This module defines a windows responsible for game settings
 
 import pygame
 
-from checkers_sem.gui.game_setting.game_setting_widget import GameSettingWidget
-from checkers_sem.gui.game_setting.game_setting_ai_vs_ai import GameSettingAIVSAI
-from checkers_sem.gui.game_setting.game_setting_human_vs_human import GameSettingHumanVSHuman
-from checkers_sem.gui.game_setting.game_setting_human_vs_ai import GameSettingHumanVSAI
-from checkers_sem.gui.constants import START_TRAIN_BUTTON_TEXT, HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT, \
+from app.gui.game_setting.game_setting_widget import GameSettingWidget
+from app.gui.game_setting.game_setting_ai_vs_ai import GameSettingAIVSAI
+from app.gui.game_setting.game_setting_human_vs_human import GameSettingHumanVSHuman
+from app.gui.game_setting.game_setting_human_vs_ai import GameSettingHumanVSAI
+from app.gui.constants import START_TRAIN_BUTTON_TEXT, HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT, \
     BACKGROUND_COLOR, TIME_SLIDER_TEXT, DEPTH_BLACK_TEXT, DEPTH_WHITE_TEXT, COEFICIENTS_TEXT, STAT_TEXTS
-from checkers_sem.gui.utils.pos import Pos
-from checkers_sem.state import state
+from app.gui.utils.pos import Pos
+from app.state import state
 
-from checkers_sem.gui.game_setting.game_setting_window import GameSettingWindow
+from app.gui.game_setting.game_setting_window import GameSettingWindow
 
 def test_game_setting_window() -> None:
     """

@@ -1,5 +1,5 @@
 
-from checkers_sem.state import state
+from app.state import state
 
 def test_state():
     for attr_name in dir(state):

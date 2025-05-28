@@ -5,21 +5,21 @@ import time
 
 import pygame
 
-from checkers_sem.game.game import Game
-from checkers_sem.player.player import AIPlayer, HumanPlayer
-from checkers_sem.gui.utils.chessboard import ChessBoard
-from checkers_sem.gui.utils.text import Text
-from checkers_sem.gui.utils.pos import Pos
-from checkers_sem.state import state
-from checkers_sem.game.constants import Color
-from checkers_sem.gui.constants import BACKGROUND_COLOR
-from checkers_sem.gui.game_window.eval_helper import EvalHelper
-from checkers_sem.gui.game_window.game_window import GameWindow
-from checkers_sem.gui.game_window.game_display import GameDisplay
-from checkers_sem.gui.game_window.ai_vs_ai_window import AIVSAIWindow
-from checkers_sem.gui.game_window.human_vs_human_window import HumanVsHumanWindow
-from checkers_sem.gui.game_window.human_vs_ai_window import HumanVSAIWindow
-from checkers_sem.genetic.constants import AI_COEFS
+from app.game.game import Game
+from app.player.player import AIPlayer, HumanPlayer
+from app.gui.utils.chessboard import ChessBoard
+from app.gui.utils.text import Text
+from app.gui.utils.pos import Pos
+from app.state import state
+from app.game.constants import Color
+from app.gui.constants import BACKGROUND_COLOR
+from app.gui.game_window.eval_helper import EvalHelper
+from app.gui.game_window.game_window import GameWindow
+from app.gui.game_window.game_display import GameDisplay
+from app.gui.game_window.ai_vs_ai_window import AIVSAIWindow
+from app.gui.game_window.human_vs_human_window import HumanVsHumanWindow
+from app.gui.game_window.human_vs_ai_window import HumanVSAIWindow
+from app.genetic.constants import AI_COEFS
 
 
 def test_eval_helper():

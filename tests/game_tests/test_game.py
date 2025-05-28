@@ -1,12 +1,12 @@
-from checkers_sem.game.game import Game, three_fold_repetition
+from app.game.game import Game, three_fold_repetition
 import copy
 
 import pytest
 from collections import deque
 
-from checkers_sem.game.board import Board
-from checkers_sem.game.move import Move
-from checkers_sem.game.constants import BitBoard, TAKE, GameEnd, MoveType, Color, Piece, PROMOTION
+from app.game.board import Board
+from app.game.move import Move
+from app.game.constants import BitBoard, TAKE, GameEnd, MoveType, Color, Piece, PROMOTION
 
 @pytest.mark.parametrize('move_stack, repetition', [
     (deque([]), False),

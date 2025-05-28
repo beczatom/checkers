@@ -6,11 +6,11 @@ import numpy as np
 
 import pygame
 
-from checkers_sem.gui.constants import BACKGROUND_COLOR, SLIDER_PROPERTIES
-from checkers_sem.gui.genetic_window.genetic_window import GeneticWindow
-from checkers_sem.gui.genetic_window.genetic_setting_window import GeneticSettingWindow
-from checkers_sem.gui.genetic_window.genetic_helper import GeneticHelper
-from checkers_sem.state import state
+from app.gui.constants import BACKGROUND_COLOR, SLIDER_PROPERTIES
+from app.gui.genetic_window.genetic_window import GeneticWindow
+from app.gui.genetic_window.genetic_setting_window import GeneticSettingWindow
+from app.gui.genetic_window.genetic_helper import GeneticHelper
+from app.state import state
 
 
 def test_genetic_window() -> None:

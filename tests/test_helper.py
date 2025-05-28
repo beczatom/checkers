@@ -1,15 +1,15 @@
-from checkers_sem.game.constants import BitBoard, Color, Piece
-from checkers_sem.gui.constants import AVERAGE_GENETIC_COEFICIENTS_TEXT, FILE_NAMES
-from checkers_sem.game.move import Move, TAKE, PROMOTION, MoveType
-from checkers_sem.genetic.genetic import Genetic
-from checkers_sem.state import *
-from checkers_sem.genetic.genetic_player import GeneticPlayer
+from app.game.constants import BitBoard, Color, Piece
+from app.gui.constants import AVERAGE_GENETIC_COEFICIENTS_TEXT, FILE_NAMES
+from app.game.move import Move, TAKE, PROMOTION, MoveType
+from app.genetic.genetic import Genetic
+from app.state import *
+from app.genetic.genetic_player import GeneticPlayer
 import queue
 
-from checkers_sem.helper import (seconds_to_string, coords_to_bitboard_mask, bitboard_to_coords,
-                                 bitboard_to_idx, bitboard_to_bool_board, bitboard_to_pos, move_to_display_string,
-                                 tuple_sum, tuple_prod, tuple_rev, multiply_list,
-                                 time_to_text, do_one_generation_thread, choose_best_thread, get_genetic_completion, get_coefs_header_text)
+from app.helper import (seconds_to_string, coords_to_bitboard_mask, bitboard_to_coords,
+                        bitboard_to_idx, bitboard_to_bool_board, bitboard_to_pos, move_to_display_string,
+                        tuple_sum, tuple_prod, tuple_rev, multiply_list,
+                        time_to_text, do_one_generation_thread, choose_best_thread, get_genetic_completion, get_coefs_header_text)
 
 import pytest
 

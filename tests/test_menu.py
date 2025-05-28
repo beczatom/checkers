@@ -4,8 +4,8 @@ This module tests menu window
 
 import pygame
 
-from checkers_sem.gui.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT
-from checkers_sem.gui.menu import Menu
+from app.gui.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT
+from app.gui.menu import Menu
 
 def test_menu() -> None:
     """

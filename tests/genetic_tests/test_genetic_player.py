@@ -1,12 +1,12 @@
 
 import numpy as np
 
-from checkers_sem.game.game import Game
-from checkers_sem.game.move import Move
-from checkers_sem.game.constants import Color, BitBoard, MoveType, TAKE, Piece
-from checkers_sem.genetic.constants import STATS_SIZE
-from checkers_sem.game.board import Board
-from checkers_sem.genetic.genetic_player import GeneticPlayer, play
+from app.game.game import Game
+from app.game.move import Move
+from app.game.constants import Color, BitBoard, MoveType, TAKE, Piece
+from app.genetic.constants import STATS_SIZE
+from app.game.board import Board
+from app.genetic.genetic_player import GeneticPlayer, play
 
 import pytest
 from unittest.mock import patch
@@ -64,7 +64,7 @@ def test_alpha_beta(board_init : tuple[BitBoard, BitBoard, BitBoard], coefs : np
 
     counter = CallCounter(genetic_player.evaluate)
 
-    with patch('checkers_sem.genetic.genetic_player.GeneticPlayer.evaluate', side_effect=counter):
+    with patch('app.genetic.genetic_player.GeneticPlayer.evaluate', side_effect=counter):
         best_move = genetic_player.alpha_beta(game, -np.inf, np.inf, 3)[0]
 
     assert counter.calls == ref_eval_count

@@ -3,31 +3,31 @@ import pytest
 from unittest.mock import patch
 import time
 
-from checkers_sem.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, POSSIBLE_MOVE_IMG
-from checkers_sem.gui.utils.pos import Pos
+from app.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, POSSIBLE_MOVE_IMG
+from app.gui.utils.pos import Pos
 
-from checkers_sem.game.move import Move
-from checkers_sem.game.constants import MoveType, BitBoard, TAKE, Color, Piece, GameEnd
+from app.game.move import Move
+from app.game.constants import MoveType, BitBoard, TAKE, Color, Piece, GameEnd
 
-from checkers_sem.gui.utils.button import Button, ImageButton
-from checkers_sem.gui.utils.checkbox import CheckBox
-from checkers_sem.gui.utils.chessboard import ChessBoard
-from checkers_sem.gui.utils.edit_text import EditText
-from checkers_sem.gui.utils.loader import loader
-from checkers_sem.gui.utils.move_table import MoveTable
-from checkers_sem.gui.utils.progress_bar import ProgressBar
-from checkers_sem.gui.utils.result import Result
-from checkers_sem.gui.utils.slider import Slider
-from checkers_sem.gui.utils.text import Text
-from checkers_sem.gui.utils.tile import Tile
-from checkers_sem.gui.utils.timer import Timer
-from checkers_sem.gui.utils.widget import Widget
-from checkers_sem.gui.utils.window import Window
+from app.gui.utils.button import Button, ImageButton
+from app.gui.utils.checkbox import CheckBox
+from app.gui.utils.chessboard import ChessBoard
+from app.gui.utils.edit_text import EditText
+from app.gui.utils.loader import loader
+from app.gui.utils.move_table import MoveTable
+from app.gui.utils.progress_bar import ProgressBar
+from app.gui.utils.result import Result
+from app.gui.utils.slider import Slider
+from app.gui.utils.text import Text
+from app.gui.utils.tile import Tile
+from app.gui.utils.timer import Timer
+from app.gui.utils.widget import Widget
+from app.gui.utils.window import Window
 
-from checkers_sem.state import state
+from app.state import state
 
-from checkers_sem.game.game import Game
-from checkers_sem.helper import bitboard_to_idx
+from app.game.game import Game
+from app.helper import bitboard_to_idx
 
 
 def test_button():
@@ -161,10 +161,6 @@ def test_checkbox():
     assert not checkbox.is_checked
     assert not checkbox.is_hovered
     assert cnt[0] == 0
-
-
-def test_chessboard():
-    pass
 
 
 def test_edit_text():
@@ -554,7 +550,7 @@ def test_window():
     event = pygame.event.Event(pygame.QUIT)
     pygame.event.post(event)
 
-    with (patch('checkers_sem.gui.utils.window.Window.refresh', side_effect=fake_refresh),
+    with (patch('app.gui.utils.window.Window.refresh', side_effect=fake_refresh),
           patch('pygame.display.update', side_effect=fake_refresh)):
         try:
             window.show()
