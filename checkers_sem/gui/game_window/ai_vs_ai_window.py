@@ -51,7 +51,8 @@ class AIVSAIWindow(GameWindow):
         """
         if self.game_display.move_ai():
             self.move_table.set_move_texts(self.game_display.chessboard.game.get_move_history())
-        self.game_display.eval_helper.update_eval()
+        if not self.game_display.active_thread:
+            self.game_display.eval_helper.update_eval()
         self.game_display.timers[Color.BLACK].draw()
         self.game_display.timers[Color.WHITE].draw()
         self.check_game_end()

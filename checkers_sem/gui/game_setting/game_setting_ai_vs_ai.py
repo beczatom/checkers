@@ -42,8 +42,8 @@ class GameSettingAIVSAI(GameSettingWidget):
 
         self.coefs_edit_texts_headers = self.init_coefs_texts(0.425, 0.3)
 
-        self.coefs_white_edit_texts = self.init_edit_texts(0.425, 0.35, 0.15)
-        self.coefs_black_edit_texts = self.init_edit_texts(0.425, 0.75, 0.15)
+        self.coefs_white_edit_texts = self.init_edit_texts(0.425, 0.35, 0.15, state.COEFS_WHITE)
+        self.coefs_black_edit_texts = self.init_edit_texts(0.425, 0.75, 0.15, state.COEFS_BLACK)
 
     def depth_slider_white_onclick(self, val: int):
         """

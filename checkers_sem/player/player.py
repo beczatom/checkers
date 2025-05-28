@@ -165,8 +165,6 @@ class HumanPlayer(Player):
         if clicked_now is None:
             return False, False, None
 
-        print('clicked now is not None')
-
         if self.last_clicked is not None and clicked_now in self.chessboard.game.get_moves_to_mask(self.last_clicked):
             # move can be performed
             self.chessboard.push_move(self.last_clicked, clicked_now)

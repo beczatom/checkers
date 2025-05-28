@@ -34,9 +34,9 @@ class GameSettingWidget(Widget):
         """
         super().__init__(*args)
         self.time_header_text, self.time_slider_val, self.time_slider = self.init_slider(
-            0.025, self.time_slider_onclick, (TIME_SLIDER_TEXT, TIME_SLIDER_MIN, TIME_SLIDER_MAX, state.TIME))
+            0.025, self.time_slider_onclick, (TIME_SLIDER_TEXT, TIME_SLIDER_MIN, TIME_SLIDER_MAX, state.TIME), seconds_to_string)
 
-    def init_slider(self, top: float, onclick: Callable[[int], None], properties: tuple[str, int, int, int]) -> tuple[
+    def init_slider(self, top: float, onclick: Callable[[int], None], properties: tuple[str, int, int, int], formatter : Callable[[int], str] = None) -> tuple[
         Text, Text, Slider]:
         """
         Initializes a slider.
@@ -48,6 +48,8 @@ class GameSettingWidget(Widget):
             slider onchange function
         properties : tuple[str, int, int, int]
             slider title, min, max and initial value
+        formatter : Callable[[int], str] = None
+            to format displayed value
 
         Returns
         -------
@@ -64,7 +66,7 @@ class GameSettingWidget(Widget):
         slider_text_val = Text(self.surface,
                                Pos((0.1, 0.075), (top, 0, 0, 0.45)),
                                self.screen_left_top,
-                               text=initial_val)
+                               text=formatter(initial_val) if formatter else initial_val)
 
         slider = Slider(self.surface,
                         Pos((0.3, 0.075), (top, 0, 0, 0.6)),
@@ -128,7 +130,7 @@ class GameSettingWidget(Widget):
                                     text=stat_name, font_size=font_size))
         return coefs_texts
 
-    def init_edit_texts(self, top: float, left: float, size_x: float) -> list[EditText]:
+    def init_edit_texts(self, top: float, left: float, size_x: float, init_vals = list[float]) -> list[EditText]:
         """
         Initializes the edit texts of AI coefficients.
         Parameters
@@ -139,6 +141,8 @@ class GameSettingWidget(Widget):
             left margin
         size_x : float
             size in x axis
+        init_vals : float
+            initial values for coefficients
 
         Returns
         -------
@@ -153,7 +157,7 @@ class GameSettingWidget(Widget):
                                            center=True),
                                        self.left_top,
 
-                                       text=AI_COEFS[i], font_size=font_size))
+                                       text=init_vals[i], font_size=font_size))
             edit_texts[-1].draw()
         return edit_texts
 

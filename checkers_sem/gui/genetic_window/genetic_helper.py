@@ -68,6 +68,7 @@ class GeneticHelper:
         # we were choosing best
         if self.current_generation == state.GENERATIONS:
             self.best_player = self.best_queue.get()
+            state.COEFS_BLACK = [round(coef, 3) for coef in self.best_player.coefs]
             return
 
         self.average_coefs = self.genetic.get_average_coefs()

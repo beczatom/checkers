@@ -36,7 +36,7 @@ class GameSettingHumanVSAI(GameSettingWidget):
 
         self.coefs_edit_texts_headers = self.init_coefs_texts(0.325, 0.3)
 
-        self.coefs_edit_texts = self.init_edit_texts(0.325, 0.5, 0.15)
+        self.coefs_edit_texts = self.init_edit_texts(0.325, 0.5, 0.15, state.COEFS_BLACK)
 
 
     def depth_slider_onclick(self, val : int) -> None:
