@@ -1,7 +1,6 @@
 """
 This module tests the game windows.
 """
-import time
 
 import pygame
 
@@ -189,8 +188,6 @@ def test_ai_vs_ai_window():
 
         assert ai_vs_ai_window.res_window is None
         assert ai_vs_ai_window.res_window_showed
-
-        # time.sleep(1)
 
         before_moves = ai_vs_ai_window.move_table.move_texts
 

@@ -1,3 +1,7 @@
+"""
+This module tests codestyle
+"""
+
 import inspect
 import pytest
 from pylint.lint import Run
@@ -13,6 +17,7 @@ from app import helper, main, state
 from app.gui.genetic_window import genetic_window, genetic_setting_window, genetic_helper
 from app.gui.game_setting import game_setting_window, game_setting_widget, game_setting_human_vs_human, game_setting_human_vs_ai, game_setting_ai_vs_ai
 from app.gui.game_window import game_window, game_display, eval_helper, human_vs_human_window, human_vs_ai_window, ai_vs_ai_window
+
 # I was inspired by BI-PYT homework testing
 @pytest.mark.parametrize('file', [board, game, move, genetic, genetic_player, player,
                                   button, checkbox, chessboard, edit_text, loader, move_table, pos, progress_bar,

@@ -12,8 +12,8 @@ from app.gui.constants import START_TRAIN_BUTTON_TEXT, HUMAN_VS_HUMAN_TEXT, HUMA
     BACKGROUND_COLOR, TIME_SLIDER_TEXT, DEPTH_BLACK_TEXT, DEPTH_WHITE_TEXT, COEFICIENTS_TEXT, STAT_TEXTS
 from app.gui.utils.pos import Pos
 from app.state import state
-
 from app.gui.game_setting.game_setting_window import GameSettingWindow
+
 
 def test_game_setting_window() -> None:
     """
@@ -29,6 +29,7 @@ def test_game_setting_window() -> None:
 
     for i, button_text in enumerate([HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT]):
         assert game_setting_window.mode_buttons[i].text == button_text
+
 
 def test_game_setting_widget() -> None:
     """
@@ -69,6 +70,7 @@ def test_game_setting_human_vs_human() -> None:
     for i, value in enumerate(state.COEFS_BLACK):
         assert game_setting_human_vs_human.coefs_edit_texts[i].get_string() == str(value)
 
+
 def test_game_setting_human_vs_ai() -> None:
     """
     Game setting human vs AI widget testing
@@ -93,6 +95,7 @@ def test_game_setting_human_vs_ai() -> None:
 
     for i, value in enumerate(state.COEFS_BLACK):
         assert game_setting_human_vs_ai.coefs_edit_texts[i].get_string() == str(value)
+
 
 def test_game_setting_ai_vs_ai() -> None:
     """

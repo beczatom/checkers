@@ -1,3 +1,6 @@
+"""
+This module tests player
+"""
 import pygame
 
 from unittest.mock import patch
@@ -12,6 +15,9 @@ from app.player.player import AIPlayer, HumanPlayer
 
 
 def test_move_ai_player():
+    """
+    Test move AI player
+    """
     surface = pygame.Surface((800, 800))
     surface.fill(BACKGROUND_COLOR)
     game = Game()
@@ -30,6 +36,9 @@ def test_move_ai_player():
 
 
 def test_move_human_player():
+    """
+    Tests move human player
+    """
     surface = pygame.Surface((800, 800))
     surface.fill(BACKGROUND_COLOR)
     game = Game()

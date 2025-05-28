@@ -1,7 +1,14 @@
+"""
+This module tests state
+"""
 
 from app.state import state
 
+
 def test_state():
+    """
+    Test state
+    """
     for attr_name in dir(state):
         if attr_name.startswith('__'):
             continue

@@ -1,3 +1,7 @@
+"""
+This module tests utils
+"""
+
 import pygame
 import pytest
 from unittest.mock import patch
@@ -5,10 +9,8 @@ import time
 
 from app.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, POSSIBLE_MOVE_IMG
 from app.gui.utils.pos import Pos
-
 from app.game.move import Move
 from app.game.constants import MoveType, BitBoard, TAKE, Color, Piece, GameEnd
-
 from app.gui.utils.button import Button, ImageButton
 from app.gui.utils.checkbox import CheckBox
 from app.gui.utils.chessboard import ChessBoard
@@ -23,14 +25,15 @@ from app.gui.utils.tile import Tile
 from app.gui.utils.timer import Timer
 from app.gui.utils.widget import Widget
 from app.gui.utils.window import Window
-
 from app.state import state
-
 from app.game.game import Game
 from app.helper import bitboard_to_idx
 
 
 def test_button():
+    """
+    Tests button
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -72,6 +75,9 @@ def test_button():
 
 
 def test_image_button():
+    """
+    Tests image button
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -105,6 +111,9 @@ def test_image_button():
 
 
 def test_checkbox():
+    """
+    Tests checkbox
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -164,6 +173,9 @@ def test_checkbox():
 
 
 def test_edit_text():
+    """
+    Test edit text
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -220,6 +232,9 @@ def test_edit_text():
 
 
 def test_loader():
+    """
+    Test loader
+    """
     assert loader.LOADED_IMAGES is not None
     assert len(loader.LOADED_IMAGES.items()) > 0
     for key, value in loader.LOADED_IMAGES.items():
@@ -227,6 +242,9 @@ def test_loader():
 
 
 def test_move_table():
+    """
+    Test move table
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -308,7 +326,17 @@ def test_move_table():
     ((0.5, 0.25), (0.5, 0, 0.25, 0), True, (0.25, 0.5)),
     ((0.5, 0.25), (0.5, 0, 0, 0), True, (0.25, 0.625)),
 ])
-def test_pos(size: tuple[float, float], margin: tuple[float, float, float, float], center: bool, ref_left_top):
+def test_pos(size: tuple[float, float], margin: tuple[float, float, float, float], center: bool,
+             ref_left_top: tuple[float, float]):
+    """
+    Tests pos
+    Parameters
+    ----------
+    size : tuple[float, float]
+    margin : tuple[float, float, float, float]
+    center : bool
+    ref_left_top : tuple[float, float]
+    """
     try:
         pos = Pos(size, margin, center=center)
         assert pos.size == size
@@ -319,6 +347,9 @@ def test_pos(size: tuple[float, float], margin: tuple[float, float, float, float
 
 
 def test_progress_bar():
+    """
+    Tests progress bar
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -340,6 +371,12 @@ def test_progress_bar():
     ((0, GameEnd.FIFTY_MOVES_WITHOUT_TAKE))
 ])
 def test_result(res: tuple[float, int]):
+    """
+    Tests result
+    Parameters
+    ----------
+    res : tuple[float, int]
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -350,6 +387,9 @@ def test_result(res: tuple[float, int]):
 
 
 def test_slider():
+    """
+    Test slider
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -389,6 +429,9 @@ def test_slider():
 
 
 def test_text():
+    """
+    Tests text
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -405,6 +448,9 @@ def test_text():
 
 
 def test_tile():
+    """
+    Tests tile
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -466,6 +512,9 @@ def test_tile():
 
 
 def test_timer():
+    """
+    Tests timer
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -493,6 +542,9 @@ def test_timer():
 
 
 def test_widget():
+    """
+    Tests widget
+    """
     surface = pygame.Surface((100, 100))
     surface.fill(BACKGROUND_COLOR)
 
@@ -532,6 +584,9 @@ def test_widget():
 
 
 def test_window():
+    """
+    Tests window
+    """
     surface = pygame.Surface((200, 200))
     surface.fill(BACKGROUND_COLOR)
 
@@ -560,6 +615,9 @@ def test_window():
 
 
 def test_tiles_init() -> None:
+    """
+    Tests tiles init
+    """
     surface = pygame.Surface((800, 800))
     surface.fill(BACKGROUND_COLOR)
     pos = Pos((1, 1), (0, 0, 0, 0), center=True)
@@ -580,6 +638,9 @@ def test_tiles_init() -> None:
 
 
 def test_set_figures() -> None:
+    """
+    Tests set figures
+    """
     pieces = [(Piece.PAWN, Color.WHITE),
               (Piece.PAWN, Color.BLACK),
               (Piece.KING, Color.WHITE),
@@ -636,6 +697,9 @@ def test_set_figures() -> None:
 
 
 def test_push_move() -> None:
+    """
+    Tests push move
+    """
     surface = pygame.Surface((800, 800))
     surface.fill(BACKGROUND_COLOR)
     pos = Pos((1, 1), (0, 0, 0, 0), center=True)
@@ -659,6 +723,9 @@ def test_push_move() -> None:
 
 
 def test_set_possible_moves() -> None:
+    """
+    Test set possible moves
+    """
     surface = pygame.Surface((800, 800))
     surface.fill(BACKGROUND_COLOR)
     pos = Pos((1, 1), (0, 0, 0, 0), center=True)

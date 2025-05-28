@@ -34,6 +34,7 @@ def test_genetic_window() -> None:
     assert gen_window.genetic_helper.genetic_thread is not None
     gen_window.genetic_helper.genetic_thread.join()
 
+
 def test_genetic_setting_window() -> None:
     """
     Tests the GeneticSettingWindow class.
@@ -57,8 +58,10 @@ def test_genetic_setting_window() -> None:
 
     gen_setting_window.genetic_settings = range(5)
     gen_setting_window.set_global_genetic_settings()
-    for i, state_val in enumerate([state.POPULATION_SIZE, state.GENERATIONS, state.MAX_TRAIN_DEPTH, state.CROSSOVER_PCT, state.MUTATION_PCT]):
+    for i, state_val in enumerate(
+            [state.POPULATION_SIZE, state.GENERATIONS, state.MAX_TRAIN_DEPTH, state.CROSSOVER_PCT, state.MUTATION_PCT]):
         assert state_val == gen_setting_window.genetic_settings[i]
+
 
 def test_genetic_helper() -> None:
     """
