@@ -4,11 +4,11 @@ This module defines a widget for game result.
 
 import pygame
 
-from app.gui.utils.widget import Widget
-from app.gui.utils.button import Button
-from app.gui.utils.text import Text
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.button import Button
+from app.gui.widgets.text import Text
 from app.gui.constants import DEFAULT_FONT_SIZE, WIN_TEXT, GAME_END_TYPE_TEXT, OK_TEXT
-from app.gui.utils.pos import Pos
+from app.gui.widgets.pos import Pos
 
 
 class Result(Widget):

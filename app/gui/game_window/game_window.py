@@ -8,13 +8,13 @@ from abc import abstractmethod
 import pygame
 
 from app.player.player import Player
-from app.gui.utils.text import Text
-from app.gui.utils.window import Window
-from app.gui.utils.move_table import MoveTable
-from app.gui.utils.button import ImageButton
-from app.gui.utils.result import Result
-from app.gui.utils.checkbox import CheckBox
-from app.gui.utils.pos import Pos
+from app.gui.widgets.text import Text
+from app.gui.widgets.window import Window
+from app.gui.widgets.move_table import MoveTable
+from app.gui.widgets.button import ImageButton
+from app.gui.widgets.result import Result
+from app.gui.widgets.checkbox import CheckBox
+from app.gui.widgets.pos import Pos
 from app.gui.constants import SHOW_BEST_MOVES_TEXT, LEFT_ARROW_IMAGE, RIGHT_ARROW_IMAGE, BACKGROUND_COLOR, RESTART_ARROW_IMAGE
 from app.game.constants import Color
 from app.gui.game_window.game_display import GameDisplay

@@ -10,8 +10,8 @@ from app.gui.game_setting.game_setting_human_vs_human import GameSettingHumanVSH
 from app.gui.game_setting.game_setting_human_vs_ai import GameSettingHumanVSAI
 from app.gui.constants import START_TRAIN_BUTTON_TEXT, HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT, \
     BACKGROUND_COLOR, TIME_SLIDER_TEXT, DEPTH_BLACK_TEXT, DEPTH_WHITE_TEXT, COEFICIENTS_TEXT, STAT_TEXTS
-from app.gui.utils.pos import Pos
-from app.state import state
+from app.gui.widgets.pos import Pos
+from app.utils.state import state
 from app.gui.game_setting.game_setting_window import GameSettingWindow
 
 

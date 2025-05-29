@@ -6,11 +6,11 @@ from typing import Callable
 
 import pygame
 
-from app.gui.utils.widget import Widget
-from app.gui.utils.tile import Tile
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.tile import Tile
 from app.game.constants import BitBoard, Piece, Color
-from app.helper import coords_to_bitboard_mask, bitboard_to_bool_board, bitboard_to_idx
-from app.gui.utils.pos import Pos
+from app.utils.helper import coords_to_bitboard_mask, bitboard_to_bool_board, bitboard_to_idx
+from app.gui.widgets.pos import Pos
 
 
 class ChessBoard(Widget):

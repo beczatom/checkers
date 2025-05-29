@@ -11,7 +11,7 @@ import numpy as np
 from networkx import NetworkXError
 
 from app.genetic.genetic_player import GeneticPlayer
-from app.state import state
+from app.utils.state import state
 from app.genetic.constants import STATS_SIZE
 from app.genetic.genetic import (Genetic, crossover_ox, crossover_avg, crossover_players, play_process,
                                  tournament_process)

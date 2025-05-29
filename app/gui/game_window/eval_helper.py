@@ -7,9 +7,9 @@ from threading import Thread
 
 from app.game.game import Game
 from app.player.player import AIPlayer
-from app.gui.utils.chessboard import ChessBoard
-from app.gui.utils.text import Text
-from app.state import state
+from app.gui.widgets.chessboard import ChessBoard
+from app.gui.widgets.text import Text
+from app.utils.state import state
 from app.game.constants import Color
 
 

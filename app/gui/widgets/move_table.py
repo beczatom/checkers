@@ -4,12 +4,12 @@ This module implements a move table.
 
 import pygame
 
-from app.gui.utils.widget import Widget
-from app.gui.utils.text import Text
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.text import Text
 from app.gui.constants import DEFAULT_FONT_SIZE, DEFAULT_FONT, BACKGROUND_COLOR
 from app.game.move import Move
-from app.helper import move_to_display_string
-from app.gui.utils.pos import Pos
+from app.utils.helper import move_to_display_string
+from app.gui.widgets.pos import Pos
 
 
 class MoveTable(Widget):

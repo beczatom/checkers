@@ -7,10 +7,10 @@ from threading import Lock
 
 import pygame
 
-from app.gui.utils.widget import Widget
-from app.helper import seconds_to_string
+from app.gui.widgets.widget import Widget
+from app.utils.helper import seconds_to_string
 from app.gui.constants import DEFAULT_FONT, DEFAULT_FONT_SIZE, TEXT_COLOR
-from app.state import state
+from app.utils.state import state
 
 class Timer(Widget):
     """

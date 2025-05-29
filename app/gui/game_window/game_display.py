@@ -6,13 +6,13 @@ from threading import Thread
 
 import pygame
 
-from app.gui.utils.widget import Widget
+from app.gui.widgets.widget import Widget
 from app.game.game import Game
-from app.gui.utils.chessboard import ChessBoard
-from app.gui.utils.timer import Timer
-from app.gui.utils.text import Text
-from app.state import state
-from app.gui.utils.pos import Pos
+from app.gui.widgets.chessboard import ChessBoard
+from app.gui.widgets.timer import Timer
+from app.gui.widgets.text import Text
+from app.utils.state import state
+from app.gui.widgets.pos import Pos
 from app.game.constants import Color, GameEnd
 from app.gui.game_window.eval_helper import EvalHelper
 

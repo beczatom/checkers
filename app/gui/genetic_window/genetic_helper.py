@@ -6,8 +6,8 @@ from threading import Thread
 import queue
 
 from app.genetic.genetic import Genetic
-from app.helper import do_one_generation_thread, get_genetic_completion, choose_best_thread
-from app.state import state
+from app.utils.helper import do_one_generation_thread, get_genetic_completion, choose_best_thread
+from app.utils.state import state
 
 
 class GeneticHelper:

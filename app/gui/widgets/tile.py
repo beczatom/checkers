@@ -4,9 +4,9 @@ This module implements a tile on chessboard
 
 import pygame
 
-from app.gui.utils.button import ImageButton
-from app.gui.utils.widget import Widget
-from app.gui.utils.loader import loader
+from app.gui.widgets.button import ImageButton
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.loader import loader
 from app.gui.constants import TILE_BACKGROUND, POSSIBLE_MOVE_IMG, BEST_TILE_IMG
 from app.game.constants import BitBoard, Piece
 

@@ -4,9 +4,9 @@ This module defines a simple slider.
 
 import pygame
 
-from app.gui.utils.widget import Widget
-from app.gui.utils.loader import loader
-from app.helper import tuple_sum
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.loader import loader
+from app.utils.helper import tuple_sum
 from app.gui.constants import BORDER_COLOR, BACKGROUND_COLOR, SLIDER_CIRCLE
 
 

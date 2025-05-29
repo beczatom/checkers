@@ -8,7 +8,7 @@ import numpy as np
 from networkx.generators.random_graphs import random_regular_graph
 
 from app.genetic.genetic_player import GeneticPlayer, play
-from app.state import State, state
+from app.utils.state import State, state
 from app.genetic.constants import STATS_SIZE, N_JOBS
 
 

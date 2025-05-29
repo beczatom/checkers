@@ -6,10 +6,10 @@ import pygame
 
 from app.game.game import Game
 from app.player.player import AIPlayer, HumanPlayer
-from app.gui.utils.chessboard import ChessBoard
-from app.gui.utils.text import Text
-from app.gui.utils.pos import Pos
-from app.state import state
+from app.gui.widgets.chessboard import ChessBoard
+from app.gui.widgets.text import Text
+from app.gui.widgets.pos import Pos
+from app.utils.state import state
 from app.game.constants import Color
 from app.gui.constants import BACKGROUND_COLOR
 from app.gui.game_window.eval_helper import EvalHelper

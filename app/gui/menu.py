@@ -4,11 +4,11 @@ This module defines the menu window
 
 import pygame
 
-from app.gui.utils.button import Button, ImageButton
+from app.gui.widgets.button import Button, ImageButton
 from app.gui.game_setting.game_setting_window import GameSettingWindow
 from app.gui.genetic_window.genetic_setting_window import GeneticSettingWindow
 from app.gui.constants import BACKGROUND_COLOR, PLAY_BUTTON_TEXT, GENETIC_TEXT, REFRESH_RATE_MS, MENU_IMAGE
-from app.gui.utils.pos import Pos
+from app.gui.widgets.pos import Pos
 
 class Menu:
     """

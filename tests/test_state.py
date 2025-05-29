@@ -2,7 +2,7 @@
 This module tests state
 """
 
-from app.state import state
+from app.utils.state import state
 
 
 def test_state():

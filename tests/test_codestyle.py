@@ -10,10 +10,10 @@ from pylint.reporters import CollectingReporter
 from app.game import board, game, move
 from app.genetic import genetic, genetic_player
 from app.player import player
-from app.gui.utils import (button, checkbox, chessboard, edit_text, loader, move_table, pos, progress_bar,
-                           result, slider, text, tile, timer, widget, window)
+from app.gui.widgets import (button, checkbox, chessboard, edit_text, loader, move_table, pos, progress_bar,
+                             result, slider, text, tile, timer, widget, window)
 from app.gui import menu
-from app import helper, main, state
+from app.utils import helper, main, state
 from app.gui.genetic_window import genetic_window, genetic_setting_window, genetic_helper
 from app.gui.game_setting import game_setting_window, game_setting_widget, game_setting_human_vs_human, \
     game_setting_human_vs_ai, game_setting_ai_vs_ai

@@ -4,8 +4,8 @@ This module implements a simple button and an image button.
 
 import pygame
 
-from app.gui.utils.widget import Widget
-from app.gui.utils.loader import loader
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.loader import loader
 from app.gui.constants import (DEFAULT_FONT_SIZE, DEFAULT_FONT, BACKGROUND_COLOR, TEXT_COLOR, HOVER_TEXT_COLOR,
                                HOVER_BACKGROUND_COLOR)
 

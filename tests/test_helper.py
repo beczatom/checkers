@@ -8,11 +8,11 @@ import queue
 from app.game.constants import BitBoard, Color, Piece
 from app.game.move import Move, TAKE, PROMOTION, MoveType
 from app.genetic.genetic import Genetic
-from app.state import state
-from app.helper import (seconds_to_string, coords_to_bitboard_mask, bitboard_to_coords,
-                        bitboard_to_idx, bitboard_to_bool_board, bitboard_to_pos, move_to_display_string,
-                        tuple_sum, tuple_prod, tuple_rev, multiply_list,
-                        time_to_text, do_one_generation_thread, choose_best_thread)
+from app.utils.state import state
+from app.utils.helper import (seconds_to_string, coords_to_bitboard_mask, bitboard_to_coords,
+                              bitboard_to_idx, bitboard_to_bool_board, bitboard_to_pos, move_to_display_string,
+                              tuple_sum, tuple_prod, tuple_rev, multiply_list,
+                              time_to_text, do_one_generation_thread, choose_best_thread)
 
 
 @pytest.mark.parametrize('seconds, ref_text', [

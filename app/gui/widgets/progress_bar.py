@@ -7,7 +7,7 @@ from typing import Any
 import pygame
 
 from app.gui.constants import BACKGROUND_COLOR, BAR_IMAGE
-from app.gui.utils.widget import Widget
+from app.gui.widgets.widget import Widget
 
 
 class ProgressBar(Widget):

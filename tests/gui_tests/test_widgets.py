@@ -1,5 +1,5 @@
 """
-This module tests utils
+This module tests widgets
 """
 
 import pygame
@@ -8,26 +8,26 @@ from unittest.mock import patch
 import time
 
 from app.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, POSSIBLE_MOVE_IMG
-from app.gui.utils.pos import Pos
+from app.gui.widgets.pos import Pos
 from app.game.move import Move
 from app.game.constants import MoveType, BitBoard, TAKE, Color, Piece, GameEnd
-from app.gui.utils.button import Button, ImageButton
-from app.gui.utils.checkbox import CheckBox
-from app.gui.utils.chessboard import ChessBoard
-from app.gui.utils.edit_text import EditText
-from app.gui.utils.loader import loader
-from app.gui.utils.move_table import MoveTable
-from app.gui.utils.progress_bar import ProgressBar
-from app.gui.utils.result import Result
-from app.gui.utils.slider import Slider
-from app.gui.utils.text import Text
-from app.gui.utils.tile import Tile
-from app.gui.utils.timer import Timer
-from app.gui.utils.widget import Widget
-from app.gui.utils.window import Window
-from app.state import state
+from app.gui.widgets.button import Button, ImageButton
+from app.gui.widgets.checkbox import CheckBox
+from app.gui.widgets.chessboard import ChessBoard
+from app.gui.widgets.edit_text import EditText
+from app.gui.widgets.loader import loader
+from app.gui.widgets.move_table import MoveTable
+from app.gui.widgets.progress_bar import ProgressBar
+from app.gui.widgets.result import Result
+from app.gui.widgets.slider import Slider
+from app.gui.widgets.text import Text
+from app.gui.widgets.tile import Tile
+from app.gui.widgets.timer import Timer
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.window import Window
+from app.utils.state import state
 from app.game.game import Game
-from app.helper import bitboard_to_idx
+from app.utils.helper import bitboard_to_idx
 
 
 def test_button():
@@ -605,7 +605,7 @@ def test_window():
     event = pygame.event.Event(pygame.QUIT)
     pygame.event.post(event)
 
-    with (patch('app.gui.utils.window.Window.refresh', side_effect=fake_refresh),
+    with (patch('app.gui.widgets.window.Window.refresh', side_effect=fake_refresh),
           patch('pygame.display.update', side_effect=fake_refresh)):
         try:
             window.show()

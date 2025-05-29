@@ -7,7 +7,7 @@ from app.game.constants import BitBoard, Color
 from app.gui.constants import AVERAGE_GENETIC_COEFICIENTS_TEXT, FILE_NAMES
 from app.game.move import Move
 from app.genetic.genetic import Genetic
-from app.state import state
+from app.utils.state import state
 from app.genetic.genetic_player import GeneticPlayer
 
 

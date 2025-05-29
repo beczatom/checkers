@@ -7,10 +7,10 @@ import pygame
 from app.gui.game_setting.game_setting_widget import GameSettingWidget
 from app.gui.game_window.human_vs_human_window import HumanVsHumanWindow
 from app.player.player import HumanPlayer
-from app.state import state
+from app.utils.state import state
 from app.gui.constants import DEPTH_BLACK_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX
 from app.genetic.constants import AI_COEFS
-from app.gui.utils.pos import Pos
+from app.gui.widgets.pos import Pos
 
 
 class GameSettingHumanVSHuman(GameSettingWidget):

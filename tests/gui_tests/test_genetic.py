@@ -10,7 +10,7 @@ from app.gui.constants import BACKGROUND_COLOR, SLIDER_PROPERTIES
 from app.gui.genetic_window.genetic_window import GeneticWindow
 from app.gui.genetic_window.genetic_setting_window import GeneticSettingWindow
 from app.gui.genetic_window.genetic_helper import GeneticHelper
-from app.state import state
+from app.utils.state import state
 
 
 def test_genetic_window() -> None:

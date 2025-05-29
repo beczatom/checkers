@@ -10,8 +10,8 @@ import pygame
 
 from app.gui.constants import BACKGROUND_COLOR, BORDER_COLOR, FIRST_BORDER_WIDTH, BORDER_GAP, \
     SECOND_BORDER_WIDTH
-from app.gui.utils.pos import Pos
-from app.helper import tuple_prod, tuple_sum
+from app.gui.widgets.pos import Pos
+from app.utils.helper import tuple_prod, tuple_sum
 
 
 class Widget:

@@ -6,11 +6,11 @@ import pygame
 
 from app.gui.game_window.ai_vs_ai_window import AIVSAIWindow
 from app.gui.game_setting.game_setting_widget import GameSettingWidget
-from app.state import state
+from app.utils.state import state
 from app.player.player import AIPlayer
 from app.gui.constants import DEPTH_WHITE_TEXT, DEPTH_SLIDER_MIN, DEPTH_SLIDER_MAX, DEPTH_BLACK_TEXT
 from app.genetic.constants import AI_COEFS
-from app.gui.utils.pos import Pos
+from app.gui.widgets.pos import Pos
 
 
 class GameSettingAIVSAI(GameSettingWidget):

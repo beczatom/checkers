@@ -4,7 +4,7 @@ This module defines a simple text widget.
 
 import pygame
 
-from app.gui.utils.widget import Widget
+from app.gui.widgets.widget import Widget
 from app.gui.constants import DEFAULT_FONT, BACKGROUND_COLOR, DEFAULT_TEXT_COLOR, DEFAULT_FONT_SIZE
 
 class Text(Widget):

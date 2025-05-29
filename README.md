@@ -55,7 +55,7 @@ V pracovnom adresári `semestral` je treba pre:
 
 
 ```bash
-  python -m app.main
+  python -m app.utils.main
 ```
 
 

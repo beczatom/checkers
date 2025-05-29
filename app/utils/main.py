@@ -5,7 +5,7 @@ This module contains the main function, initializes pygame and runs menu
 import pygame
 
 from app.gui.menu import Menu
-from app.gui.utils.loader import loader
+from app.gui.widgets.loader import loader
 from app.gui.constants import SCREEN_WIDTH, SCREEN_HEIGHT, MENU_TITLE, MENU_IMAGE
 
 class Main:

@@ -4,12 +4,12 @@ This module does the genetic training and shows the partial results
 
 import pygame
 
-from app.gui.utils.window import Window
-from app.gui.utils.text import Text
-from app.gui.utils.progress_bar import ProgressBar
-from app.gui.utils.pos import Pos
-from app.state import state
-from app.helper import get_coefs_header_text
+from app.gui.widgets.window import Window
+from app.gui.widgets.text import Text
+from app.gui.widgets.progress_bar import ProgressBar
+from app.gui.widgets.pos import Pos
+from app.utils.state import state
+from app.utils.helper import get_coefs_header_text
 from app.gui.constants import BACKGROUND_COLOR, BEST_GENETIC_COEFICIENTS_TEXT, \
     AVERAGE_GENETIC_COEFICIENTS_TEXT, DEFAULT_FONT_SIZE, STAT_TEXTS, GENETIC_SETTINGS_TEXT, SLIDER_PROPERTIES
 from app.gui.genetic_window.genetic_helper import GeneticHelper

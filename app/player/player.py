@@ -5,7 +5,7 @@ It is used in visualizations, not in genetics, because it interacts with GUI che
 """
 
 from app.genetic.genetic_player import GeneticPlayer
-from app.gui.utils.chessboard import ChessBoard
+from app.gui.widgets.chessboard import ChessBoard
 from app.genetic.constants import AI_COEFS
 from app.genetic.constants import MAX_TRAIN_DEPTH
 from app.game.move import Move

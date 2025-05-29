@@ -7,15 +7,15 @@ from abc import abstractmethod
 
 import pygame
 
-from app.gui.utils.widget import Widget
-from app.gui.utils.text import Text
-from app.gui.utils.slider import Slider
-from app.gui.utils.edit_text import EditText
+from app.gui.widgets.widget import Widget
+from app.gui.widgets.text import Text
+from app.gui.widgets.slider import Slider
+from app.gui.widgets.edit_text import EditText
 from app.gui.constants import DEFAULT_FONT_SIZE, TIME_SLIDER_TEXT, TIME_SLIDER_MIN, TIME_SLIDER_MAX, \
     STAT_TEXTS, COEFICIENTS_TEXT
-from app.helper import seconds_to_string
-from app.state import state
-from app.gui.utils.pos import Pos
+from app.utils.helper import seconds_to_string
+from app.utils.state import state
+from app.gui.widgets.pos import Pos
 
 
 class GameSettingWidget(Widget):

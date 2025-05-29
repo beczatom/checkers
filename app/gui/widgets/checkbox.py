@@ -5,7 +5,7 @@ This module implements a simple checkbox.
 import pygame
 
 from app.gui.constants import BACKGROUND_COLOR, CHECKED_CHECKBOX_BACKGROUND
-from app.gui.utils.widget import Widget
+from app.gui.widgets.widget import Widget
 
 
 class CheckBox(Widget):

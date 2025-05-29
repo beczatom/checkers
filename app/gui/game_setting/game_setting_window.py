@@ -4,15 +4,15 @@ This module defines a windows responsible for game settings
 
 import pygame
 
-from app.gui.utils.window import Window
-from app.gui.utils.button import Button
+from app.gui.widgets.window import Window
+from app.gui.widgets.button import Button
 from app.gui.game_setting.game_setting_widget import GameSettingWidget
 from app.gui.game_setting.game_setting_ai_vs_ai import GameSettingAIVSAI
 from app.gui.game_setting.game_setting_human_vs_human import GameSettingHumanVSHuman
 from app.gui.game_setting.game_setting_human_vs_ai import GameSettingHumanVSAI
 from app.gui.constants import START_TRAIN_BUTTON_TEXT, HUMAN_VS_HUMAN_TEXT, HUMAN_VS_PC_TEXT, PC_VS_PC_TEXT, \
     BACKGROUND_COLOR
-from app.gui.utils.pos import Pos
+from app.gui.widgets.pos import Pos
 
 
 class GameSettingWindow(Window):

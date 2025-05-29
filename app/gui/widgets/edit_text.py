@@ -4,7 +4,7 @@ This module implements a simple edit text.
 
 import pygame
 
-from app.gui.utils.widget import Widget
+from app.gui.widgets.widget import Widget
 from app.gui.constants import (DEFAULT_FONT, FIRST_BORDER_WIDTH, BACKGROUND_COLOR, BORDER_GAP,
                                DEFAULT_TEXT_COLOR,
                                DEFAULT_FONT_SIZE)

@@ -9,8 +9,8 @@ from abc import abstractmethod
 import pygame
 
 from app.gui.constants import BACKGROUND_COLOR, LEFT_ARROW_IMAGE, REFRESH_RATE_MS
-from app.gui.utils.button import ImageButton
-from app.gui.utils.pos import Pos
+from app.gui.widgets.button import ImageButton
+from app.gui.widgets.pos import Pos
 
 
 class Window:

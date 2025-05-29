@@ -5,15 +5,15 @@ This module sets the parameters for genetic training
 from typing import Callable
 import pygame
 
-from app.gui.utils.window import Window
+from app.gui.widgets.window import Window
 from app.gui.genetic_window.genetic_window import GeneticWindow
-from app.gui.utils.slider import Slider
-from app.gui.utils.text import Text
-from app.gui.utils.button import Button
+from app.gui.widgets.slider import Slider
+from app.gui.widgets.text import Text
+from app.gui.widgets.button import Button
 from app.gui.constants import SLIDER_PROPERTIES, AWAITED_TIME_TRAIN_TEXT, START_TRAIN_BUTTON_TEXT
-from app.helper import get_awaited_train_time, time_to_text
-from app.gui.utils.pos import Pos
-from app.state import state
+from app.utils.helper import get_awaited_train_time, time_to_text
+from app.gui.widgets.pos import Pos
+from app.utils.state import state
 
 class GeneticSettingWindow(Window):
     """
