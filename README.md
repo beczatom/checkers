@@ -1,57 +1,59 @@
-# ♟️ Dáma
+# ♟️ Checkers
 
-Projekt je implementáciou významnej tradičnej hry – dámy.
-Poskytuje priestor pre hru medzi ľudmi, ale aj s počítačom. 👥💻
-Štýl hry počítača je plne nastaviteľný 
-a navyše je ho možné trénovať pomocou metód genetického programovania.  🧪
+This is a semestral project for **Programming in Python** (BI-PYT).
 
-## ⚙️ Funkcie
+This project is an implementation of the traditional game of checkers (draughts).
+It allows playing human vs. human as well as human vs. computer. 👥💻
+The computer's play style is fully customizable 
+and can be trained using **genetic algorithm**. 🧪
 
-- 0️⃣1️⃣ Šachovnica je implementovaná bitovým poľom. 
-Takisto celé generovanie ťahov sú bitové operácie. 
-Vďaka tomu vie byť hra rýchla a následne trénovanie tiež. 
+## ⚙️ Features
 
-
-- 🧬 Pre trénovanie je použitý algoritmus genetického trénovania.
-Keďže som chcel nechať populáciu nech si sama nájde ideálne koeficienty,
-nepoužívam žiadne externé enginy 
-(v šachu napr. Stockfish 🚫🐟, v dáme sa však ajtak len ťažko nachádzajú).
-Algoritmus je teda bez evaluačnej funkcie a na porovnávanie jednotlivých
-hráčov sa používa výhradne výsledok ich vzájomnej hry.
+- 0️⃣1️⃣ The board is implemented using bitboards. 
+Move generation is also entirely based on bitwise operations. 
+This ensures high performance for both gameplay and training. 
 
 
-- 💻 🖥️ Netradične, oproti bežným webovým stránkam, poskytuje implementácia
-aj pohľad na hru počítača proti inému.
-Navyše s možnosťou si zvoliť vlastné koeficienty, a teda štýl hry.
+- 🧬 Training utilizes a genetic algorithm.
+To allow the population to discover optimal coefficients on its own,
+no external engines are used 
+(unlike chess with e.g. Stockfish 🚫🐟, which are hard to find for checkers anyway).
+The algorithm operates without a hand-crafted evaluation function;
+player evaluation and comparison rely solely on the outcome of their head-to-head matches.
 
 
-- ❌ Projekt **neslúži** ako revolúcia v AI herných agentoch. 🤖
-Takisto autor si plne uvedomuje, že rekurentné neurónové siete 🧠
-by vedeli robiť lepšie ťahy. 
-Avšak projekt predstavuje netradičnejší pohľad na hľadanie najlepších ťahov.
+- 💻 🖥️ Unlike typical web implementations, this project also provides 
+a view for computer vs. computer matches,
+with the option to choose custom coefficients and play styles.
 
-## 🔍 Používanie
 
-### 📝 Prerekvizity
+- ❌ This project is **not** intended as a revolution in AI game agents. 🤖
+The author is fully aware that other ML models 🧠 
+could achieve much better moves. 
+However, the project presents a non-traditional perspective on discovering the best moves.
+
+## 🔍 Usage
+
+### 📝 Prerequisites
 
 - 🐍 Python 3.13
 
 
-- 📦 Potrebné balíčky (viď. `requirements.txt`)
+- 📦 Required packages (see `requirements.txt`)
 
-### 📥 Inštalácia
+### 📥 Installation
 
-Inštalácia potrebných balíčkov:
+Install the required packages:
 
 ```bash
   pip install -r requirements.txt
 ```
 
-### 🚀 Spustenie
+### 🚀 Running the Project
 
-V pracovnom adresári `semestral` je treba pre:
+From the `semestral` working directory:
 
-- 🎨 GUI spustiť
+- 🎨 Launch GUI
 
 
 ```bash
@@ -59,8 +61,8 @@ V pracovnom adresári `semestral` je treba pre:
 ```
 
 
-- 🔬 spustenie genetického algoritmu s nastavením v `app/genetic/constants.py`
-na riadkoch 5 - 9 spustiť
+- 🔬 Run genetic algorithm with configuration in `app/genetic/constants.py`
+on lines 5–9:
 
 
 ```bash
@@ -68,12 +70,12 @@ na riadkoch 5 - 9 spustiť
 ```
 
 
-- ⚠️ genetický algoritmus je takisto možné spustiť z GUI aplikácie, 
-každopádne to bude trvať dlhšie (výpočet síce prebieha na viacerých procesoch
-ale tie volá vlákno, ktoré sú v Pythone pomalé).
+- ⚠️ The genetic algorithm can also be launched from the GUI application; 
+however, it will take longer (computation runs on multiple processes,
+but they are managed by a thread, which has overhead in Python).
 
 
-- ✅ Testy codestyle a testy funkcionality
+- ✅ Code style and functionality tests
 
 ```bash
   pytest
